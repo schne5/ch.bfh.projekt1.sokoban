@@ -1,5 +1,6 @@
 package ch.bfh.projekt1.sokoban;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.io.File;
 import java.net.URI;
@@ -10,10 +11,12 @@ import java.util.List;
 import javax.swing.JPanel;
 
 public class Warehouse extends JPanel {
+	public static final int WIDTH =30;
 	private List<GameElement> gameElements;
 	private Observer  observer;
 	
 	public Warehouse() {
+		this.setBackground(Color.WHITE);
 		observer = new Observer();
 		gameElements = observer.initWarehouse(null);
 		repaint();
@@ -23,10 +26,7 @@ public class Warehouse extends JPanel {
 	    protected void paintComponent(Graphics g) {
 	        super.paintComponent(g);
 	        for (GameElement gameElement : gameElements){
-	        	g.drawImage(gameElement.getImage(), gameElement.getPosX(), gameElement.getPosY(), this);
+	        	g.drawImage(gameElement.getImage(), gameElement.getPosX(), gameElement.getPosY(), WIDTH, WIDTH, this);
 	        }   
 	    }
-	 
-	 
-
 }

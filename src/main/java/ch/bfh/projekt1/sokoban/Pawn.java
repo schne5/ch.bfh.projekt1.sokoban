@@ -6,9 +6,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Pawn extends GameElement {
+	private static final String IMAGE ="pawn.png";
 	
-	public Pawn() {
-		 File pathToFile = new File("./pawn.png");
+	public Pawn(int posX, int posY) {
+		super(posX,posY);
+		 File pathToFile = new File(IMAGE_PATH+IMAGE);
 		  try {
 			setImage( ImageIO.read(pathToFile));
 		} catch (IOException e) {

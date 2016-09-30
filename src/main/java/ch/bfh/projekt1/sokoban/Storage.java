@@ -6,9 +6,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Storage extends GameElement{
+	public static final String IMAGE="storage.png";
 	
-	public Storage() {
-		 File pathToFile = new File("./storage.png");
+	public Storage(int posX, int posY) {
+		super(posX,posY);
+		 File pathToFile = new File(IMAGE_PATH+IMAGE);
 		  try {
 			setImage( ImageIO.read(pathToFile));
 		} catch (IOException e) {

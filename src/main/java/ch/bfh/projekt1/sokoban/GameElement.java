@@ -3,9 +3,15 @@ package ch.bfh.projekt1.sokoban;
 import java.awt.Image;
 
 public abstract class GameElement {
+	public static final String IMAGE_PATH ="images/./";
 	private int posX;
 	private int posY;
 	private Image image;
+	
+	public GameElement(int posX, int posY) {
+		setPosX(posX);
+		setPosY(posY);
+	}
 	
 	public int getPosX() {
 		return posX;

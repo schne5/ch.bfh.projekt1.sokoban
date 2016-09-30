@@ -8,8 +8,11 @@ import javax.imageio.ImageIO;
 
 public class Wall extends GameElement {
 	
-	public Wall() {
-		 File pathToFile = new File("./wall.png");
+	private static final String IMAGE ="wall.png";
+	
+	public Wall(int posX, int posY) {
+		super(posX,posY);
+		 File pathToFile = new File(IMAGE_PATH+IMAGE);
 		  try {
 			setImage( ImageIO.read(pathToFile));
 		} catch (IOException e) {
