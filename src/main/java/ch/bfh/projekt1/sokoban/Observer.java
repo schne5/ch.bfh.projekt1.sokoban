@@ -30,7 +30,21 @@ public class Observer {
 		fileName = DEFAULT_PROBLEM;
 	}
 	
-	public void move(int newPosX, int newPosY){
+	public void move(Direction direction){
+	switch(direction){
+		case LEFT:
+			pawn.move(pawn.getPosX()-WIDTH, pawn.getPosY());
+			break;
+		case RIGHT:
+			pawn.move(pawn.getPosX()+WIDTH, pawn.getPosY());
+			break;
+		case UP:
+			pawn.move(pawn.getPosX(), pawn.getPosY()- WIDTH);
+			break;
+		case DOWN:
+			pawn.move(pawn.getPosX(), pawn.getPosY()+ WIDTH);
+			break;
+	}
 		
 	}
 	

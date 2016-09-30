@@ -9,7 +9,11 @@ import javax.swing.JFrame;
 public class Sokoban extends JFrame{
 	
 	public Sokoban(){
-		getContentPane().add(new Warehouse(),BorderLayout.CENTER);
+		Warehouse warehouse = new Warehouse();
+		warehouse.setFocusable(true);
+		warehouse.requestFocusInWindow();
+		getContentPane().add(warehouse,BorderLayout.CENTER);
+		
 	}
 
 }
