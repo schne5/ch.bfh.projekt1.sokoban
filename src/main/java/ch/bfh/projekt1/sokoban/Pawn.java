@@ -6,25 +6,24 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Pawn extends GameElement {
-	private static final String IMAGE ="pawn.png";
-	
+	private static final String IMAGE = "pawn.png";
+
 	public Pawn(int posX, int posY) {
-		super(posX,posY);
-		 File pathToFile = new File(IMAGE_PATH+IMAGE);
-		  try {
-			setImage( ImageIO.read(pathToFile));
+		super(posX, posY);
+		File pathToFile = new File(IMAGE_PATH + IMAGE);
+		try {
+			setImage(ImageIO.read(pathToFile));
 		} catch (IOException e) {
 			System.out.println("Image Pawn not found");
 		}
 	}
 
-	public void move(int newPosX, int newPosY){
-		setPosX(newPosX);
-		setPosY(newPosY);
+	public void move(Position position) {
+		this.setPosition(position);
 	}
-	
-	public void moveToBox(int targetX, int targetY){
-		
+
+	public void moveToBox(int targetX, int targetY) {
+
 	}
-	
+
 }
