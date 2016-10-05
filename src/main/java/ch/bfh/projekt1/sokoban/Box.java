@@ -5,6 +5,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/*
+ *@author:Elisa, Anna
+ */
 public class Box extends GameElement {
 	private static final String IMAGE = "box.png";
 

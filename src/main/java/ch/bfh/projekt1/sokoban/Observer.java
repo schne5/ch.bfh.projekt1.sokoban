@@ -7,6 +7,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ *@author:Elisa, Anna
+ */
 public class Observer {
 	public static final String PROBLEM_PATH = "sokobanProblems/./";
 	public static final String DEFAULT_PROBLEM = "problemTest.txt";

@@ -5,6 +5,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/*
+ *@author:Elisa, Anna
+ */
 public class Storage extends GameElement {
 	private boolean occupied;
 	public static final String IMAGE = "storage.png";

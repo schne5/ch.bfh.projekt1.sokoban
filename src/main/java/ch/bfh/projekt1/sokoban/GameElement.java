@@ -2,6 +2,9 @@ package ch.bfh.projekt1.sokoban;
 
 import java.awt.Image;
 
+/*
+ *@author:Elisa, Anna
+ */
 public abstract class GameElement {
 	public static final String IMAGE_PATH = "images/./";
 	private Position position;

@@ -2,6 +2,9 @@ package ch.bfh.projekt1.sokoban;
 
 import javax.swing.JFrame;
 
+/*
+ *@author:Elisa, Anna
+ */
 public class MainSokoban {
 
 	public static void main(String[] args) {

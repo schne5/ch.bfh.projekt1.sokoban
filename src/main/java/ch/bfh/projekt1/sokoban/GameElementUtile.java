@@ -2,6 +2,9 @@ package ch.bfh.projekt1.sokoban;
 
 import java.util.List;
 
+/*
+ *@author:Elisa, Anna
+ */
 public class GameElementUtile {
 
 	public static final int WIDTH = 30;

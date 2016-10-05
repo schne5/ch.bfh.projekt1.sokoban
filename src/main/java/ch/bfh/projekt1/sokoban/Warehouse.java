@@ -9,6 +9,9 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+/*
+ *@author:Elisa, Anna
+ */
 public class Warehouse extends JPanel implements KeyListener {
 	public static final int WIDTH = 30;
 	private List<GameElement> gameElements;
@@ -56,8 +59,8 @@ public class Warehouse extends JPanel implements KeyListener {
 		}
 		repaint();
 		if (observer.checkFinish()) {
-			JOptionPane.showConfirmDialog(this, "Gewonnen !!!!!!", "Gewonnen",
-					JOptionPane.YES_NO_OPTION);
+			int option = JOptionPane.showConfirmDialog(this, "Gewonnen !!!!!!",
+					"Gewonnen", JOptionPane.YES_NO_OPTION);
 		}
 
 	}
