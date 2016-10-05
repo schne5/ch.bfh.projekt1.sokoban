@@ -21,8 +21,7 @@ public class Warehouse extends JPanel implements KeyListener {
 		addKeyListener(this);
 		this.setBackground(Color.WHITE);
 		observer = new Observer();
-		gameElements = observer.initWarehouse(null);
-		repaint();
+		initGame();
 
 	}
 
@@ -61,12 +60,21 @@ public class Warehouse extends JPanel implements KeyListener {
 		if (observer.checkFinish()) {
 			int option = JOptionPane.showConfirmDialog(this, "Gewonnen !!!!!!",
 					"Gewonnen", JOptionPane.YES_NO_OPTION);
+			if (option == 0) {
+				observer.higherLevel();
+			}
+			initGame();
 		}
-
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 
+	}
+
+	public void initGame() {
+		observer.initGameElements();
+		gameElements = observer.initWarehouse();
+		repaint();
 	}
 }

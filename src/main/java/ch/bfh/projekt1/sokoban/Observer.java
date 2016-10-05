@@ -1,6 +1,5 @@
 package ch.bfh.projekt1.sokoban;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -12,7 +11,7 @@ import java.util.List;
  */
 public class Observer {
 	public static final String PROBLEM_PATH = "sokobanProblems/./";
-	public static final String DEFAULT_PROBLEM = "problemTest.txt";
+	public static final int DEFAULT_PROBLEM = 1;
 
 	private Rules rules;
 	private String fileName;
@@ -22,15 +21,12 @@ public class Observer {
 	private List<Box> boxes;
 	private List<Storage> storages;
 	private Pawn pawn;
+	private int level;
 
 	public Observer() {
 		rules = new Rules();
-		gameElements = new ArrayList<GameElement>();
-		walls = new ArrayList<Wall>();
-		boxes = new ArrayList<Box>();
-		storages = new ArrayList<Storage>();
 		path = PROBLEM_PATH;
-		fileName = DEFAULT_PROBLEM;
+		setLevel(DEFAULT_PROBLEM);
 	}
 
 	public void move(Direction direction) {
@@ -54,7 +50,7 @@ public class Observer {
 		}
 	}
 
-	public List<GameElement> initWarehouse(File file) {
+	public List<GameElement> initWarehouse() {
 		List<String> lines;
 		int posX = 30;
 		int posY = 30;
@@ -106,6 +102,34 @@ public class Observer {
 
 	public boolean checkFinish() {
 		return rules.finish(storages);
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		if (level < 1 || level > 50) {
+			this.level = 1;
+		} else {
+			this.level = level;
+		}
+		this.fileName = "problemTest" + level + ".txt";
+	}
+
+	public void higherLevel() {
+		this.setLevel(this.getLevel() + 1);
+	}
+
+	public void lowerLevel() {
+		this.setLevel(this.getLevel() - 1);
+	}
+
+	public void initGameElements() {
+		this.gameElements = new ArrayList<GameElement>();
+		walls = new ArrayList<Wall>();
+		boxes = new ArrayList<Box>();
+		storages = new ArrayList<Storage>();
 	}
 
 }
