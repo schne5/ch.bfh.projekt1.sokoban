@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Warehouse extends JPanel implements KeyListener {
@@ -34,21 +35,7 @@ public class Warehouse extends JPanel implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_UP:
-			observer.move(Direction.UP);
-			break;
-		case KeyEvent.VK_DOWN:
-			observer.move(Direction.DOWN);
-			break;
-		case KeyEvent.VK_RIGHT:
-			observer.move(Direction.RIGHT);
-			break;
-		case KeyEvent.VK_LEFT:
-			observer.move(Direction.LEFT);
-			break;
-		}
-		repaint();
+
 	}
 
 	@Override
@@ -68,6 +55,10 @@ public class Warehouse extends JPanel implements KeyListener {
 			break;
 		}
 		repaint();
+		if (observer.checkFinish()) {
+			JOptionPane.showConfirmDialog(this, "Gewonnen !!!!!!", "Gewonnen",
+					JOptionPane.YES_NO_OPTION);
+		}
 
 	}
 

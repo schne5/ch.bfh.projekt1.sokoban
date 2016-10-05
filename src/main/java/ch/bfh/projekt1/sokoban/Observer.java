@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Observer {
 	public static final String PROBLEM_PATH = "sokobanProblems/./";
-	public static final String DEFAULT_PROBLEM = "problem1.txt";
+	public static final String DEFAULT_PROBLEM = "problemTest.txt";
 
 	private Rules rules;
 	private String fileName;
@@ -41,12 +41,12 @@ public class Observer {
 			pawn.move(newPawnposition);
 			break;
 		case PUSH:
-			Box box = (Box) GameElementUtile.getNextElement(newPawnposition,
-					direction, gameElements);
 
+			Box box = (Box) GameElementUtile.getBoxByPosition(newPawnposition,
+					boxes);
 			pawn.move(newPawnposition);
 			box.move(direction);
-
+			GameElementUtile.updateStorages(storages, boxes);
 			break;
 		}
 	}
@@ -83,8 +83,8 @@ public class Observer {
 				posY += GameElementUtile.WIDTH;
 			}
 			gameElements.addAll(walls);
-			gameElements.addAll(boxes);
 			gameElements.addAll(storages);
+			gameElements.addAll(boxes);
 			gameElements.add(pawn);
 
 		} catch (IOException e) {
@@ -99,6 +99,10 @@ public class Observer {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+
+	public boolean checkFinish() {
+		return rules.finish(storages);
 	}
 
 }

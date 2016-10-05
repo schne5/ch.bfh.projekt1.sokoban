@@ -10,20 +10,29 @@ public class Rules {
 				gameElements);
 		if (element instanceof Wall) {
 			return Activity.COLLISION;
-		} else if (element instanceof Box) {
+		} else if (element instanceof Box
+				|| GameElementUtile.isOccupiedStorage(element)) {
 			GameElement next = GameElementUtile.getNextElement(element,
 					direction, gameElements);
-			if (next instanceof Wall || next instanceof Box) {
+			if (next instanceof Wall || next instanceof Box
+					|| GameElementUtile.isOccupiedStorage(next)) {
 				return Activity.COLLISION;
 			} else {
 				return Activity.PUSH;
 			}
+		} else if (element instanceof Storage) {
+
 		}
 		return Activity.MOVE;
+
 	}
 
-	private boolean isInStorage(int posX, int posY) {
-		return false;
+	public boolean finish(List<Storage> storages) {
+		boolean occupied = true;
+		for (Storage storage : storages) {
+			occupied &= storage.isOccupied();
+		}
+		return occupied;
 	}
 
 	// When a box is locked in a corner or when it can't be moved anymore

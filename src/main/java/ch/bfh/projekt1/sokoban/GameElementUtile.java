@@ -6,11 +6,24 @@ public class GameElementUtile {
 
 	public static final int WIDTH = 30;
 
+	/*
+	 * Gibt das erste gefundene Element zurück. Wenn Box und Storage selbe
+	 * Position belegen, wird der Storage zurückgegeben
+	 */
 	public static GameElement getElementByPosition(Position position,
 			List<GameElement> gameElements) {
 		for (GameElement element : gameElements) {
 			if (element.getPosition().equals(position)) {
 				return element;
+			}
+		}
+		return null;
+	}
+
+	public static Box getBoxByPosition(Position position, List<Box> boxes) {
+		for (Box box : boxes) {
+			if (box.getPosition().equals(position)) {
+				return box;
 			}
 		}
 		return null;
@@ -58,6 +71,26 @@ public class GameElementUtile {
 			break;
 		}
 		return new Position(newPosX, newPosY);
+	}
+
+	public static boolean isInStorage(Position position, List<Storage> list) {
+		for (Storage s : list) {
+			if (s.getPosition().equals(position)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean isOccupiedStorage(GameElement element) {
+		return (element instanceof Storage && ((Storage) element).isOccupied());
+	}
+
+	public static void updateStorages(List<Storage> storages, List<Box> boxes) {
+		for (Storage storage : storages) {
+			Box box = getBoxByPosition(storage.getPosition(), boxes);
+			storage.setOccupied(box != null);
+		}
 	}
 
 }

@@ -23,7 +23,9 @@ public class Box extends GameElement {
 	}
 
 	public void move(Direction direction) {
-
+		Position newPosition = GameElementUtile.getNextPosition(getPosition(),
+				direction);
+		this.setPosition(newPosition);
 	}
 
 }
