@@ -12,6 +12,7 @@ import java.util.List;
 public class Observer {
 	public static final String PROBLEM_PATH = "sokobanProblems/./";
 	public static final int DEFAULT_PROBLEM = 1;
+	public static final String PROBLEM_NAME = "problemTest";
 
 	private Rules rules;
 	private String fileName;
@@ -114,7 +115,7 @@ public class Observer {
 		} else {
 			this.level = level;
 		}
-		this.fileName = "problemTest" + level + ".txt";
+		this.fileName = PROBLEM_NAME + level + ".txt";
 	}
 
 	public void higherLevel() {

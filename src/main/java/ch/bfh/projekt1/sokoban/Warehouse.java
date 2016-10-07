@@ -14,6 +14,9 @@ import javax.swing.JPanel;
  */
 public class Warehouse extends JPanel implements KeyListener {
 	public static final int WIDTH = 30;
+	public static final int YES = 0;
+	public static final String MESSAGE = "Sie haben das Spiel gewonnen. "
+			+ "Wollen Sie das nächste Problem spielen?";
 	private List<GameElement> gameElements;
 	private Observer observer;
 
@@ -58,9 +61,9 @@ public class Warehouse extends JPanel implements KeyListener {
 		}
 		repaint();
 		if (observer.checkFinish()) {
-			int option = JOptionPane.showConfirmDialog(this, "Gewonnen !!!!!!",
+			int option = JOptionPane.showConfirmDialog(this, MESSAGE,
 					"Gewonnen", JOptionPane.YES_NO_OPTION);
-			if (option == 0) {
+			if (option == YES) {
 				observer.higherLevel();
 			}
 			initGame();
