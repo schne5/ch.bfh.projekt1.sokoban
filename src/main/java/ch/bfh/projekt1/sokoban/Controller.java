@@ -77,4 +77,12 @@ public class Controller {
 		return model.getGameElements();
 	}
 
+	public void undo() {
+
+	}
+
+	public void Redo() {
+
+	}
+
 }
