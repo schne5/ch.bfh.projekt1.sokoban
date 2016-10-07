@@ -10,9 +10,11 @@ import javax.swing.JPanel;
  *@author:Elisa, Anna
  */
 public class Sokoban extends JFrame {
+	public static String UNDO = "Undo";
+	public static String REDO = "Redo";
+
 	JPanel buttonPanel;
 	JButton undo;
-	JButton redo;
 
 	public Sokoban() {
 		Warehouse warehouse = new Warehouse();
@@ -20,17 +22,12 @@ public class Sokoban extends JFrame {
 		warehouse.requestFocusInWindow();
 		buttonPanel = new JPanel();
 		undo = new JButton();
-		undo.setText("Undo");
+		undo.setText(UNDO);
 		undo.addActionListener(t -> {
-			System.out.println("Undo");
-		});
-		redo = new JButton();
-		redo.setText("Redo");
-		redo.addActionListener(t -> {
-			System.out.println("Redo");
+			warehouse.getController().undo();
+
 		});
 		buttonPanel.add(undo);
-		buttonPanel.add(redo);
 		getContentPane().add(warehouse, BorderLayout.CENTER);
 		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 	}

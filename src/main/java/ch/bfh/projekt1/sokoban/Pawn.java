@@ -21,12 +21,20 @@ public class Pawn extends GameElement {
 		}
 	}
 
+	public Pawn(Position position) {
+		this(position.getPosX(), position.getPosY());
+	}
+
 	public void move(Position position) {
 		this.setPosition(position);
 	}
 
-	public void moveToBox(int targetX, int targetY) {
+	public void moveToBox(Position position) {
 
+	}
+
+	public Pawn copy() {
+		return new Pawn(this.getPosition());
 	}
 
 }

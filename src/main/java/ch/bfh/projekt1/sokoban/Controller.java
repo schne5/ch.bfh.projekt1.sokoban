@@ -3,6 +3,7 @@ package ch.bfh.projekt1.sokoban;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
@@ -20,14 +21,16 @@ public class Controller {
 				model.getGameElements(), direction);
 		switch (act) {
 		case MOVE:
+			backup();
 			model.getPawn().move(newPawnposition);
 			break;
 		case PUSH:
-
 			Box box = GameElementUtile.getBoxByPosition(newPawnposition,
 					model.getBoxes());
+			Box oldBox = box.copy();
 			model.getPawn().move(newPawnposition);
 			box.move(direction);
+			backup(oldBox, box);
 			GameElementUtile.updateStorages(model.getStorages(),
 					model.getBoxes());
 			break;
@@ -76,12 +79,44 @@ public class Controller {
 		return model.getGameElements();
 	}
 
-	public void undo() {
-
+	public void backup(Box boxOld, Box boxNew) {
+		if (null != boxOld) {
+			model.setBackupBoxOld(boxOld);
+			model.setBackupBoxNew(boxNew.copy());
+			List<Storage> newStorages = new ArrayList<Storage>();
+			for (Storage storage : model.getStorages()) {
+				newStorages.add(storage.copy());
+			}
+			model.setBackupStorages(newStorages);
+		}
+		model.setBackupPawn(model.getPawn().copy());
 	}
 
-	public void Redo() {
+	public void backup() {
+		this.backup(null, null);
+	}
 
+	public void undo() {
+		if (null != model.getBackupBoxOld()) {
+			// Position der neuen Box zwischenspeichern
+			Position boxNewPosition = model.getBackupBoxNew().getPosition();
+			// Box in Liste wieder zurückschieben
+			GameElementUtile.getBoxByPosition(
+					model.getBackupBoxOld().getPosition(), model.getBoxes())
+					.setPosition(boxNewPosition);
+			// Positionen der Backupboxen tauschen
+			model.getBackupBoxNew().setPosition(
+					model.getBackupBoxOld().getPosition());
+			model.getBackupBoxOld().setPosition(boxNewPosition);
+			// Storage zurücksetzen
+			List<Storage> tmpStorages = model.getBackupStorages();
+			model.setBackupStorages(model.getStorages());
+			model.setStorages(tmpStorages);
+		}
+		// Pawn zurücksetzen
+		Pawn tmpPawn = model.getBackupPawn();
+		model.setBackupPawn(model.getPawn());
+		model.setPawn(tmpPawn);
 	}
 
 }

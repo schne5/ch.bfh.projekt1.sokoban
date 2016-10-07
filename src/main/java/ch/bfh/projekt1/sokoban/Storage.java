@@ -22,12 +22,20 @@ public class Storage extends GameElement {
 		}
 	}
 
+	public Storage(Position position) {
+		this(position.getPosX(), position.getPosY());
+	}
+
 	public boolean isOccupied() {
 		return occupied;
 	}
 
 	public void setOccupied(boolean occupied) {
 		this.occupied = occupied;
+	}
+
+	public Storage copy() {
+		return new Storage(this.getPosition());
 	}
 
 }

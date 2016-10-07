@@ -19,6 +19,23 @@ public class Warehouse extends JPanel implements KeyListener {
 			+ "Wollen Sie das nächste Problem spielen?";
 	private List<GameElement> gameElements;
 	private Model model;
+
+	public Model getModel() {
+		return model;
+	}
+
+	public void setModel(Model model) {
+		this.model = model;
+	}
+
+	public Controller getController() {
+		return controller;
+	}
+
+	public void setController(Controller controller) {
+		this.controller = controller;
+	}
+
 	private Controller controller;
 
 	public Warehouse() {

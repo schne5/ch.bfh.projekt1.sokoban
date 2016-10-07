@@ -21,6 +21,10 @@ public class Box extends GameElement {
 		}
 	}
 
+	public Box(Position position) {
+		this(position.getPosX(), position.getPosY());
+	}
+
 	public void move(Position position) {
 		this.setPosition(position);
 	}
@@ -31,4 +35,7 @@ public class Box extends GameElement {
 		this.setPosition(newPosition);
 	}
 
+	public Box copy() {
+		return new Box(this.getPosition());
+	}
 }
