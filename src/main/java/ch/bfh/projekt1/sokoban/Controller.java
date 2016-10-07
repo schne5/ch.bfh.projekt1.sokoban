@@ -24,7 +24,7 @@ public class Controller {
 			break;
 		case PUSH:
 
-			Box box = (Box) GameElementUtile.getBoxByPosition(newPawnposition,
+			Box box = GameElementUtile.getBoxByPosition(newPawnposition,
 					model.getBoxes());
 			model.getPawn().move(newPawnposition);
 			box.move(direction);
@@ -51,11 +51,10 @@ public class Controller {
 						model.getWalls().add(wall);
 					} else if (c == ' ') {
 						// Nothing to do this is empty place
-
 					} else if (c == '.') {
 						Storage storage = new Storage(posX, posY);
 						model.getStorages().add(storage);
-					} else if (c == 'ยง') {
+					} else if (c == 'ง') {
 						Box box = new Box(posX, posY);
 						model.getBoxes().add(box);
 					} else if (c == '@') {
