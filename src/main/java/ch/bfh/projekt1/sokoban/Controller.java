@@ -66,10 +66,7 @@ public class Controller {
 				posX = GameElementUtile.WIDTH;
 				posY += GameElementUtile.WIDTH;
 			}
-			model.getGameElements().addAll(model.getWalls());
-			model.getGameElements().addAll(model.getStorages());
-			model.getGameElements().addAll(model.getBoxes());
-			model.getGameElements().add(model.getPawn());
+			addGameElements();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -107,6 +104,25 @@ public class Controller {
 			GameElementUtile.updateStorages(model.getStorages(),
 					model.getBoxes());
 		}
+	}
+
+	public void save() {
+		GameSaver.save(model.getBoxes(), model.getStorages(), model.getWalls(),
+				model.getPawn());
+
+	}
+
+	public void load() {
+		GameSaver.load(model);
+		addGameElements();
+
+	}
+
+	public void addGameElements() {
+		model.getGameElements().addAll(model.getWalls());
+		model.getGameElements().addAll(model.getStorages());
+		model.getGameElements().addAll(model.getBoxes());
+		model.getGameElements().add(model.getPawn());
 	}
 
 }

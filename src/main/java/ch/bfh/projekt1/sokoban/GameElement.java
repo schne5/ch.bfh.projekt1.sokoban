@@ -1,14 +1,16 @@
 package ch.bfh.projekt1.sokoban;
 
 import java.awt.Image;
+import java.io.Serializable;
 
 /*
  *@author:Elisa, Anna
  */
-public abstract class GameElement {
+public abstract class GameElement implements Serializable {
+	private static final long serialVersionUID = 1L;
 	public static final String IMAGE_PATH = "images/./";
 	private Position position;
-	private Image image;
+	transient private Image image;
 
 	public GameElement(int posX, int posY) {
 		position = new Position(posX, posY);
