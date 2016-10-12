@@ -25,7 +25,9 @@ public class Sokoban extends JFrame {
 		undo.setText(UNDO);
 		undo.addActionListener(t -> {
 			warehouse.getController().undo();
-
+			warehouse.repaint();
+			warehouse.setFocusable(true);
+			warehouse.requestFocusInWindow();
 		});
 		buttonPanel.add(undo);
 		getContentPane().add(warehouse, BorderLayout.CENTER);

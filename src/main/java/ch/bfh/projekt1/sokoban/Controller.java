@@ -3,7 +3,6 @@ package ch.bfh.projekt1.sokoban;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
@@ -27,10 +26,9 @@ public class Controller {
 		case PUSH:
 			Box box = GameElementUtile.getBoxByPosition(newPawnposition,
 					model.getBoxes());
-			Box oldBox = box.copy();
+			backup(box);
 			model.getPawn().move(newPawnposition);
 			box.move(direction);
-			backup(oldBox, box);
 			GameElementUtile.updateStorages(model.getStorages(),
 					model.getBoxes());
 			break;
@@ -57,7 +55,7 @@ public class Controller {
 					} else if (c == '.') {
 						Storage storage = new Storage(posX, posY);
 						model.getStorages().add(storage);
-					} else if (c == '�') {
+					} else if (c == '$') {
 						Box box = new Box(posX, posY);
 						model.getBoxes().add(box);
 					} else if (c == '@') {
@@ -79,44 +77,36 @@ public class Controller {
 		return model.getGameElements();
 	}
 
-	public void backup(Box boxOld, Box boxNew) {
-		if (null != boxOld) {
-			model.setBackupBoxOld(boxOld);
-			model.setBackupBoxNew(boxNew.copy());
-			List<Storage> newStorages = new ArrayList<Storage>();
-			for (Storage storage : model.getStorages()) {
-				newStorages.add(storage.copy());
-			}
-			model.setBackupStorages(newStorages);
-		}
-		model.setBackupPawn(model.getPawn().copy());
+	public void backup() {
+		backup(null);
 	}
 
-	public void backup() {
-		this.backup(null, null);
+	public void backup(Box box) {
+		model.setBackupPawnPosition(new Position(model.getPawn().getPosition()
+				.getPosX(), model.getPawn().getPosition().getPosY()));
+
+		if (box != null) {
+			model.setBackupBoxPosition(new Position(
+					box.getPosition().getPosX(), box.getPosition().getPosY()));
+			model.setBackupBoxReference(box);
+		}
 	}
 
 	public void undo() {
-		if (null != model.getBackupBoxOld()) {
-			// Position der neuen Box zwischenspeichern
-			Position boxNewPosition = model.getBackupBoxNew().getPosition();
-			// Box in Liste wieder zurückschieben
-			GameElementUtile.getBoxByPosition(
-					model.getBackupBoxOld().getPosition(), model.getBoxes())
-					.setPosition(boxNewPosition);
-			// Positionen der Backupboxen tauschen
-			model.getBackupBoxNew().setPosition(
-					model.getBackupBoxOld().getPosition());
-			model.getBackupBoxOld().setPosition(boxNewPosition);
-			// Storage zurücksetzen
-			List<Storage> tmpStorages = model.getBackupStorages();
-			model.setBackupStorages(model.getStorages());
-			model.setStorages(tmpStorages);
+		if (model.getBackupPawnPosition() != null) {
+			Position tempPosition = model.getPawn().getPosition();
+			model.getPawn().setPosition(model.getBackupPawnPosition());
+			model.setBackupPawnPosition(tempPosition);
 		}
-		// Pawn zurücksetzen
-		Pawn tmpPawn = model.getBackupPawn();
-		model.setBackupPawn(model.getPawn());
-		model.setPawn(tmpPawn);
+		if (model.getBackupBoxPosition() != null) {
+			Position tempPosition = model.getBackupBoxReference().getPosition();
+			model.getBackupBoxReference().setPosition(
+					model.getBackupBoxPosition());
+			model.setBackupBoxPosition(tempPosition);
+
+			GameElementUtile.updateStorages(model.getStorages(),
+					model.getBoxes());
+		}
 	}
 
 }

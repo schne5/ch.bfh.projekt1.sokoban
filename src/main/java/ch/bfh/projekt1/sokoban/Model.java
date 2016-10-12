@@ -6,7 +6,7 @@ import java.util.List;
 public class Model {
 	public static final String PROBLEM_PATH = "sokobanProblems/./";
 	public static final int DEFAULT_PROBLEM = 1;
-	public static final String PROBLEM_NAME = "problem";
+	public static final String PROBLEM_NAME = "problemTest";
 
 	private Rules rules;
 	private String fileName;
@@ -15,44 +15,11 @@ public class Model {
 	private List<GameElement> gameElements;
 	private List<Wall> walls;
 	private List<Box> boxes;
-	private Box backupBoxOld;
-	private Box backupBoxNew;
+	private Position backupBoxPosition;
+	private Box backupBoxReference;
 	private List<Storage> storages;
-	private List<Storage> backupStorages;
 	private Pawn pawn;
-	private Pawn backupPawn;
-
-	public List<Storage> getBackupStorages() {
-		return backupStorages;
-	}
-
-	public void setBackupStorages(List<Storage> backupStorages) {
-		this.backupStorages = backupStorages;
-	}
-
-	public Box getBackupBoxOld() {
-		return backupBoxOld;
-	}
-
-	public void setBackupBoxOld(Box backupBoxOld) {
-		this.backupBoxOld = backupBoxOld;
-	}
-
-	public Box getBackupBoxNew() {
-		return backupBoxNew;
-	}
-
-	public void setBackupBoxNew(Box backupBoxNew) {
-		this.backupBoxNew = backupBoxNew;
-	}
-
-	public Pawn getBackupPawn() {
-		return backupPawn;
-	}
-
-	public void setBackupPawn(Pawn backupPawn) {
-		this.backupPawn = backupPawn;
-	}
+	private Position backupPawnPosition;
 
 	public Rules getRules() {
 		return rules;
@@ -154,5 +121,29 @@ public class Model {
 		walls = new ArrayList<Wall>();
 		boxes = new ArrayList<Box>();
 		storages = new ArrayList<Storage>();
+	}
+
+	public Position getBackupPawnPosition() {
+		return backupPawnPosition;
+	}
+
+	public void setBackupPawnPosition(Position backupPawnPosition) {
+		this.backupPawnPosition = backupPawnPosition;
+	}
+
+	public Position getBackupBoxPosition() {
+		return backupBoxPosition;
+	}
+
+	public void setBackupBoxPosition(Position backupBoxPosition) {
+		this.backupBoxPosition = backupBoxPosition;
+	}
+
+	public Box getBackupBoxReference() {
+		return backupBoxReference;
+	}
+
+	public void setBackupBoxReference(Box backupBoxReference) {
+		this.backupBoxReference = backupBoxReference;
 	}
 }
