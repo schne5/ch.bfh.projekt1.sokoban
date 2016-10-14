@@ -38,7 +38,7 @@ public class Sokoban extends JFrame {
 		save.setText(SAVE);
 		save.addActionListener(t -> {
 			String name = getUsername();
-			if (!"".equals(name)) {
+			if (!"".equals(name) && null != name) {
 				warehouse.getController().save(name);
 				setFocusOnWarehouse();
 			}
@@ -48,7 +48,7 @@ public class Sokoban extends JFrame {
 		load.setText(LOAD);
 		load.addActionListener(t -> {
 			String name = getUsername();
-			if (!"".equals(name)) {
+			if (!"".equals(name) && null != name) {
 				Model model = warehouse.getController().load(name);
 				if (model != null) {
 					warehouse.setModel(model);
@@ -75,6 +75,6 @@ public class Sokoban extends JFrame {
 
 	public String getUsername() {
 		return JOptionPane.showInputDialog(this, "Username eingeben",
-				JOptionPane.OK_OPTION);
+				JOptionPane.OK_OPTION).trim();
 	}
 }
