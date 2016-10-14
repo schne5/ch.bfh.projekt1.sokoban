@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /*
@@ -19,6 +20,7 @@ public class Sokoban extends JFrame {
 	JButton save;
 	JButton load;
 	Warehouse warehouse;
+	String name;
 
 	public Sokoban() {
 		warehouse = new Warehouse();
@@ -35,16 +37,29 @@ public class Sokoban extends JFrame {
 		save = new JButton();
 		save.setText(SAVE);
 		save.addActionListener(t -> {
-			warehouse.getController().save();
-			setFocusOnWarehouse();
+			String name = getUsername();
+			if (!"".equals(name)) {
+				warehouse.getController().save(name);
+				setFocusOnWarehouse();
+			}
 		});
 
 		load = new JButton();
 		load.setText(LOAD);
 		load.addActionListener(t -> {
-			warehouse.getController().load();
+			String name = getUsername();
+			if (!"".equals(name)) {
+				Model model = warehouse.getController().load(name);
+				if (model != null) {
+					warehouse.setModel(model);
+				} else {
+					JOptionPane.showMessageDialog(this,
+							"Kein Spiel zu Benutzernamen: \"" + name
+									+ "\" gefunden.");
+				}
+				warehouse.repaint();
+			}
 			setFocusOnWarehouse();
-			warehouse.repaint();
 		});
 		buttonPanel.add(undo);
 		buttonPanel.add(save);
@@ -56,5 +71,10 @@ public class Sokoban extends JFrame {
 	private void setFocusOnWarehouse() {
 		warehouse.setFocusable(true);
 		warehouse.requestFocusInWindow();
+	}
+
+	public String getUsername() {
+		return JOptionPane.showInputDialog(this, "Username eingeben",
+				JOptionPane.OK_OPTION);
 	}
 }

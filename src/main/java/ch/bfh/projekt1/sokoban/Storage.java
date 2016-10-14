@@ -14,12 +14,7 @@ public class Storage extends GameElement {
 
 	public Storage(int posX, int posY) {
 		super(posX, posY);
-		File pathToFile = new File(IMAGE_PATH + IMAGE);
-		try {
-			setImage(ImageIO.read(pathToFile));
-		} catch (IOException e) {
-			System.out.println("Image Storage not found");
-		}
+		loadImage();
 	}
 
 	public Storage(Position position) {
@@ -36,6 +31,15 @@ public class Storage extends GameElement {
 
 	public Storage copy() {
 		return new Storage(this.getPosition());
+	}
+
+	public void loadImage() {
+		File pathToFile = new File(IMAGE_PATH + IMAGE);
+		try {
+			setImage(ImageIO.read(pathToFile));
+		} catch (IOException e) {
+			System.out.println("Image Storage not found");
+		}
 	}
 
 }

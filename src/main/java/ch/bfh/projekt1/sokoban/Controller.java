@@ -6,7 +6,15 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class Controller {
-	Model model;
+	private Model model;
+
+	public Model getModel() {
+		return model;
+	}
+
+	public void setModel(Model model) {
+		this.model = model;
+	}
 
 	public Controller(Model model) {
 		this.model = model;
@@ -16,8 +24,8 @@ public class Controller {
 		Position newPawnposition = GameElementUtile.getNextPosition(model
 				.getPawn().getPosition(), direction);
 
-		Activity act = model.getRules().checkRules(newPawnposition,
-				model.getGameElements(), direction);
+		Activity act = Rules.checkRules(model.getGameElements(),
+				newPawnposition, direction);
 		switch (act) {
 		case MOVE:
 			backup();
@@ -106,16 +114,12 @@ public class Controller {
 		}
 	}
 
-	public void save() {
-		GameSaver.save(model.getBoxes(), model.getStorages(), model.getWalls(),
-				model.getPawn());
-
+	public void save(String name) {
+		GameSaver.save(model, name);
 	}
 
-	public void load() {
-		GameSaver.load(model);
-		addGameElements();
-
+	public Model load(String name) {
+		return GameSaver.load(name);
 	}
 
 	public void addGameElements() {

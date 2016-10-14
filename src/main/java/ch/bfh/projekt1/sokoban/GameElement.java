@@ -32,4 +32,6 @@ public abstract class GameElement implements Serializable {
 		this.position = position;
 	}
 
+	public abstract void loadImage();
+
 }

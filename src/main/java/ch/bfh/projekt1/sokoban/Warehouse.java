@@ -17,8 +17,8 @@ public class Warehouse extends JPanel implements KeyListener {
 	public static final int YES = 0;
 	public static final String MESSAGE = "Sie haben das Spiel gewonnen. "
 			+ "Wollen Sie das nächste Problem spielen?";
-	private List<GameElement> gameElements;
 	private Model model;
+	private Controller controller;
 
 	public Model getModel() {
 		return model;
@@ -26,6 +26,7 @@ public class Warehouse extends JPanel implements KeyListener {
 
 	public void setModel(Model model) {
 		this.model = model;
+		this.controller.setModel(model);
 	}
 
 	public Controller getController() {
@@ -35,8 +36,6 @@ public class Warehouse extends JPanel implements KeyListener {
 	public void setController(Controller controller) {
 		this.controller = controller;
 	}
-
-	private Controller controller;
 
 	public Warehouse() {
 		addKeyListener(this);
@@ -50,6 +49,7 @@ public class Warehouse extends JPanel implements KeyListener {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		List<GameElement> gameElements = model.getGameElements();
 		for (GameElement gameElement : gameElements) {
 			g.drawImage(gameElement.getImage(), gameElement.getPosition()
 					.getPosX(), gameElement.getPosition().getPosY(), WIDTH,
@@ -96,7 +96,7 @@ public class Warehouse extends JPanel implements KeyListener {
 
 	public void initGame() {
 		model.initGameElements();
-		gameElements = controller.initWarehouse();
+		model.setGameElements(controller.initWarehouse());
 		repaint();
 	}
 }

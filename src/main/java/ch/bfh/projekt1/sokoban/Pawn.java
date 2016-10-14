@@ -13,12 +13,7 @@ public class Pawn extends GameElement {
 
 	public Pawn(int posX, int posY) {
 		super(posX, posY);
-		File pathToFile = new File(IMAGE_PATH + IMAGE);
-		try {
-			setImage(ImageIO.read(pathToFile));
-		} catch (IOException e) {
-			System.out.println("Image Pawn not found");
-		}
+		loadImage();
 	}
 
 	public Pawn(Position position) {
@@ -35,6 +30,15 @@ public class Pawn extends GameElement {
 
 	public Pawn copy() {
 		return new Pawn(this.getPosition());
+	}
+
+	public void loadImage() {
+		File pathToFile = new File(IMAGE_PATH + IMAGE);
+		try {
+			setImage(ImageIO.read(pathToFile));
+		} catch (IOException e) {
+			System.out.println("Image Pawn not found");
+		}
 	}
 
 }

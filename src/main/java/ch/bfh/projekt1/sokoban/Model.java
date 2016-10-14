@@ -1,14 +1,14 @@
 package ch.bfh.projekt1.sokoban;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Model {
+public class Model implements Serializable {
 	public static final String PROBLEM_PATH = "sokobanProblems/./";
 	public static final int DEFAULT_PROBLEM = 1;
 	public static final String PROBLEM_NAME = "problemTest";
 
-	private Rules rules;
 	private String fileName;
 	private String path;
 	private int level;
@@ -20,14 +20,6 @@ public class Model {
 	private List<Storage> storages;
 	private Pawn pawn;
 	private Position backupPawnPosition;
-
-	public Rules getRules() {
-		return rules;
-	}
-
-	public void setRules(Rules rules) {
-		this.rules = rules;
-	}
 
 	public String getPath() {
 		return path;
@@ -78,7 +70,6 @@ public class Model {
 	}
 
 	public Model() {
-		rules = new Rules();
 		path = PROBLEM_PATH;
 		setLevel(DEFAULT_PROBLEM);
 	}
@@ -92,7 +83,7 @@ public class Model {
 	}
 
 	public boolean checkFinish() {
-		return rules.finish(storages);
+		return Rules.finish(storages);
 	}
 
 	public int getLevel() {

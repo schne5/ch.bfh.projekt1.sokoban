@@ -34,7 +34,7 @@ public class Observer {
 		Position newPawnposition = GameElementUtile.getNextPosition(
 				pawn.getPosition(), direction);
 
-		Activity act = rules.checkRules(newPawnposition, gameElements,
+		Activity act = Rules.checkRules(gameElements, newPawnposition,
 				direction);
 		switch (act) {
 		case MOVE:

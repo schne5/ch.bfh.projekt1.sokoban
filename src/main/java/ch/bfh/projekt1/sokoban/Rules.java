@@ -6,9 +6,9 @@ import java.util.List;
  *@author:Elisa, Anna
  */
 public class Rules {
-	private List<GameElement> gameElements;
 
-	private Activity checkCollision(Position position, Direction direction) {
+	private static Activity checkCollision(List<GameElement> gameElements,
+			Position position, Direction direction) {
 		GameElement element = GameElementUtile.getElementByPosition(position,
 				gameElements);
 		if (element instanceof Wall) {
@@ -30,7 +30,7 @@ public class Rules {
 
 	}
 
-	public boolean finish(List<Storage> storages) {
+	public static boolean finish(List<Storage> storages) {
 		boolean occupied = true;
 		for (Storage storage : storages) {
 			occupied &= storage.isOccupied();
@@ -39,18 +39,17 @@ public class Rules {
 	}
 
 	// When a box is locked in a corner or when it can't be moved anymore
-	private boolean isLocked(int posX, int posY) {
+	private static boolean isLocked(int posX, int posY) {
 		return false;
 	}
 
-	private boolean isTimeOver() {
+	private static boolean isTimeOver() {
 		return false;
 	}
 
-	public Activity checkRules(Position position,
-			List<GameElement> gameElements, Direction direction) {
-		this.gameElements = gameElements;
-		return checkCollision(position, direction);
+	public static Activity checkRules(List<GameElement> gameElements,
+			Position position, Direction direction) {
+		return checkCollision(gameElements, position, direction);
 
 	}
 
