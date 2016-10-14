@@ -7,6 +7,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
 
+/*
+ *@author:Elisa, Anna
+ */
 public class GameSaver {
 
 	public static void save(Model model, String name) {
