@@ -15,6 +15,7 @@ public class GameSaver {
 	public static void save(Model model, String name) {
 
 		try {
+			String systemusername = getSystemUserName();
 			FileOutputStream fosb = new FileOutputStream("gameBackups/./"
 					+ name + "_saveGame");
 			ObjectOutputStream oosb = new ObjectOutputStream(fosb);
@@ -28,6 +29,7 @@ public class GameSaver {
 
 	public static Model load(String name) {
 		try {
+			String systemusername = getSystemUserName();
 			FileInputStream fisb = new FileInputStream("gameBackups/./" + name
 					+ "_saveGame");
 			ObjectInputStream oisb = new ObjectInputStream(fisb);
@@ -46,5 +48,9 @@ public class GameSaver {
 			c.printStackTrace();
 			return null;
 		}
+	}
+
+	public static String getSystemUserName() {
+		return System.getProperty("user.name");
 	}
 }
