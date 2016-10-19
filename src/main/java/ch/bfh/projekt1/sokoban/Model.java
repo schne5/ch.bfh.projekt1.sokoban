@@ -91,12 +91,12 @@ public class Model implements Serializable {
 	}
 
 	public void setLevel(int level) {
-		if (level < 1 || level > 50) {
+		if (level < 1 || level > 4) {
 			this.level = 1;
 		} else {
 			this.level = level;
 		}
-		this.fileName = PROBLEM_NAME + level + ".txt";
+		this.fileName = PROBLEM_NAME + this.level + ".txt";
 	}
 
 	public void higherLevel() {
