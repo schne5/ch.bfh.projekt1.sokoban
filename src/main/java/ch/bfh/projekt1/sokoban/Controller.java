@@ -28,7 +28,6 @@ public class Controller {
 				newPawnposition, direction);
 		switch (act) {
 		case MOVE:
-			backup();
 			model.getPawn().move(newPawnposition);
 			break;
 		case PUSH:
@@ -80,10 +79,6 @@ public class Controller {
 			e.printStackTrace();
 		}
 		return model.getGameElements();
-	}
-
-	public void backup() {
-		backup(null);
 	}
 
 	public void backup(Box box) {
