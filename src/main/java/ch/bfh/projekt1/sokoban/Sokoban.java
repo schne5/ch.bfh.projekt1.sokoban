@@ -1,7 +1,9 @@
 package ch.bfh.projekt1.sokoban;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -76,9 +78,13 @@ public class Sokoban extends JFrame {
 		files.setSize(300, 100);
 		JLabel label = new JLabel("Wählen Sie ein Spiel:");
 		JButton ok = new JButton("OK");
+		ok.setMaximumSize(new Dimension(40, 40));
 		dialog.add(files, BorderLayout.CENTER);
 		dialog.add(label, BorderLayout.NORTH);
 		dialog.add(ok, BorderLayout.SOUTH);
+		files.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		label.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
+
 		dialog.pack();
 		dialog.setVisible(true);
 		ok.addActionListener(a -> {
