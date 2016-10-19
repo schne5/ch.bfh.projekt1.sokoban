@@ -7,7 +7,9 @@ import java.util.List;
 public class Model implements Serializable {
 	public static final String PROBLEM_PATH = "sokobanProblems/./";
 	public static final int DEFAULT_PROBLEM = 1;
+	public static final int MAX_PROBLEM = 4;
 	public static final String PROBLEM_NAME = "problemTest";
+	public static final String PROBLEM_NAME_EXTENSION = ".txt";
 
 	private String fileName;
 	private String path;
@@ -91,12 +93,12 @@ public class Model implements Serializable {
 	}
 
 	public void setLevel(int level) {
-		if (level < 1 || level > 4) {
+		if (level < 1 || level > MAX_PROBLEM) {
 			this.level = 1;
 		} else {
 			this.level = level;
 		}
-		this.fileName = PROBLEM_NAME + this.level + ".txt";
+		this.fileName = PROBLEM_NAME + this.level + PROBLEM_NAME_EXTENSION;
 	}
 
 	public void higherLevel() {
