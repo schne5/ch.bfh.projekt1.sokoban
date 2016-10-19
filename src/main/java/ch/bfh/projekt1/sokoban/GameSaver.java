@@ -5,6 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /*
@@ -12,12 +15,11 @@ import java.util.List;
  */
 public class GameSaver {
 
-	public static void save(Model model, String name) {
-
+	public static void save(Model model, String input) {
 		try {
 			String systemusername = getSystemUserName();
 			FileOutputStream fosb = new FileOutputStream("gameBackups/./"
-					+ name + "_saveGame");
+					+ systemusername + "_" + getLocalDateTime() + "_" + input);
 			ObjectOutputStream oosb = new ObjectOutputStream(fosb);
 			oosb.writeObject(model);
 			oosb.close();
@@ -52,5 +54,15 @@ public class GameSaver {
 
 	public static String getSystemUserName() {
 		return System.getProperty("user.name");
+	}
+
+	public static String getLocalDateTime() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		// String currentDateTime = LocalDateTime.now().toString();
+		// DateTimeFormatter formatter =
+		// DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		return dateFormat.format(date).toString();
+
 	}
 }
