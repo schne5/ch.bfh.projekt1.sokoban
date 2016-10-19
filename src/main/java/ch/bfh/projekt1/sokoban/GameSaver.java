@@ -1,5 +1,6 @@
 package ch.bfh.projekt1.sokoban;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,11 +30,10 @@ public class GameSaver {
 		}
 	}
 
-	public static Model load(String name) {
+	public static Model load(String fileName) {
 		try {
-			String systemusername = getSystemUserName();
-			FileInputStream fisb = new FileInputStream("gameBackups/./" + name
-					+ "_saveGame");
+			FileInputStream fisb = new FileInputStream("gameBackups/./"
+					+ fileName);
 			ObjectInputStream oisb = new ObjectInputStream(fisb);
 			Model model = ((Model) oisb.readObject());
 			List<GameElement> gameElements = model.getGameElements();
@@ -63,6 +63,20 @@ public class GameSaver {
 		// DateTimeFormatter formatter =
 		// DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		return dateFormat.format(date).toString();
+	}
 
+	public static String[] loadAllFiles() {
+		File folder = new File("gameBackups/./");
+		File[] listOfFiles = folder.listFiles();
+		String[] currentUserFiles = new String[listOfFiles.length];
+		int count = 0;
+		for (int i = 0; i < listOfFiles.length; i++) {
+
+			if (listOfFiles[i].getName().contains(getSystemUserName())) {
+				currentUserFiles[count] = listOfFiles[i].getName();
+				count++;
+			}
+		}
+		return currentUserFiles;
 	}
 }

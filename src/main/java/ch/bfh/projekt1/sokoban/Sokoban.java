@@ -3,7 +3,9 @@ package ch.bfh.projekt1.sokoban;
 import java.awt.BorderLayout;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -37,7 +39,7 @@ public class Sokoban extends JFrame {
 		save = new JButton();
 		save.setText(SAVE);
 		save.addActionListener(t -> {
-			String name = getUsername();
+			String name = getUserInput();
 			if (!"".equals(name) && null != name) {
 				warehouse.getController().save(name);
 				setFocusOnWarehouse();
@@ -47,18 +49,7 @@ public class Sokoban extends JFrame {
 		load = new JButton();
 		load.setText(LOAD);
 		load.addActionListener(t -> {
-			String name = getUsername();
-			if (!"".equals(name) && null != name) {
-				Model model = warehouse.getController().load(name);
-				if (model != null) {
-					warehouse.setModel(model);
-				} else {
-					JOptionPane.showMessageDialog(this,
-							"Kein Spiel zu Benutzernamen: \"" + name
-									+ "\" gefunden.");
-				}
-				warehouse.repaint();
-			}
+			openFileSelectionFrame();
 			setFocusOnWarehouse();
 		});
 		buttonPanel.add(undo);
@@ -73,8 +64,38 @@ public class Sokoban extends JFrame {
 		warehouse.requestFocusInWindow();
 	}
 
-	public String getUsername() {
+	public String getUserInput() {
 		return JOptionPane.showInputDialog(this, "Username eingeben",
 				JOptionPane.OK_OPTION).trim();
+	}
+
+	private void openFileSelectionFrame() {
+		JFrame dialog = new JFrame();
+		JComboBox<String> files = new JComboBox<String>(
+				GameSaver.loadAllFiles());
+		files.setSize(300, 100);
+		JLabel label = new JLabel("Wählen Sie ein Spiel:");
+		JButton ok = new JButton("OK");
+		dialog.add(files, BorderLayout.CENTER);
+		dialog.add(label, BorderLayout.NORTH);
+		dialog.add(ok, BorderLayout.SOUTH);
+		dialog.pack();
+		dialog.setVisible(true);
+		ok.addActionListener(a -> {
+			String selected = files.getSelectedItem().toString();
+			if (!"".equals(selected) && null != selected) {
+				Model model = warehouse.getController().load(selected);
+				if (model != null) {
+					warehouse.setModel(model);
+					warehouse.repaint();
+				} else {
+					JOptionPane.showMessageDialog(this,
+							"Kein Spiel zu File: \"" + selected
+									+ "\" gefunden.");
+				}
+			}
+			dialog.dispose();
+			this.setVisible(true);
+		});
 	}
 }

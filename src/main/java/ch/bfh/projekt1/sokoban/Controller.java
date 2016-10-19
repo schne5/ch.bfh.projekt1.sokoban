@@ -113,8 +113,8 @@ public class Controller {
 		GameSaver.save(model, name);
 	}
 
-	public Model load(String name) {
-		return GameSaver.load(name);
+	public Model load(String fileName) {
+		return GameSaver.load(fileName);
 	}
 
 	public void addGameElements() {
