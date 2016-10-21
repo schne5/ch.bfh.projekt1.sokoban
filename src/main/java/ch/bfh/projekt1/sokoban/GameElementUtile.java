@@ -10,7 +10,7 @@ public class GameElementUtile {
 	public static final int WIDTH = 30;
 
 	/*
-	 * Gibt das erste gefundene Element zurück. Wenn Box und Storage selbe
+	 * Gibt das erste gefundene Element zurueck. Wenn Box und Storage selbe
 	 * Position belegen, wird der Storage zurückgegeben
 	 */
 	public static GameElement getElementByPosition(Position position,

@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Controller {
 	private Model model;
+	private static int SPACE = 30;
 
 	public Model getModel() {
 		return model;
@@ -44,8 +45,8 @@ public class Controller {
 
 	public List<GameElement> initWarehouse() {
 		List<String> lines;
-		int posX = 30;
-		int posY = 30;
+		int posX = SPACE;
+		int posY = SPACE;
 		try {
 			lines = Files.readAllLines(Paths.get(model.getPath()
 					+ model.getFileName()));

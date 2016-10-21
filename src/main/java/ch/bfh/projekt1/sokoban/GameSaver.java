@@ -15,12 +15,13 @@ import java.util.List;
  *@author:Elisa, Anna
  */
 public class GameSaver {
+	private static String PATH = "gameBackups/./";
 
 	public static void save(Model model, String input) {
 		try {
 			String systemusername = getSystemUserName();
-			FileOutputStream fosb = new FileOutputStream("gameBackups/./"
-					+ systemusername + "_" + getLocalDateTime() + "_" + input);
+			FileOutputStream fosb = new FileOutputStream(PATH + systemusername
+					+ "_" + getLocalDateTime() + "_" + input);
 			ObjectOutputStream oosb = new ObjectOutputStream(fosb);
 			oosb.writeObject(model);
 			oosb.close();
@@ -32,8 +33,7 @@ public class GameSaver {
 
 	public static Model load(String fileName) {
 		try {
-			FileInputStream fisb = new FileInputStream("gameBackups/./"
-					+ fileName);
+			FileInputStream fisb = new FileInputStream(PATH + fileName);
 			ObjectInputStream oisb = new ObjectInputStream(fisb);
 			Model model = ((Model) oisb.readObject());
 			List<GameElement> gameElements = model.getGameElements();
@@ -66,7 +66,7 @@ public class GameSaver {
 	}
 
 	public static String[] loadAllFiles() {
-		File folder = new File("gameBackups/./");
+		File folder = new File(PATH);
 		File[] listOfFiles = folder.listFiles();
 		String[] currentUserFiles = new String[listOfFiles.length];
 		int count = 0;

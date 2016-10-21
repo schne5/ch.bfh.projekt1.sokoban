@@ -16,7 +16,7 @@ public class Warehouse extends JPanel implements KeyListener {
 	public static final int WIDTH = 30;
 	public static final int YES = 0;
 	public static final String MESSAGE = "Sie haben das Spiel gewonnen. "
-			+ "Wollen Sie das nächste Problem spielen?";
+			+ "Wollen Sie das naechste Problem spielen?";
 	private Model model;
 	private Controller controller;
 
