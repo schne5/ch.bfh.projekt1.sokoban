@@ -21,6 +21,9 @@ public class Storage extends GameElement {
 		this(position.getPosX(), position.getPosY());
 	}
 
+	public Storage() {
+	}
+
 	public boolean isOccupied() {
 		return occupied;
 	}
@@ -40,6 +43,10 @@ public class Storage extends GameElement {
 		} catch (IOException e) {
 			System.out.println("Image Storage not found");
 		}
+	}
+
+	public String getImagePath() {
+		return IMAGE_PATH + IMAGE;
 	}
 
 }

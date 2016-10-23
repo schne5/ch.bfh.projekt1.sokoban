@@ -16,6 +16,10 @@ public abstract class GameElement implements Serializable {
 		position = new Position(posX, posY);
 	}
 
+	public GameElement() {
+
+	}
+
 	public Image getImage() {
 		return image;
 	}
@@ -31,6 +35,8 @@ public abstract class GameElement implements Serializable {
 	public void setPosition(Position position) {
 		this.position = position;
 	}
+
+	public abstract String getImagePath();
 
 	public abstract void loadImage();
 

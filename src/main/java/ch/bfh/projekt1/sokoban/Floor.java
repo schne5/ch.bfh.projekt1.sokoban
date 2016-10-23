@@ -17,6 +17,13 @@ public class Floor extends GameElement {
 		loadImage();
 	}
 
+	public Floor(Position position) {
+		this(position.getPosX(), position.getPosY());
+	}
+
+	public Floor() {
+	}
+
 	public void move(Position position) {
 		this.setPosition(position);
 	}
@@ -29,5 +36,9 @@ public class Floor extends GameElement {
 		} catch (IOException e) {
 			System.out.println("Image Floor not found");
 		}
+	}
+
+	public String getImagePath() {
+		return IMAGE_PATH + IMAGE;
 	}
 }

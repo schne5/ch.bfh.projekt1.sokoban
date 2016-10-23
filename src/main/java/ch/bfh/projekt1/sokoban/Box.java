@@ -22,6 +22,10 @@ public class Box extends GameElement implements Serializable {
 		this(position.getPosX(), position.getPosY());
 	}
 
+	public Box() {
+
+	}
+
 	public void move(Position position) {
 		this.setPosition(position);
 	}
@@ -43,5 +47,9 @@ public class Box extends GameElement implements Serializable {
 		} catch (IOException e) {
 			System.out.println("Image Box not found");
 		}
+	}
+
+	public String getImagePath() {
+		return IMAGE_PATH + IMAGE;
 	}
 }

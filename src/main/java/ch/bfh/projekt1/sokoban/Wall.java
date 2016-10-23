@@ -17,6 +17,13 @@ public class Wall extends GameElement {
 		loadImage();
 	}
 
+	public Wall(Position position) {
+		this(position.getPosX(), position.getPosY());
+	}
+
+	public Wall() {
+	}
+
 	public void loadImage() {
 		File pathToFile = new File(IMAGE_PATH + IMAGE);
 		try {
@@ -24,6 +31,10 @@ public class Wall extends GameElement {
 		} catch (IOException e) {
 			System.out.println("Image wall not found");
 		}
+	}
+
+	public String getImagePath() {
+		return IMAGE_PATH + IMAGE;
 	}
 
 }

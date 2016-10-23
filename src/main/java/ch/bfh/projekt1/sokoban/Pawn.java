@@ -20,6 +20,9 @@ public class Pawn extends GameElement {
 		this(position.getPosX(), position.getPosY());
 	}
 
+	public Pawn() {
+	}
+
 	public void move(Position position) {
 		this.setPosition(position);
 	}
@@ -39,6 +42,10 @@ public class Pawn extends GameElement {
 		} catch (IOException e) {
 			System.out.println("Image Pawn not found");
 		}
+	}
+
+	public String getImagePath() {
+		return IMAGE_PATH + IMAGE;
 	}
 
 }
