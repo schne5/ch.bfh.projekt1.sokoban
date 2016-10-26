@@ -1,6 +1,7 @@
 package ch.bfh.projekt1.sokoban;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -82,8 +83,7 @@ public class ProblemDesigner extends JFrame {
 				GameElementView gameElementView = (GameElementView) e
 						.getSource();
 				problemDesignArea.setActiveType(gameElementView.getType());
-				System.out.println("Mouselistener ProblemDesigner :"
-						+ problemDesignArea.getActiveType());
+				updateGameElementTemplates();
 			}
 
 			@Override
@@ -103,5 +103,21 @@ public class ProblemDesigner extends JFrame {
 
 			}
 		};
+	}
+
+	public void updateGameElementTemplates() {
+		Component[] templates = gameElementPanel.getComponents();
+		for (Component template : templates) {
+			if (template instanceof GameElementView) {
+				GameElementView gameElementView = (GameElementView) template;
+
+				if (gameElementView.getType() == problemDesignArea
+						.getActiveType()) {
+					gameElementView.setEnabled(false);
+				} else {
+					gameElementView.setEnabled(true);
+				}
+			}
+		}
 	}
 }
