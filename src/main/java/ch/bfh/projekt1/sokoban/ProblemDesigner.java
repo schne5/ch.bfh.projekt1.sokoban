@@ -6,17 +6,15 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.TransferHandler;
 
 public class ProblemDesigner extends JFrame {
 	public static int SPACE = 30;
 	ArrayList<JLabel> elements = new ArrayList<JLabel>();
 	MouseListener mouseListener;
-	ProblemDesignArea gameArea;
+	ProblemDesignArea problemDesignArea;
 	JPanel gameElementPanel;
 	JButton ok;
 	JButton cancel;
@@ -24,28 +22,26 @@ public class ProblemDesigner extends JFrame {
 	JPanel buttonPanel;
 
 	public ProblemDesigner() {
-		newMouseListener();
+		initMouseListener();
 		gameElementPanel = new JPanel();
 		addGameElementViews();
-		gameArea = new ProblemDesignArea();
+		problemDesignArea = new ProblemDesignArea();
 		initButtons();
 		add(gameElementPanel, BorderLayout.NORTH);
-		add(gameArea, BorderLayout.CENTER);
+		add(problemDesignArea, BorderLayout.CENTER);
 		add(buttonPanel, BorderLayout.SOUTH);
-
-		repaint();
 	}
 
 	private void addGameElementViews() {
-		gameElementPanel.add(GameElementView.create(GameElementView.Type.PAWN,
+		gameElementPanel.add(GameElementView.create(GameElementType.PAWN,
 				mouseListener));
-		gameElementPanel.add(GameElementView.create(GameElementView.Type.BOX,
+		gameElementPanel.add(GameElementView.create(GameElementType.BOX,
 				mouseListener));
-		gameElementPanel.add(GameElementView.create(GameElementView.Type.WALL,
+		gameElementPanel.add(GameElementView.create(GameElementType.WALL,
 				mouseListener));
-		gameElementPanel.add(GameElementView.create(
-				GameElementView.Type.STORAGE, mouseListener));
-		gameElementPanel.add(GameElementView.create(GameElementView.Type.FLOOR,
+		gameElementPanel.add(GameElementView.create(GameElementType.STORAGE,
+				mouseListener));
+		gameElementPanel.add(GameElementView.create(GameElementType.FLOOR,
 				mouseListener));
 	}
 
@@ -65,41 +61,47 @@ public class ProblemDesigner extends JFrame {
 		});
 		clear = new JButton("Clear");
 		clear.addActionListener(a -> {
-			// Feld clearen und auf anfang initialisieren
-			gameArea.drawArea();
+			// TODO Clear
 		});
 		buttonPanel.add(ok);
 		buttonPanel.add(clear);
 		buttonPanel.add(cancel);
 	}
 
-	private void newMouseListener() {
+	private void initMouseListener() {
 		mouseListener = new MouseListener() {
 
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseReleased(MouseEvent e) {
 
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				JComponent jc = (JComponent) e.getSource();
-				TransferHandler th = jc.getTransferHandler();
-				th.exportAsDrag(jc, e, TransferHandler.COPY);
-			}
 
-			@Override
-			public void mouseReleased(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
+				GameElementView gameElementView = (GameElementView) e
+						.getSource();
+				problemDesignArea.setActiveType(gameElementView.getType());
+				System.out.println("Mouselistener ProblemDesigner :"
+						+ problemDesignArea.getActiveType());
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
+
 			}
 
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
 		};
 	}
 }

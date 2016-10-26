@@ -33,7 +33,7 @@ public class MainSokoban {
 		design.addActionListener(a -> {
 			ProblemDesigner problemDesigner = new ProblemDesigner();
 			problemDesigner.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			problemDesigner.setSize(950, 650);
+			problemDesigner.setSize(620, 600);
 			problemDesigner.setVisible(true);
 			enter.setVisible(false);
 		});

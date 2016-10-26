@@ -1,40 +1,74 @@
 package ch.bfh.projekt1.sokoban;
 
-import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
 
-public class ProblemDesignArea extends JPanel {
-	List<GameElement> area;
+public class ProblemDesignArea extends JPanel implements MouseListener {
+	List<GameElementView> area;
+	GridLayout layout;
+	GameElementType activeType;
 
 	public ProblemDesignArea() {
-		area = new ArrayList<GameElement>();
+		area = new ArrayList<GameElementView>();
+		layout = new GridLayout(16, 20);
+		layout.setHgap(0);
+		layout.setVgap(0);
+		setLayout(layout);
 		drawArea();
-		repaint();
 	}
 
 	public void drawArea() {
-		int posX = 175;
-		int posY = 50;
-		for (int i = 0; i < 16; i++) {
-			for (int j = 0; j < 20; j++) {
-				area.add(new Floor(new Position(j * GameElementUtile.WIDTH
-						+ posX, i * GameElementUtile.WIDTH + posY)));
-			}
+
+		for (int i = 0; i < 16 * 20; i++) {
+			GameElementView v = GameElementView.create(GameElementType.FLOOR,
+					null);
+			add(v);
+			area.add(v);
+			v.addMouseListener(this);
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		GameElementView gameElementView = (GameElementView) e.getSource();
+		gameElementView.changeType(getActiveType());
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		for (GameElement gameElement : area) {
-			g.drawImage(gameElement.getImage(), gameElement.getPosition()
-					.getPosX(), gameElement.getPosition().getPosY(),
-					GameElementUtile.WIDTH, GameElementUtile.WIDTH, this);
-		}
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public GameElementType getActiveType() {
+		return activeType;
+	}
+
+	public void setActiveType(GameElementType activeType) {
+		this.activeType = activeType;
 	}
 
 }
