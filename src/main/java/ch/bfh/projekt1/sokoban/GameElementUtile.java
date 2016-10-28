@@ -32,6 +32,16 @@ public class GameElementUtile {
 		return null;
 	}
 
+	public static Storage getStorageByPosition(Position position,
+			List<Storage> storages) {
+		for (Storage storage : storages) {
+			if (storage.getPosition().equals(position)) {
+				return storage;
+			}
+		}
+		return null;
+	}
+
 	public static GameElement getNextElement(GameElement element,
 			Direction direction, List<GameElement> gameElements) {
 
@@ -94,6 +104,51 @@ public class GameElementUtile {
 			Box box = getBoxByPosition(storage.getPosition(), boxes);
 			storage.setOccupied(box != null);
 		}
+	}
+
+	public static GameElement getGameElementByType(GameElementType type) {
+		switch (type) {
+		case PAWN:
+			return new Pawn();
+		case BOX:
+			return new Box();
+		case FLOOR:
+			return new Floor();
+		case WALL:
+			return new Wall();
+		case STORAGE:
+			return new Storage();
+		case PAWN_ON_STORAGE:
+			return new Storage();
+		case BOX_ON_STORAGE:
+			return new Storage();
+		}
+		return null;
+	}
+
+	public static GameElementType getGameElementTypeByGameElement(
+			GameElement gameElement, List<Storage> storages) {
+		if (gameElement instanceof Pawn) {
+			if (getStorageByPosition(gameElement.getPosition(), storages) != null) {
+				return GameElementType.PAWN_ON_STORAGE;
+			} else {
+				return GameElementType.PAWN;
+			}
+
+		} else if (gameElement instanceof Box) {
+			if (getStorageByPosition(gameElement.getPosition(), storages) != null) {
+				return GameElementType.BOX_ON_STORAGE;
+			} else {
+				return GameElementType.BOX;
+			}
+		} else if (gameElement instanceof Wall) {
+			return GameElementType.WALL;
+		} else if (gameElement instanceof Storage) {
+			return GameElementType.STORAGE;
+		} else if (gameElement instanceof Floor) {
+			return GameElementType.FLOOR;
+		}
+		return null;
 	}
 
 }

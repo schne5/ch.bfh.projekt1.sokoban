@@ -96,7 +96,7 @@ public class Warehouse extends JPanel implements KeyListener {
 
 	public void initGame() {
 		model.initGameElements();
-		model.setGameElements(controller.initWarehouse());
+		model.setGameElements(controller.loadProblem());
 		repaint();
 	}
 }

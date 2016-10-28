@@ -2,10 +2,8 @@ package ch.bfh.projekt1.sokoban;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,20 +22,6 @@ public class GameSaver {
 	private static String PATH_PROBLEMS = "sokobanProblems/./";
 	private static String PATH_CUSTOM_PROBLEMS = PATH_PROBLEMS
 			+ "/customDesigned/./";
-
-	public static void save(Model model, String input) {
-		try {
-			String systemusername = getSystemUserName();
-			FileOutputStream fosb = new FileOutputStream(PATH_GAME_SAVE
-					+ systemusername + "_" + getLocalDateTime() + "_" + input);
-			ObjectOutputStream oosb = new ObjectOutputStream(fosb);
-			oosb.writeObject(model);
-			oosb.close();
-			fosb.close();
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		}
-	}
 
 	public static Model load(String fileName) {
 		try {
@@ -86,22 +70,26 @@ public class GameSaver {
 		return currentUserFiles;
 	}
 
-	public static List<String> saveAsTextFile(GameElement[][] gameElements) {
+	public static List<String> saveAsTextFile(GameElementType[][] gameElements) {
 
 		List<String> lines = new ArrayList<String>();
 		String line;
 		for (int i = 0; i < gameElements.length; i++) {
 			line = "";
 			for (int j = 0; j < gameElements[i].length; j++) {
-				if (gameElements[i][j] instanceof Pawn) {
+				if (gameElements[i][j] == GameElementType.PAWN) {
 					line += Controller.PAWN;
-				} else if (gameElements[i][j] instanceof Box) {
+				} else if (gameElements[i][j] == GameElementType.BOX) {
 					line += Controller.BOX;
-				} else if (gameElements[i][j] instanceof Storage) {
+				} else if (gameElements[i][j] == GameElementType.STORAGE) {
 					line += Controller.STORAGE;
-				} else if (gameElements[i][j] instanceof Wall) {
+				} else if (gameElements[i][j] == GameElementType.WALL) {
 					line += Controller.WALL;
-				} else if (gameElements[i][j] instanceof Floor
+				} else if (gameElements[i][j] == GameElementType.BOX_ON_STORAGE) {
+					line += Controller.BOX_ON_STORAGE;
+				} else if (gameElements[i][j] == GameElementType.PAWN_ON_STORAGE) {
+					line += Controller.PAWN_ON_STORAGE;
+				} else if (gameElements[i][j] == GameElementType.FLOOR
 						|| gameElements[i][j] == null) {
 					line += Controller.FLOOR;
 				}
@@ -112,7 +100,7 @@ public class GameSaver {
 
 	}
 
-	public static void saveCustomProblems(GameElement[][] gameElements) {
+	public static void saveCustomProblems(GameElementType[][] gameElements) {
 		Path file = Paths.get(PATH_CUSTOM_PROBLEMS + "custom.txt");
 		try {
 			Files.write(file, saveAsTextFile(gameElements),
@@ -122,7 +110,8 @@ public class GameSaver {
 		}
 	}
 
-	public static void saveGame(GameElement[][] gameElements, String userInput) {
+	public static void saveGame(GameElementType[][] gameElements,
+			String userInput) {
 		String systemusername = getSystemUserName();
 		Path file = Paths.get(PATH_GAME_SAVE + systemusername + "_"
 				+ getLocalDateTime() + "_" + userInput);
@@ -132,5 +121,28 @@ public class GameSaver {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static List<String> loadCustomProblems(String fileName) {
+		return loadTextFile(PATH_CUSTOM_PROBLEMS, fileName);
+	}
+
+	public static List<String> loadGame(String fileName) {
+		return loadTextFile(PATH_GAME_SAVE, fileName);
+	}
+
+	public static List<String> loadProblem(String fileName) {
+		return loadTextFile(PATH_PROBLEMS, fileName);
+	}
+
+	private static List<String> loadTextFile(String path, String fileName) {
+		List<String> lines = new ArrayList<String>();
+		try {
+			lines = Files.readAllLines(Paths.get(path + fileName));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return lines;
+
 	}
 }

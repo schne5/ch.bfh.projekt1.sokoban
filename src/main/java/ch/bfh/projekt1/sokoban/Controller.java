@@ -1,8 +1,5 @@
 package ch.bfh.projekt1.sokoban;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 
 public class Controller {
@@ -12,6 +9,8 @@ public class Controller {
 	public static char BOX = '$';
 	public static char STORAGE = '.';
 	public static char FLOOR = ' ';
+	public static char BOX_ON_STORAGE = '*';
+	public static char PAWN_ON_STORAGE = '+';
 
 	public Model getModel() {
 		return model;
@@ -47,42 +46,34 @@ public class Controller {
 		}
 	}
 
-	public List<GameElement> initWarehouse() {
-		List<String> lines;
+	public List<GameElement> initWarehouse(List<String> lines) {
 		int posX = 30;
 		int posY = 30;
-		try {
-			lines = Files.readAllLines(Paths.get(model.getPath()
-					+ model.getFileName()));
 
-			for (String line : lines) {
-				char[] charsLine = line.toCharArray();
+		for (String line : lines) {
+			char[] charsLine = line.toCharArray();
 
-				for (char c : charsLine) {
-					if (c == WALL) {
-						Wall wall = new Wall(posX, posY);
-						model.getWalls().add(wall);
-					} else if (c == FLOOR) {
-						// Nothing to do this is empty place
-					} else if (c == STORAGE) {
-						Storage storage = new Storage(posX, posY);
-						model.getStorages().add(storage);
-					} else if (c == BOX) {
-						Box box = new Box(posX, posY);
-						model.getBoxes().add(box);
-					} else if (c == PAWN) {
-						model.setPawn(new Pawn(posX, posY));
-					}
-					posX += GameElementUtile.WIDTH;
+			for (char c : charsLine) {
+				if (c == WALL) {
+					Wall wall = new Wall(posX, posY);
+					model.getWalls().add(wall);
+				} else if (c == FLOOR) {
+					// Nothing to do this is empty place
+				} else if (c == STORAGE) {
+					Storage storage = new Storage(posX, posY);
+					model.getStorages().add(storage);
+				} else if (c == BOX) {
+					Box box = new Box(posX, posY);
+					model.getBoxes().add(box);
+				} else if (c == PAWN) {
+					model.setPawn(new Pawn(posX, posY));
 				}
-				posX = GameElementUtile.WIDTH;
-				posY += GameElementUtile.WIDTH;
+				posX += GameElementUtile.WIDTH;
 			}
-			addGameElements();
-
-		} catch (IOException e) {
-			e.printStackTrace();
+			posX = GameElementUtile.WIDTH;
+			posY += GameElementUtile.WIDTH;
 		}
+		addGameElements();
 		return model.getGameElements();
 	}
 
@@ -125,19 +116,39 @@ public class Controller {
 		model.getGameElements().add(model.getPawn());
 	}
 
-	public static void saveCustomProblem(GameElement[][] gameElements) {
+	public static void saveCustomProblem(GameElementType[][] gameElements) {
 		GameSaver.saveCustomProblems(gameElements);
 	}
 
 	public void saveGame(String name) {
-		GameElement[][] gameElements = new GameElement[ProblemDesignArea.HEIGHT][ProblemDesignArea.WIDTH];
+		GameElementType[][] gameElements = new GameElementType[ProblemDesignArea.HEIGHT][ProblemDesignArea.WIDTH];
 		int i;
 		int j;
 		for (GameElement gameElement : model.getGameElements()) {
+
 			i = (gameElement.getPosition().getPosY() / 30) - 1;
 			j = (gameElement.getPosition().getPosX() / 30) - 1;
-			gameElements[i][j] = gameElement;
+
+			gameElements[i][j] = GameElementUtile
+					.getGameElementTypeByGameElement(gameElement,
+							model.getStorages());
 		}
 		GameSaver.saveGame(gameElements, name);
+	}
+
+	public List<GameElement> loadGame(String fileName) {
+		return initWarehouse(GameSaver.loadGame(fileName));
+	}
+
+	public List<GameElement> loadGame() {
+		return initWarehouse(GameSaver.loadGame(model.getFileName()));
+	}
+
+	public List<GameElement> loadProblem() {
+		return initWarehouse(GameSaver.loadProblem(model.getFileName()));
+	}
+
+	public List<GameElement> loadCustomProblem(String fileName) {
+		return initWarehouse(GameSaver.loadCustomProblems(fileName));
 	}
 }

@@ -28,7 +28,7 @@ public class GameElementView extends JLabel {
 
 	public static GameElementView create(GameElementType type, MouseListener ml) {
 		GameElementView gmv = new GameElementView();
-		gmv.setGameElement(getGameElementByType(type));
+		gmv.setGameElement(GameElementUtile.getGameElementByType(type));
 		gmv.setType(type);
 		gmv.setIcon();
 		gmv.setBounds(ProblemDesigner.SPACE, 0, GameElementUtile.WIDTH,
@@ -38,25 +38,9 @@ public class GameElementView extends JLabel {
 		return gmv;
 	}
 
-	private static GameElement getGameElementByType(GameElementType type) {
-		switch (type) {
-		case PAWN:
-			return new Pawn();
-		case BOX:
-			return new Box();
-		case FLOOR:
-			return new Floor();
-		case WALL:
-			return new Wall();
-		case STORAGE:
-			return new Storage();
-		}
-		return null;
-	}
-
 	public void changeType(GameElementType type) {
 		setType(type);
-		setGameElement(getGameElementByType(type));
+		setGameElement(GameElementUtile.getGameElementByType(type));
 	}
 
 	private void setIcon() {
