@@ -67,7 +67,17 @@ public class Controller {
 					model.getBoxes().add(box);
 				} else if (c == PAWN) {
 					model.setPawn(new Pawn(posX, posY));
+				} else if (c == PAWN_ON_STORAGE) {
+					Storage storage = new Storage(posX, posY);
+					model.getStorages().add(storage);
+					model.setPawn(new Pawn(posX, posY));
+				} else if (c == BOX_ON_STORAGE) {
+					Storage storage = new Storage(posX, posY);
+					model.getStorages().add(storage);
+					Box box = new Box(posX, posY);
+					model.getBoxes().add(box);
 				}
+
 				posX += GameElementUtile.WIDTH;
 			}
 			posX = GameElementUtile.WIDTH;
