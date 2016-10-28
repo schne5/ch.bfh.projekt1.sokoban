@@ -7,7 +7,11 @@ import java.util.List;
 
 public class Controller {
 	private Model model;
-	private static int SPACE = 30;
+	public static char PAWN = '@';
+	public static char WALL = '#';
+	public static char BOX = '$';
+	public static char STORAGE = '.';
+	public static char FLOOR = ' ';
 
 	public Model getModel() {
 		return model;
@@ -45,8 +49,8 @@ public class Controller {
 
 	public List<GameElement> initWarehouse() {
 		List<String> lines;
-		int posX = SPACE;
-		int posY = SPACE;
+		int posX = 30;
+		int posY = 30;
 		try {
 			lines = Files.readAllLines(Paths.get(model.getPath()
 					+ model.getFileName()));
@@ -55,18 +59,18 @@ public class Controller {
 				char[] charsLine = line.toCharArray();
 
 				for (char c : charsLine) {
-					if (c == '#') {
+					if (c == WALL) {
 						Wall wall = new Wall(posX, posY);
 						model.getWalls().add(wall);
-					} else if (c == ' ') {
+					} else if (c == FLOOR) {
 						// Nothing to do this is empty place
-					} else if (c == '.') {
+					} else if (c == STORAGE) {
 						Storage storage = new Storage(posX, posY);
 						model.getStorages().add(storage);
-					} else if (c == '$') {
+					} else if (c == BOX) {
 						Box box = new Box(posX, posY);
 						model.getBoxes().add(box);
-					} else if (c == '@') {
+					} else if (c == PAWN) {
 						model.setPawn(new Pawn(posX, posY));
 					}
 					posX += GameElementUtile.WIDTH;
@@ -123,6 +127,10 @@ public class Controller {
 		model.getGameElements().addAll(model.getStorages());
 		model.getGameElements().addAll(model.getBoxes());
 		model.getGameElements().add(model.getPawn());
+	}
+
+	public static void saveProblem(GameElement[][] gameElements) {
+		GameSaver.saveAsTextFile(gameElements);
 	}
 
 }
