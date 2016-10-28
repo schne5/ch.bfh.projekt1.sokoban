@@ -51,6 +51,7 @@ public class ProblemDesigner extends JFrame {
 		ok = new JButton("OK");
 		ok.addActionListener(a -> {
 			// Problem abspeichern
+			Controller.saveProblem(problemDesignArea.prepareSave());
 			this.dispose();
 			MainSokoban.showInitDialog();
 		});
