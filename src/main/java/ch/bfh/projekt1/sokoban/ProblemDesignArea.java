@@ -9,13 +9,16 @@ import java.util.List;
 import javax.swing.JPanel;
 
 public class ProblemDesignArea extends JPanel implements MouseListener {
+	public static final int WIDTH = 20;
+	public static final int HEIGHT = 16;
+
 	List<GameElementView> area;
 	GridLayout layout;
 	GameElementType activeType;
 
 	public ProblemDesignArea() {
 		area = new ArrayList<GameElementView>();
-		layout = new GridLayout(16, 20);
+		layout = new GridLayout(HEIGHT, WIDTH);
 		layout.setHgap(0);
 		layout.setVgap(0);
 		setLayout(layout);
@@ -24,7 +27,7 @@ public class ProblemDesignArea extends JPanel implements MouseListener {
 
 	public void drawArea() {
 
-		for (int i = 0; i < 16 * 20; i++) {
+		for (int i = 0; i < HEIGHT * WIDTH; i++) {
 			GameElementView v = GameElementView.create(GameElementType.FLOOR,
 					null);
 			add(v);
@@ -71,4 +74,18 @@ public class ProblemDesignArea extends JPanel implements MouseListener {
 		this.activeType = activeType;
 	}
 
+	public GameElement[][] prepareSave() {
+		GameElement[][] gameElements = new GameElement[HEIGHT][WIDTH];
+		int i = 0;
+		int j = 0;
+		for (GameElementView gameElementView : area) {
+			gameElements[i][j] = gameElementView.getGameElement();
+			j++;
+			if (j >= WIDTH) {
+				i++;
+				j = 0;
+			}
+		}
+		return gameElements;
+	}
 }
