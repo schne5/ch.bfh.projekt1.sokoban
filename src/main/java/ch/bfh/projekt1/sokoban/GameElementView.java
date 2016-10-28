@@ -72,7 +72,7 @@ public class GameElementView extends JLabel {
 		this.type = type;
 	}
 
-	private GameElement getGameElement() {
+	public GameElement getGameElement() {
 		return gameElement;
 	}
 
