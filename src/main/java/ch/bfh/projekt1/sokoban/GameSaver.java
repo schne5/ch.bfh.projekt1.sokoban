@@ -20,7 +20,7 @@ import java.util.List;
  *@author:Elisa, Anna
  */
 public class GameSaver {
-	private static String PATH = "gameBackups/./";
+	private static String PATH_GAME_SAVE = "gameBackups/./";
 	private static String PATH_PROBLEMS = "sokobanProblems/./";
 	private static String PATH_CUSTOM_PROBLEMS = PATH_PROBLEMS
 			+ "/customDesigned/./";
@@ -28,8 +28,8 @@ public class GameSaver {
 	public static void save(Model model, String input) {
 		try {
 			String systemusername = getSystemUserName();
-			FileOutputStream fosb = new FileOutputStream(PATH + systemusername
-					+ "_" + getLocalDateTime() + "_" + input);
+			FileOutputStream fosb = new FileOutputStream(PATH_GAME_SAVE
+					+ systemusername + "_" + getLocalDateTime() + "_" + input);
 			ObjectOutputStream oosb = new ObjectOutputStream(fosb);
 			oosb.writeObject(model);
 			oosb.close();
@@ -41,7 +41,8 @@ public class GameSaver {
 
 	public static Model load(String fileName) {
 		try {
-			FileInputStream fisb = new FileInputStream(PATH + fileName);
+			FileInputStream fisb = new FileInputStream(PATH_GAME_SAVE
+					+ fileName);
 			ObjectInputStream oisb = new ObjectInputStream(fisb);
 			Model model = ((Model) oisb.readObject());
 			List<GameElement> gameElements = model.getGameElements();
@@ -67,14 +68,11 @@ public class GameSaver {
 	public static String getLocalDateTime() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
-		// String currentDateTime = LocalDateTime.now().toString();
-		// DateTimeFormatter formatter =
-		// DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		return dateFormat.format(date).toString();
 	}
 
 	public static String[] loadAllFiles() {
-		File folder = new File(PATH);
+		File folder = new File(PATH_GAME_SAVE);
 		File[] listOfFiles = folder.listFiles();
 		String[] currentUserFiles = new String[listOfFiles.length];
 		int count = 0;
@@ -88,8 +86,8 @@ public class GameSaver {
 		return currentUserFiles;
 	}
 
-	public static void saveAsTextFile(GameElement[][] gameElements) {
-		Path file = Paths.get(PATH_CUSTOM_PROBLEMS + "custom.txt");
+	public static List<String> saveAsTextFile(GameElement[][] gameElements) {
+
 		List<String> lines = new ArrayList<String>();
 		String line;
 		for (int i = 0; i < gameElements.length; i++) {
@@ -103,16 +101,35 @@ public class GameSaver {
 					line += Controller.STORAGE;
 				} else if (gameElements[i][j] instanceof Wall) {
 					line += Controller.WALL;
-				} else if (gameElements[i][j] instanceof Floor) {
+				} else if (gameElements[i][j] instanceof Floor
+						|| gameElements[i][j] == null) {
 					line += Controller.FLOOR;
 				}
 			}
 			lines.add(line);
 		}
+		return lines;
+
+	}
+
+	public static void saveCustomProblems(GameElement[][] gameElements) {
+		Path file = Paths.get(PATH_CUSTOM_PROBLEMS + "custom.txt");
 		try {
-			Files.write(file, lines, Charset.forName("UTF-8"));
+			Files.write(file, saveAsTextFile(gameElements),
+					Charset.forName("UTF-8"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public static void saveGame(GameElement[][] gameElements, String userInput) {
+		String systemusername = getSystemUserName();
+		Path file = Paths.get(PATH_GAME_SAVE + systemusername + "_"
+				+ getLocalDateTime() + "_" + userInput);
+		try {
+			Files.write(file, saveAsTextFile(gameElements),
+					Charset.forName("UTF-8"));
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

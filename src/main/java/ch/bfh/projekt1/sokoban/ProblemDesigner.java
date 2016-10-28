@@ -11,6 +11,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/*
+ *@author:Elisa, Anna
+ */
 public class ProblemDesigner extends JFrame {
 	public static int SPACE = 30;
 	ArrayList<JLabel> elements = new ArrayList<JLabel>();
@@ -51,7 +54,7 @@ public class ProblemDesigner extends JFrame {
 		ok = new JButton("OK");
 		ok.addActionListener(a -> {
 			// Problem abspeichern
-			Controller.saveProblem(problemDesignArea.prepareSave());
+			Controller.saveCustomProblem(problemDesignArea.prepareSave());
 			this.dispose();
 			MainSokoban.showInitDialog();
 		});

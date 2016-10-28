@@ -8,6 +8,9 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+/*
+ *@author:Elisa
+ */
 public class ProblemDesignArea extends JPanel implements MouseListener {
 	public static final int WIDTH = 20;
 	public static final int HEIGHT = 16;

@@ -43,7 +43,7 @@ public class Sokoban extends JFrame {
 		save.addActionListener(t -> {
 			String name = getUserInput();
 			if (!"".equals(name) && null != name) {
-				warehouse.getController().save(name);
+				warehouse.getController().saveGame(name);
 				setFocusOnWarehouse();
 			}
 		});

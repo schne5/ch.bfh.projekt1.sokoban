@@ -114,10 +114,6 @@ public class Controller {
 		}
 	}
 
-	public void save(String name) {
-		GameSaver.save(model, name);
-	}
-
 	public Model load(String fileName) {
 		return GameSaver.load(fileName);
 	}
@@ -129,8 +125,19 @@ public class Controller {
 		model.getGameElements().add(model.getPawn());
 	}
 
-	public static void saveProblem(GameElement[][] gameElements) {
-		GameSaver.saveAsTextFile(gameElements);
+	public static void saveCustomProblem(GameElement[][] gameElements) {
+		GameSaver.saveCustomProblems(gameElements);
 	}
 
+	public void saveGame(String name) {
+		GameElement[][] gameElements = new GameElement[ProblemDesignArea.HEIGHT][ProblemDesignArea.WIDTH];
+		int i;
+		int j;
+		for (GameElement gameElement : model.getGameElements()) {
+			i = (gameElement.getPosition().getPosY() / 30) - 1;
+			j = (gameElement.getPosition().getPosX() / 30) - 1;
+			gameElements[i][j] = gameElement;
+		}
+		GameSaver.saveGame(gameElements, name);
+	}
 }

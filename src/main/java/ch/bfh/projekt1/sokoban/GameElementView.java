@@ -6,6 +6,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.TransferHandler;
 
+/*
+ *@author:Elisa
+ */
 public class GameElementView extends JLabel {
 
 	private GameElement gameElement;
