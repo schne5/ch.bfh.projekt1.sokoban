@@ -18,9 +18,9 @@ import java.util.List;
  *@author:Elisa, Anna
  */
 public class GameSaver {
-	private static String PATH_GAME_SAVE = "gameBackups/./";
-	private static String PATH_PROBLEMS = "sokobanProblems/./";
-	private static String PATH_CUSTOM_PROBLEMS = PATH_PROBLEMS
+	public static String PATH_GAME_SAVE = "gameBackups/./";
+	public static String PATH_PROBLEMS = "sokobanProblems/./";
+	public static String PATH_CUSTOM_PROBLEMS = PATH_PROBLEMS
 			+ "/customDesigned/./";
 
 	public static Model load(String fileName) {
@@ -55,8 +55,8 @@ public class GameSaver {
 		return dateFormat.format(date).toString();
 	}
 
-	public static String[] loadAllFiles() {
-		File folder = new File(PATH_GAME_SAVE);
+	public static String[] loadAllFiles(String path) {
+		File folder = new File(path);
 		File[] listOfFiles = folder.listFiles();
 		String[] currentUserFiles = new String[listOfFiles.length];
 		int count = 0;
@@ -101,7 +101,8 @@ public class GameSaver {
 	}
 
 	public static void saveCustomProblems(GameElementType[][] gameElements) {
-		Path file = Paths.get(PATH_CUSTOM_PROBLEMS + "custom.txt");
+		Path file = Paths.get(PATH_CUSTOM_PROBLEMS + getSystemUserName()
+				+ "_custom.txt");
 		try {
 			Files.write(file, saveAsTextFile(gameElements),
 					Charset.forName("UTF-8"));

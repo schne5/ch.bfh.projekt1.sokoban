@@ -47,6 +47,7 @@ public class Controller {
 	}
 
 	public List<GameElement> initWarehouse(List<String> lines) {
+		model.initGameElements();
 		int posX = 30;
 		int posY = 30;
 
