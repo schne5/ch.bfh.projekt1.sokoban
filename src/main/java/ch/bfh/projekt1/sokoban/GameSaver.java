@@ -1,9 +1,7 @@
 package ch.bfh.projekt1.sokoban;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,28 +20,6 @@ public class GameSaver {
 	public static String PATH_PROBLEMS = "sokobanProblems/./";
 	public static String PATH_CUSTOM_PROBLEMS = PATH_PROBLEMS
 			+ "/customDesigned/./";
-
-	public static Model load(String fileName) {
-		try {
-			FileInputStream fisb = new FileInputStream(PATH_GAME_SAVE
-					+ fileName);
-			ObjectInputStream oisb = new ObjectInputStream(fisb);
-			Model model = ((Model) oisb.readObject());
-			List<GameElement> gameElements = model.getGameElements();
-			for (GameElement element : gameElements) {
-				element.loadImage();
-			}
-			oisb.close();
-			fisb.close();
-			return model;
-		} catch (IOException ioe) {
-			return null;
-		} catch (ClassNotFoundException c) {
-			System.out.println("Class not found");
-			c.printStackTrace();
-			return null;
-		}
-	}
 
 	public static String getSystemUserName() {
 		return System.getProperty("user.name");

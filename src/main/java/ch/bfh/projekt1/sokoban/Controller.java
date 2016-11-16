@@ -25,67 +25,92 @@ public class Controller {
 	}
 
 	public void move(Direction direction) {
-		Position newPawnposition = GameElementUtile.getNextPosition(model
-				.getPawn().getPosition(), direction);
+		Position newPawnposition = GameElementUtile.getNextPosition(
+				model.getGameArea(), direction, model.getPawnPosition());
 
-		Activity act = Rules.checkRules(model.getGameElements(),
-				newPawnposition, direction);
+		Activity act = Rules.checkRules(model.getGameArea(), direction,
+				model.getPawnPosition());
+
 		switch (act) {
 		case MOVE:
-			model.getPawn().move(newPawnposition);
+			GameElementUtile.changeGameElementTypes(model.getGameArea(),
+					model.getPawnPosition(), newPawnposition);
+			model.setPawnPosition(newPawnposition);
+			break;
+		case MOVE_ON_STORAGE:
+			model.getGameArea()[newPawnposition.getPosY()][newPawnposition
+					.getPosX()] = GameElementType.PAWN_ON_STORAGE;
+			model.getGameArea()[model.getPawnPosition().getPosY()][model
+					.getPawnPosition().getPosX()] = GameElementType.FLOOR;
+			model.setPawnPosition(newPawnposition);
+			break;
+		case MOVE_FROM_STORAGE:
+			model.getGameArea()[newPawnposition.getPosY()][newPawnposition
+					.getPosX()] = GameElementType.PAWN;
+			model.getGameArea()[model.getPawnPosition().getPosY()][model
+					.getPawnPosition().getPosX()] = GameElementType.STORAGE;
+			model.setPawnPosition(newPawnposition);
 			break;
 		case PUSH:
-			Box box = GameElementUtile.getBoxByPosition(newPawnposition,
-					model.getBoxes());
-			backup(box);
-			model.getPawn().move(newPawnposition);
-			box.move(direction);
-			GameElementUtile.updateStorages(model.getStorages(),
-					model.getBoxes());
+			Position positionAfterBox = GameElementUtile.getNextPosition(
+					model.getGameArea(), direction, newPawnposition);
+			if (GameElementUtile.isStorage(model.getGameArea(),
+					positionAfterBox)) {
+				model.getGameArea()[positionAfterBox.getPosY()][positionAfterBox
+						.getPosX()] = GameElementType.BOX_ON_STORAGE;
+				model.getGameArea()[newPawnposition.getPosY()][newPawnposition
+						.getPosX()] = GameElementType.PAWN;
+				model.getGameArea()[model.getPawnPosition().getPosY()][model
+						.getPawnPosition().getPosX()] = GameElementType.FLOOR;
+			} else {
+
+				GameElementUtile.changeGameElementTypes(model.getGameArea(),
+						positionAfterBox, newPawnposition);
+
+				GameElementUtile.changeGameElementTypes(model.getGameArea(),
+						model.getPawnPosition(), newPawnposition);
+			}
+			model.setPawnPosition(newPawnposition);
 			break;
 		}
 	}
 
-	public List<GameElement> initWarehouse(List<String> lines) {
+	public GameElementType[][] initWarehouse(List<String> lines) {
+		model.setWidth(lines.get(0).length());
+		model.setHeight(lines.size());
 		model.initGameElements();
-		int posX = 30;
-		int posY = 30;
+		GameElementType[][] area = model.getGameArea();
+		int i = 0;
+		int j = 0;
 
 		for (String line : lines) {
 			char[] charsLine = line.toCharArray();
 
 			for (char c : charsLine) {
 				if (c == WALL) {
-					Wall wall = new Wall(posX, posY);
-					model.getWalls().add(wall);
+					area[i][j] = GameElementType.WALL;
 				} else if (c == FLOOR) {
-					// Nothing to do this is empty place
+					area[i][j] = GameElementType.FLOOR;
 				} else if (c == STORAGE) {
-					Storage storage = new Storage(posX, posY);
-					model.getStorages().add(storage);
+					area[i][j] = GameElementType.STORAGE;
 				} else if (c == BOX) {
-					Box box = new Box(posX, posY);
-					model.getBoxes().add(box);
+					area[i][j] = GameElementType.BOX;
 				} else if (c == PAWN) {
-					model.setPawn(new Pawn(posX, posY));
+					area[i][j] = GameElementType.PAWN;
+					model.setPawnPosition(new Position(j, i));
 				} else if (c == PAWN_ON_STORAGE) {
-					Storage storage = new Storage(posX, posY);
-					model.getStorages().add(storage);
-					model.setPawn(new Pawn(posX, posY));
+					area[i][j] = GameElementType.PAWN_ON_STORAGE;
 				} else if (c == BOX_ON_STORAGE) {
-					Storage storage = new Storage(posX, posY);
-					model.getStorages().add(storage);
-					Box box = new Box(posX, posY);
-					model.getBoxes().add(box);
+					area[i][j] = GameElementType.BOX_ON_STORAGE;
 				}
-
-				posX += GameElementUtile.WIDTH;
+				j++;
+				if (j >= model.getWidth()) {
+					i++;
+					j = 0;
+				}
 			}
-			posX = GameElementUtile.WIDTH;
-			posY += GameElementUtile.WIDTH;
 		}
-		addGameElements();
-		return model.getGameElements();
+		return area;
 	}
 
 	public void backup(Box box) {
@@ -116,50 +141,35 @@ public class Controller {
 		}
 	}
 
-	public Model load(String fileName) {
-		return GameSaver.load(fileName);
-	}
-
-	public void addGameElements() {
-		model.getGameElements().addAll(model.getWalls());
-		model.getGameElements().addAll(model.getStorages());
-		model.getGameElements().addAll(model.getBoxes());
-		model.getGameElements().add(model.getPawn());
-	}
+	// public void addGameElements() {
+	// model.getGameElements().addAll(model.getWalls());
+	// model.getGameElements().addAll(model.getStorages());
+	// model.getGameElements().addAll(model.getBoxes());
+	// model.getGameElements().add(model.getPawn());
+	// }
 
 	public static void saveCustomProblem(GameElementType[][] gameElements) {
 		GameSaver.saveCustomProblems(gameElements);
 	}
 
 	public void saveGame(String name) {
-		GameElementType[][] gameElements = new GameElementType[ProblemDesignArea.HEIGHT][ProblemDesignArea.WIDTH];
-		int i;
-		int j;
-		for (GameElement gameElement : model.getGameElements()) {
-
-			i = (gameElement.getPosition().getPosY() / 30) - 1;
-			j = (gameElement.getPosition().getPosX() / 30) - 1;
-
-			gameElements[i][j] = GameElementUtile
-					.getGameElementTypeByGameElement(gameElement,
-							model.getStorages());
-		}
+		GameElementType[][] gameElements = model.getGameArea();
 		GameSaver.saveGame(gameElements, name);
 	}
 
-	public List<GameElement> loadGame(String fileName) {
+	public GameElementType[][] loadGame(String fileName) {
 		return initWarehouse(GameSaver.loadGame(fileName));
 	}
 
-	public List<GameElement> loadGame() {
+	public GameElementType[][] loadGame() {
 		return initWarehouse(GameSaver.loadGame(model.getFileName()));
 	}
 
-	public List<GameElement> loadProblem() {
+	public GameElementType[][] loadProblem() {
 		return initWarehouse(GameSaver.loadProblem(model.getFileName()));
 	}
 
-	public List<GameElement> loadCustomProblem(String fileName) {
+	public GameElementType[][] loadCustomProblem(String fileName) {
 		return initWarehouse(GameSaver.loadCustomProblems(fileName));
 	}
 }

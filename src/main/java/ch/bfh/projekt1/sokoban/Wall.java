@@ -1,5 +1,6 @@
 package ch.bfh.projekt1.sokoban;
 
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 
@@ -13,7 +14,6 @@ public class Wall extends GameElement {
 	private static final String IMAGE = "wall.png";
 
 	public Wall(int posX, int posY) {
-		super(posX, posY);
 		loadImage();
 	}
 
@@ -24,16 +24,18 @@ public class Wall extends GameElement {
 	public Wall() {
 	}
 
-	public void loadImage() {
-		File pathToFile = new File(IMAGE_PATH + IMAGE);
+	public static Image loadImage() {
+		File pathToFile = new File(getImagePath());
+		Image image = null;
 		try {
-			setImage(ImageIO.read(pathToFile));
+			image = ImageIO.read(pathToFile);
 		} catch (IOException e) {
 			System.out.println("Image wall not found");
 		}
+		return image;
 	}
 
-	public String getImagePath() {
+	public static String getImagePath() {
 		return IMAGE_PATH + IMAGE;
 	}
 

@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -13,7 +12,7 @@ import javax.swing.JPanel;
  *@author:Elisa, Anna
  */
 public class Warehouse extends JPanel implements KeyListener {
-	public static final int WIDTH = 30;
+	public static final int IMAGE_WIDTH = 30;
 	public static final int YES = 0;
 	public static final String MESSAGE = "Sie haben das Spiel gewonnen. "
 			+ "Wollen Sie das naechste Problem spielen?";
@@ -49,12 +48,55 @@ public class Warehouse extends JPanel implements KeyListener {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		List<GameElement> gameElements = model.getGameElements();
-		for (GameElement gameElement : gameElements) {
-			g.drawImage(gameElement.getImage(), gameElement.getPosition()
-					.getPosX(), gameElement.getPosition().getPosY(), WIDTH,
-					WIDTH, this);
+		GameElementType[][] gameArea = model.getGameArea();
+		for (int i = 0; i < gameArea.length; i++) {
+			for (int j = 0; j < gameArea[0].length; j++) {
+				switch (gameArea[i][j]) {
+				case WALL:
+					g.drawImage(Wall.loadImage(), j * IMAGE_WIDTH,
+							(i * IMAGE_WIDTH) + IMAGE_WIDTH, IMAGE_WIDTH,
+							IMAGE_WIDTH, this);
+					break;
+				case BOX:
+					g.drawImage(Box.loadImage(), j * IMAGE_WIDTH, i
+							* IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
+							IMAGE_WIDTH, this);
+					break;
+				case STORAGE:
+					g.drawImage(Storage.loadImage(), j * IMAGE_WIDTH, i
+							* IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
+							IMAGE_WIDTH, this);
+					break;
+				case PAWN:
+					g.drawImage(Pawn.loadImage(), j * IMAGE_WIDTH, i
+							* IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
+							IMAGE_WIDTH, this);
+					break;
+				case FLOOR:
+					// g.drawImage(Floor.loadImage(), i * IMAGE_WIDTH, j
+					// * IMAGE_WIDTH, IMAGE_WIDTH, IMAGE_WIDTH, this);
+					break;
+				case PAWN_ON_STORAGE:
+					g.drawImage(Pawn.loadImage(), j * IMAGE_WIDTH, i
+							* IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
+							IMAGE_WIDTH, this);
+					break;
+				case BOX_ON_STORAGE:
+					g.drawImage(Box.loadImage(), j * IMAGE_WIDTH, i
+							* IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
+							IMAGE_WIDTH, this);
+					break;
+				}
+
+			}
 		}
+		// List<GameElement> gameElements = model.getGameElements();
+		// for (GameElement gameElement : gameElements) {
+		// g.drawImage(gameElement.getImage(), gameElement.getPosition()
+		// .getPosX(), gameElement.getPosition().getPosY(), WIDTH,
+		// WIDTH, this);
+		// }
+
 	}
 
 	@Override
@@ -96,7 +138,8 @@ public class Warehouse extends JPanel implements KeyListener {
 
 	public void initGame() {
 		model.initGameElements();
-		model.setGameElements(controller.loadProblem());
+		model.setGameArea(controller.loadProblem());
+		// model.setGameElements(controller.loadProblem());
 		repaint();
 	}
 }

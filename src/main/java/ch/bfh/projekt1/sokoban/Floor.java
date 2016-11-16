@@ -1,5 +1,6 @@
 package ch.bfh.projekt1.sokoban;
 
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 
@@ -12,33 +13,21 @@ import javax.imageio.ImageIO;
 public class Floor extends GameElement {
 	private static final String IMAGE = "floor.png";
 
-	public Floor(int posX, int posY) {
-		super(posX, posY);
-		loadImage();
-	}
-
-	public Floor(Position position) {
-		this(position.getPosX(), position.getPosY());
-	}
-
 	public Floor() {
 	}
 
-	public void move(Position position) {
-		this.setPosition(position);
-	}
-
-	@Override
-	public void loadImage() {
-		File pathToFile = new File(IMAGE_PATH + IMAGE);
+	public static Image loadImage() {
+		File pathToFile = new File(getImagePath());
+		Image image = null;
 		try {
-			setImage(ImageIO.read(pathToFile));
+			image = ImageIO.read(pathToFile);
 		} catch (IOException e) {
 			System.out.println("Image Floor not found");
 		}
+		return image;
 	}
 
-	public String getImagePath() {
+	public static String getImagePath() {
 		return IMAGE_PATH + IMAGE;
 	}
 }

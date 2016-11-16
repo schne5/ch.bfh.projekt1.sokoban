@@ -1,5 +1,6 @@
 package ch.bfh.projekt1.sokoban;
 
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 
@@ -12,15 +13,6 @@ public class Storage extends GameElement {
 	private boolean occupied;
 	public static final String IMAGE = "storage.png";
 
-	public Storage(int posX, int posY) {
-		super(posX, posY);
-		loadImage();
-	}
-
-	public Storage(Position position) {
-		this(position.getPosX(), position.getPosY());
-	}
-
 	public Storage() {
 	}
 
@@ -32,20 +24,18 @@ public class Storage extends GameElement {
 		this.occupied = occupied;
 	}
 
-	public Storage copy() {
-		return new Storage(this.getPosition());
-	}
-
-	public void loadImage() {
-		File pathToFile = new File(IMAGE_PATH + IMAGE);
+	public static Image loadImage() {
+		File pathToFile = new File(getImagePath());
+		Image image = null;
 		try {
-			setImage(ImageIO.read(pathToFile));
+			image = ImageIO.read(pathToFile);
 		} catch (IOException e) {
 			System.out.println("Image Storage not found");
 		}
+		return image;
 	}
 
-	public String getImagePath() {
+	public static String getImagePath() {
 		return IMAGE_PATH + IMAGE;
 	}
 

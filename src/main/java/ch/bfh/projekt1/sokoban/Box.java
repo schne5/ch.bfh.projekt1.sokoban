@@ -1,5 +1,6 @@
 package ch.bfh.projekt1.sokoban;
 
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -13,43 +14,22 @@ public class Box extends GameElement implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final String IMAGE = "box.png";
 
-	public Box(int posX, int posY) {
-		super(posX, posY);
-		loadImage();
-	}
-
-	public Box(Position position) {
-		this(position.getPosX(), position.getPosY());
-	}
-
 	public Box() {
 
 	}
 
-	public void move(Position position) {
-		this.setPosition(position);
-	}
-
-	public void move(Direction direction) {
-		Position newPosition = GameElementUtile.getNextPosition(getPosition(),
-				direction);
-		this.setPosition(newPosition);
-	}
-
-	public Box copy() {
-		return new Box(this.getPosition());
-	}
-
-	public void loadImage() {
-		File pathToFile = new File(IMAGE_PATH + IMAGE);
+	public static Image loadImage() {
+		File pathToFile = new File(getImagePath());
+		Image image = null;
 		try {
-			setImage(ImageIO.read(pathToFile));
+			image = ImageIO.read(pathToFile);
 		} catch (IOException e) {
 			System.out.println("Image Box not found");
 		}
+		return image;
 	}
 
-	public String getImagePath() {
+	public static String getImagePath() {
 		return IMAGE_PATH + IMAGE;
 	}
 }
