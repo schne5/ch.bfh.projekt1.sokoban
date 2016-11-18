@@ -30,7 +30,8 @@ public class Controller {
 
 		Activity act = Rules.checkRules(model.getGameArea(), direction,
 				model.getPawnPosition());
-
+		moveGameElementTypes(model.getGameArea(), newPawnposition, act,
+				direction);
 	}
 
 	public GameElementType[][] initWarehouse(List<String> lines) {

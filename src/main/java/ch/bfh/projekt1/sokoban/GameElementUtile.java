@@ -145,9 +145,9 @@ public class GameElementUtile {
 			newPosition.setPosX(newPosition.getPosX() + 1);
 			break;
 		}
-		if (newPosition.getPosX() <= gameArea[0].length
+		if (newPosition.getPosX() <= gameArea.length
 				&& newPosition.getPosX() >= 0) {
-			if (newPosition.getPosY() <= gameArea.length
+			if (newPosition.getPosY() <= gameArea[0].length
 					&& newPosition.getPosY() >= 0) {
 				return newPosition;
 			}
@@ -158,20 +158,20 @@ public class GameElementUtile {
 
 	public static boolean isStorage(GameElementType[][] gameArea,
 			Position position) {
-		return gameArea[position.getPosY()][position.getPosX()] == GameElementType.STORAGE;
+		return gameArea[position.getPosX()][position.getPosY()] == GameElementType.STORAGE;
 	}
 
 	public static boolean isPawnOnStorage(GameElementType[][] gameArea,
 			Position position) {
-		return gameArea[position.getPosY()][position.getPosX()] == GameElementType.PAWN_ON_STORAGE;
+		return gameArea[position.getPosX()][position.getPosY()] == GameElementType.PAWN_ON_STORAGE;
 	}
 
 	public static GameElementType[][] changeGameElementTypes(
 			GameElementType[][] gameArea, Position first, Position second) {
-		GameElementType temp = gameArea[first.getPosY()][first.getPosX()];
-		gameArea[first.getPosY()][first.getPosX()] = gameArea[second.getPosY()][second
-				.getPosX()];
-		gameArea[second.getPosY()][second.getPosX()] = temp;
+		GameElementType temp = gameArea[first.getPosX()][first.getPosY()];
+		gameArea[first.getPosX()][first.getPosY()] = gameArea[second.getPosX()][second
+				.getPosY()];
+		gameArea[second.getPosX()][second.getPosY()] = temp;
 		return gameArea;
 	}
 
