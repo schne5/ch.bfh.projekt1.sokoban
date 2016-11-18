@@ -34,39 +34,57 @@ public class Rules {
 				direction, pawnPosition);
 		if (newPosition != null) {
 
-			GameElementType type = gameArea[newPosition.getPosY()][newPosition
-					.getPosX()];
+			GameElementType type = gameArea[newPosition.getPosX()][newPosition
+					.getPosY()];
 			switch (type) {
 			case BOX:
+			case BOX_ON_STORAGE:
 				Position positionAfterBox = GameElementUtile.getNextPosition(
 						gameArea, direction, newPosition);
 				if (positionAfterBox == null) {
 					return Activity.COLLISION;
 				}
 				GameElementType typeAfterBox = gameArea[positionAfterBox
-						.getPosY()][positionAfterBox.getPosX()];
+						.getPosX()][positionAfterBox.getPosY()];
 				switch (typeAfterBox) {
 				case FLOOR:
+					if (type == GameElementType.BOX_ON_STORAGE) {
+						return Activity.PUSH_FROM_STORAGE;
+					} else {
+						return Activity.PUSH;
+					}
 				case STORAGE:
-					return Activity.PUSH;
+					if (type == GameElementType.BOX_ON_STORAGE) {
+						return Activity.PUSH;
+					} else {
+						return Activity.PUSH_ON_STORAGE;
+					}
 				case WALL:
 				case BOX:
 				case BOX_ON_STORAGE:
 					return Activity.COLLISION;
 				}
 			case FLOOR:
-				return Activity.MOVE;
+				if (gameArea[pawnPosition.getPosX()][pawnPosition.getPosY()] == GameElementType.PAWN_ON_STORAGE) {
+					return Activity.MOVE_FROM_STORAGE;
+				} else {
+					return Activity.MOVE;
+				}
 			case STORAGE:
-				return Activity.MOVE_ON_STORAGE;
+				if (gameArea[pawnPosition.getPosX()][pawnPosition.getPosY()] == GameElementType.PAWN_ON_STORAGE) {
+					return Activity.MOVE;
+				} else {
+					return Activity.MOVE_ON_STORAGE;
+				}
 			}
 		}
 		return Activity.COLLISION;
 	}
 
 	public static boolean finish(GameElementType[][] gameArea) {
-		for (int i = 0; i < gameArea.length; i++) {
-			for (int j = 0; j < gameArea[i].length; j++) {
-				if (gameArea[i][j] == GameElementType.STORAGE) {
+		for (int x = 0; x < gameArea.length; x++) {
+			for (int y = 0; y < gameArea[x].length; y++) {
+				if (gameArea[x][y] == GameElementType.STORAGE) {
 					return false;
 				}
 			}

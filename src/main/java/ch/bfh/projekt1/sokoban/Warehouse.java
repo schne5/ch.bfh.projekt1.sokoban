@@ -49,26 +49,26 @@ public class Warehouse extends JPanel implements KeyListener {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		GameElementType[][] gameArea = model.getGameArea();
-		for (int i = 0; i < gameArea.length; i++) {
-			for (int j = 0; j < gameArea[0].length; j++) {
-				switch (gameArea[i][j]) {
+		for (int y = 0; y < gameArea[0].length; y++) {
+			for (int x = 0; x < gameArea.length; x++) {
+				switch (gameArea[x][y]) {
 				case WALL:
-					g.drawImage(Wall.loadImage(), j * IMAGE_WIDTH,
-							(i * IMAGE_WIDTH) + IMAGE_WIDTH, IMAGE_WIDTH,
+					g.drawImage(Wall.loadImage(), x * IMAGE_WIDTH,
+							(y * IMAGE_WIDTH) + IMAGE_WIDTH, IMAGE_WIDTH,
 							IMAGE_WIDTH, this);
 					break;
 				case BOX:
-					g.drawImage(Box.loadImage(), j * IMAGE_WIDTH, i
+					g.drawImage(Box.loadImage(), x * IMAGE_WIDTH, y
 							* IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
 							IMAGE_WIDTH, this);
 					break;
 				case STORAGE:
-					g.drawImage(Storage.loadImage(), j * IMAGE_WIDTH, i
+					g.drawImage(Storage.loadImage(), x * IMAGE_WIDTH, y
 							* IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
 							IMAGE_WIDTH, this);
 					break;
 				case PAWN:
-					g.drawImage(Pawn.loadImage(), j * IMAGE_WIDTH, i
+					g.drawImage(Pawn.loadImage(), x * IMAGE_WIDTH, y
 							* IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
 							IMAGE_WIDTH, this);
 					break;
@@ -77,12 +77,12 @@ public class Warehouse extends JPanel implements KeyListener {
 					// * IMAGE_WIDTH, IMAGE_WIDTH, IMAGE_WIDTH, this);
 					break;
 				case PAWN_ON_STORAGE:
-					g.drawImage(Pawn.loadImage(), j * IMAGE_WIDTH, i
+					g.drawImage(Pawn.loadImage(), x * IMAGE_WIDTH, y
 							* IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
 							IMAGE_WIDTH, this);
 					break;
 				case BOX_ON_STORAGE:
-					g.drawImage(Box.loadImage(), j * IMAGE_WIDTH, i
+					g.drawImage(Box.loadImage(), x * IMAGE_WIDTH, y
 							* IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
 							IMAGE_WIDTH, this);
 					break;

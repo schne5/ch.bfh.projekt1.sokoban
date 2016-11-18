@@ -122,7 +122,7 @@ public class Model implements Serializable {
 		// boxes = new ArrayList<Box>();
 		// storages = new ArrayList<Storage>();
 		setPawnPosition(new Position(-1, -1));
-		gameArea = new GameElementType[height][width];
+		gameArea = new GameElementType[width][height];
 	}
 
 	public Position getBackupPawnPosition() {
