@@ -97,4 +97,18 @@ public class GameElementUtile {
 		}
 		return gameArea;
 	}
+
+	public static Direction getOppositeDiredction(Direction direction) {
+		switch (direction) {
+		case LEFT:
+			return Direction.RIGHT;
+		case RIGHT:
+			return Direction.LEFT;
+		case DOWN:
+			return Direction.UP;
+		case UP:
+			return Direction.DOWN;
+		}
+		return null;
+	}
 }

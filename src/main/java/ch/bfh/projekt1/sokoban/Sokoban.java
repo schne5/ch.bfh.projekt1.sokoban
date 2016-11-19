@@ -16,12 +16,14 @@ import javax.swing.JPanel;
  */
 public class Sokoban extends JFrame {
 	public static String UNDO = "Undo";
+	public static String REDO = "Redo";
 	public static String SAVE = "Save";
 	public static String LOAD = "Load";
 	public static String LOAD_OWN_PROBLEM = "Load Own Problem";
 
 	JPanel buttonPanel;
 	JButton undo;
+	JButton redo;
 	JButton save;
 	JButton load;
 	JButton loadOwnProblem;
@@ -32,6 +34,14 @@ public class Sokoban extends JFrame {
 		warehouse = new Warehouse();
 		setFocusOnWarehouse();
 		buttonPanel = new JPanel();
+		redo = new JButton();
+		redo.setText(REDO);
+		redo.addActionListener(t -> {
+			warehouse.getController().redo();
+			warehouse.repaint();
+			setFocusOnWarehouse();
+		});
+
 		undo = new JButton();
 		undo.setText(UNDO);
 		undo.addActionListener(t -> {
@@ -64,6 +74,7 @@ public class Sokoban extends JFrame {
 		});
 
 		buttonPanel.add(undo);
+		buttonPanel.add(redo);
 		buttonPanel.add(save);
 		buttonPanel.add(load);
 		buttonPanel.add(loadOwnProblem);

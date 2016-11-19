@@ -25,27 +25,32 @@ public class Controller {
 	}
 
 	public void move(Direction direction) {
-		Position newPawnposition = GameElementUtile.getNextPosition(
-				model.getGameArea(), direction, model.getPawnPosition());
-
 		Activity activity = Rules.checkRules(model.getGameArea(), direction,
 				model.getPawnPosition());
+		if (activity != Activity.COLLISION) {
+			model.getStackUndo().push(
+					new SokobanStackTuple(activity, direction));
+			move(direction, activity);
+		}
+	}
+
+	public void move(Direction direction, Activity activity) {
+		Position newPawnposition = GameElementUtile.getNextPosition(
+				model.getGameArea(), direction, model.getPawnPosition());
 
 		switch (activity) {
 		case MOVE:
 			GameElementUtile.changeGameElementTypes(model.getGameArea(),
 					model.getPawnPosition(), newPawnposition);
-			model.setPawnPosition(newPawnposition);
 			break;
-
 		case PUSH:
 			Position positionAfterBox = GameElementUtile.getNextPosition(
 					model.getGameArea(), direction, newPawnposition);
 			GameElementUtile.changeGameElementTypes(model.getGameArea(),
 					model.getPawnPosition(), newPawnposition, positionAfterBox);
-			model.setPawnPosition(newPawnposition);
 			break;
 		}
+		model.setPawnPosition(newPawnposition);
 	}
 
 	public GameElementType[][] initWarehouse(List<String> lines) {
@@ -87,20 +92,17 @@ public class Controller {
 	}
 
 	public void undo() {
-		// if (model.getBackupPawnPosition() != null) {
-		// Position tempPosition = model.getPawn().getPosition();
-		// model.getPawn().setPosition(model.getBackupPawnPosition());
-		// model.setBackupPawnPosition(tempPosition);
-		// }
-		// if (model.getBackupBoxPosition() != null) {
-		// Position tempPosition = model.getBackupBoxReference().getPosition();
-		// model.getBackupBoxReference().setPosition(
-		// model.getBackupBoxPosition());
-		// model.setBackupBoxPosition(tempPosition);
-		//
-		// GameElementUtile.updateStorages(model.getStorages(),
-		// model.getBoxes());
-		// }
+		SokobanStackTuple tuple = model.getStackUndo().pop();
+		Direction opposite = GameElementUtile.getOppositeDiredction(tuple
+				.getDirection());
+		move(opposite, tuple.getActivity());
+		model.getStackRedo().push(tuple);
+	}
+
+	public void redo() {
+		SokobanStackTuple tuple = model.getStackRedo().pop();
+		move(tuple.getDirection(), tuple.getActivity());
+		model.getStackUndo().push(tuple);
 	}
 
 	public static void saveCustomProblem(GameElementType[][] gameElements) {

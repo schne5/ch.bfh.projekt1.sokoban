@@ -25,7 +25,6 @@ public class Rules {
 						.getPosX()][positionAfterBox.getPosY()];
 				switch (typeAfterBox) {
 				case FLOOR:
-					return Activity.PUSH;
 				case STORAGE:
 					return Activity.PUSH;
 				case WALL:
@@ -36,7 +35,10 @@ public class Rules {
 			case FLOOR:
 			case STORAGE:
 				return Activity.MOVE;
+			default:
+				return Activity.COLLISION;
 			}
+
 		}
 		return Activity.COLLISION;
 	}

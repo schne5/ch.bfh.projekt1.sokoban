@@ -9,9 +9,10 @@ public class Model implements Serializable {
 	public static final String PROBLEM_NAME = "problem";
 	public static final String PROBLEM_NAME_EXTENSION = ".txt";
 
+	private SokobanStack stackUndo;
+	private SokobanStack stackRedo;
 	private String fileName;
 	private String path;
-	private boolean ownProblem;
 	private int level;
 
 	public static int width;
@@ -20,16 +21,6 @@ public class Model implements Serializable {
 	private GameElementType[][] gameArea;
 	private Position pawnPosition;
 
-	// private List<GameElement> gameElements;
-	// private List<Wall> walls;
-	// private List<Box> boxes;
-	private Position backupBoxPosition;
-	private Box backupBoxReference;
-
-	// private List<Storage> storages;
-	// private Pawn pawn;
-	private Position backupPawnPosition;
-
 	public String getPath() {
 		return path;
 	}
@@ -37,46 +28,6 @@ public class Model implements Serializable {
 	public void setPath(String path) {
 		this.path = path;
 	}
-
-	// public List<GameElement> getGameElements() {
-	// return gameElements;
-	// }
-	//
-	// public void setGameElements(List<GameElement> gameElements) {
-	// this.gameElements = gameElements;
-	// }
-	//
-	// public List<Wall> getWalls() {
-	// return walls;
-	// }
-	//
-	// public void setWalls(List<Wall> walls) {
-	// this.walls = walls;
-	// }
-	//
-	// public List<Box> getBoxes() {
-	// return boxes;
-	// }
-	//
-	// public void setBoxes(List<Box> boxes) {
-	// this.boxes = boxes;
-	// }
-	//
-	// public List<Storage> getStorages() {
-	// return storages;
-	// }
-	//
-	// public void setStorages(List<Storage> storages) {
-	// this.storages = storages;
-	// }
-	//
-	// public Pawn getPawn() {
-	// return pawn;
-	// }
-	//
-	// public void setPawn(Pawn pawn) {
-	// this.pawn = pawn;
-	// }
 
 	public Model() {
 		path = PROBLEM_PATH;
@@ -118,31 +69,9 @@ public class Model implements Serializable {
 
 	public void initGameElements() {
 		setPawnPosition(new Position(-1, -1));
+		stackRedo = new SokobanStack();
+		stackUndo = new SokobanStack();
 		gameArea = new GameElementType[width][height];
-	}
-
-	public Position getBackupPawnPosition() {
-		return backupPawnPosition;
-	}
-
-	public void setBackupPawnPosition(Position backupPawnPosition) {
-		this.backupPawnPosition = backupPawnPosition;
-	}
-
-	public Position getBackupBoxPosition() {
-		return backupBoxPosition;
-	}
-
-	public void setBackupBoxPosition(Position backupBoxPosition) {
-		this.backupBoxPosition = backupBoxPosition;
-	}
-
-	public Box getBackupBoxReference() {
-		return backupBoxReference;
-	}
-
-	public void setBackupBoxReference(Box backupBoxReference) {
-		this.backupBoxReference = backupBoxReference;
 	}
 
 	public GameElementType[][] getGameArea() {
@@ -166,7 +95,7 @@ public class Model implements Serializable {
 	}
 
 	public void setWidth(int width) {
-		this.width = width;
+		Model.width = width;
 	}
 
 	public int getHeight() {
@@ -174,7 +103,23 @@ public class Model implements Serializable {
 	}
 
 	public void setHeight(int height) {
-		this.height = height;
+		Model.height = height;
+	}
+
+	public SokobanStack getStackUndo() {
+		return stackUndo;
+	}
+
+	public void setStackUndo(SokobanStack stack) {
+		this.stackUndo = stack;
+	}
+
+	public SokobanStack getStackRedo() {
+		return stackRedo;
+	}
+
+	public void setStackRedo(SokobanStack stackRedo) {
+		this.stackRedo = stackRedo;
 	}
 
 }

@@ -3,6 +3,9 @@ package ch.bfh.projekt1.sokoban;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/*
+ *@author:Elisa, Anna
+ */
 public class TransitionTable {
 
 	public static ArrayList<GameElementType> types = new ArrayList<GameElementType>(
