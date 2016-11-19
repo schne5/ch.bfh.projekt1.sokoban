@@ -7,105 +7,6 @@ public class GameElementUtile {
 
 	public static final int WIDTH = 30;
 
-	// /*
-	// * Gibt das erste gefundene Element zurueck. Wenn Box und Storage selbe
-	// * Position belegen, wird der Storage zurückgegeben
-	// */
-	// public static GameElement getElementByPosition(Position position,
-	// List<GameElement> gameElements) {
-	// for (GameElement element : gameElements) {
-	// if (element.getPosition().equals(position)) {
-	// return element;
-	// }
-	// }
-	// return null;
-	// }
-	//
-	// public static Box getBoxByPosition(Position position, List<Box> boxes) {
-	// for (Box box : boxes) {
-	// if (box.getPosition().equals(position)) {
-	// return box;
-	// }
-	// }
-	// return null;
-	// }
-	//
-	// public static Storage getStorageByPosition(Position position,
-	// List<Storage> storages) {
-	// for (Storage storage : storages) {
-	// if (storage.getPosition().equals(position)) {
-	// return storage;
-	// }
-	// }
-	// return null;
-	// }
-	//
-	// public static GameElement getNextElement(GameElement element,
-	// Direction direction, List<GameElement> gameElements) {
-	//
-	// return getElementByPosition(
-	// getNextPosition(element.getPosition(), direction), gameElements);
-	// }
-	//
-	// public static GameElement getNextElement(Position position,
-	// Direction direction, List<GameElement> gameElements) {
-	// return getNextElement(getElementByPosition(position, gameElements),
-	// direction, gameElements);
-	//
-	// }
-	//
-	// public static void changeElementpositions(GameElement element1,
-	// GameElement element2) {
-	// Position tempPosition = element1.getPosition();
-	// element1.setPosition(element2.getPosition());
-	// element2.setPosition(tempPosition);
-	// }
-	//
-	// public static Position getNextPosition(Position position,
-	// Direction direction) {
-	//
-	// int newPosX = position.getPosX();
-	// int newPosY = position.getPosY();
-	//
-	// switch (direction) {
-	// case LEFT:
-	// newPosX -= WIDTH;
-	// break;
-	// case RIGHT:
-	// newPosX += WIDTH;
-	// break;
-	// case UP:
-	// newPosY -= WIDTH;
-	// break;
-	// case DOWN:
-	// newPosY += WIDTH;
-	// break;
-	// }
-	// return new Position(newPosX, newPosY);
-	// }
-	//
-	// public static boolean isInStorage(Position position, List<Storage> list)
-	// {
-	// for (Storage s : list) {
-	// if (s.getPosition().equals(position)) {
-	// return true;
-	// }
-	// }
-	// return false;
-	// }
-
-	// public static boolean isOccupiedStorage(GameElement element) {
-	// return (element instanceof Storage && ((Storage) element).isOccupied());
-	// }
-	//
-	// public static void updateStorages(List<Storage> storages, List<Box>
-	// boxes) {
-	// for (Storage storage : storages) {
-	// Box box = getBoxByPosition(storage.getPosition(), boxes);
-	// storage.setOccupied(box != null);
-	// }
-	// }
-
 	public static GameElement getGameElementByType(GameElementType type) {
 		switch (type) {
 		case PAWN:
@@ -145,9 +46,8 @@ public class GameElementUtile {
 			newPosition.setPosX(newPosition.getPosX() + 1);
 			break;
 		}
-		if (newPosition.getPosX() <= gameArea.length
-				&& newPosition.getPosX() >= 0) {
-			if (newPosition.getPosY() <= gameArea[0].length
+		if (newPosition.getPosX() <= Model.width && newPosition.getPosX() >= 0) {
+			if (newPosition.getPosY() <= Model.height
 					&& newPosition.getPosY() >= 0) {
 				return newPosition;
 			}
@@ -168,36 +68,33 @@ public class GameElementUtile {
 
 	public static GameElementType[][] changeGameElementTypes(
 			GameElementType[][] gameArea, Position first, Position second) {
-		GameElementType temp = gameArea[first.getPosX()][first.getPosY()];
-		gameArea[first.getPosX()][first.getPosY()] = gameArea[second.getPosX()][second
-				.getPosY()];
-		gameArea[second.getPosX()][second.getPosY()] = temp;
-		return gameArea;
+		return changeGameElementTypes(gameArea, first, second, null);
 	}
 
-	// public static GameElementType getGameElementTypeByGameElement(
-	// GameElement gameElement, List<Storage> storages) {
-	// if (gameElement instanceof Pawn) {
-	// if (getStorageByPosition(gameElement.getPosition(), storages) != null) {
-	// return GameElementType.PAWN_ON_STORAGE;
-	// } else {
-	// return GameElementType.PAWN;
-	// }
-	//
-	// } else if (gameElement instanceof Box) {
-	// if (getStorageByPosition(gameElement.getPosition(), storages) != null) {
-	// return GameElementType.BOX_ON_STORAGE;
-	// } else {
-	// return GameElementType.BOX;
-	// }
-	// } else if (gameElement instanceof Wall) {
-	// return GameElementType.WALL;
-	// } else if (gameElement instanceof Storage) {
-	// return GameElementType.STORAGE;
-	// } else if (gameElement instanceof Floor) {
-	// return GameElementType.FLOOR;
-	// }
-	// return null;
-	// }
+	public static GameElementType[][] changeGameElementTypes(
+			GameElementType[][] gameArea, Position first, Position second,
+			Position third) {
+		Activity activity = third == null ? Activity.MOVE : Activity.PUSH;
+		int xFirst = first.getPosX();
+		int yFirst = first.getPosY();
 
+		int xSecond = second.getPosX();
+		int ySecond = second.getPosY();
+
+		gameArea[xFirst][yFirst] = TransitionTable
+				.getTransitionByGameElementType(gameArea[xFirst][yFirst],
+						activity);
+
+		gameArea[xSecond][ySecond] = TransitionTable
+				.getTransitionByGameElementType(gameArea[xSecond][ySecond],
+						activity);
+		if (third != null) {
+			int xThird = third.getPosX();
+			int yThird = third.getPosY();
+			gameArea[xThird][yThird] = TransitionTable
+					.getTransitionByGameElementType(gameArea[xThird][yThird],
+							activity);
+		}
+		return gameArea;
+	}
 }

@@ -11,11 +11,10 @@ import javax.swing.TransferHandler;
  */
 public class GameElementView extends JLabel {
 
-	private GameElement gameElement;
 	GameElementType type;
 
-	public GameElementView(GameElement gameElement, MouseListener ml) {
-		this.gameElement = gameElement;
+	public GameElementView(GameElementType type, MouseListener ml) {
+		setType(type);
 		setBounds(ProblemDesigner.SPACE, 0, GameElementUtile.WIDTH,
 				GameElementUtile.WIDTH);
 		addMouseListener(ml);
@@ -28,7 +27,6 @@ public class GameElementView extends JLabel {
 
 	public static GameElementView create(GameElementType type, MouseListener ml) {
 		GameElementView gmv = new GameElementView();
-		gmv.setGameElement(GameElementUtile.getGameElementByType(type));
 		gmv.setType(type);
 		gmv.setIcon();
 		gmv.setBounds(ProblemDesigner.SPACE, 0, GameElementUtile.WIDTH,
@@ -40,15 +38,32 @@ public class GameElementView extends JLabel {
 
 	public void changeType(GameElementType type) {
 		setType(type);
-		setGameElement(GameElementUtile.getGameElementByType(type));
 	}
 
 	private void setIcon() {
-		ImageIcon imageIcon = new ImageIcon(gameElement.getImagePath());
-		imageIcon = new ImageIcon(imageIcon.getImage().getScaledInstance(
+		ImageIcon image = null;
+		switch (type) {
+		case FLOOR:
+			image = new ImageIcon(Floor.loadImage());
+			break;
+		case PAWN:
+			image = new ImageIcon(Pawn.loadImage());
+			break;
+		case BOX:
+			image = new ImageIcon(Box.loadImage());
+			break;
+		case WALL:
+			image = new ImageIcon(Wall.loadImage());
+			break;
+		case STORAGE:
+			image = new ImageIcon(Storage.loadImage());
+			break;
+		}
+
+		image = new ImageIcon(image.getImage().getScaledInstance(
 				GameElementUtile.WIDTH, GameElementUtile.WIDTH,
 				java.awt.Image.SCALE_SMOOTH));
-		setIcon(imageIcon);
+		setIcon(image);
 	}
 
 	public GameElementType getType() {
@@ -57,14 +72,6 @@ public class GameElementView extends JLabel {
 
 	public void setType(GameElementType type) {
 		this.type = type;
-	}
-
-	public GameElement getGameElement() {
-		return gameElement;
-	}
-
-	private void setGameElement(GameElement gameElement) {
-		this.gameElement = gameElement;
 		setIcon();
 	}
 }

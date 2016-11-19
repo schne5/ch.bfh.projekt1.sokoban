@@ -28,10 +28,24 @@ public class Controller {
 		Position newPawnposition = GameElementUtile.getNextPosition(
 				model.getGameArea(), direction, model.getPawnPosition());
 
-		Activity act = Rules.checkRules(model.getGameArea(), direction,
+		Activity activity = Rules.checkRules(model.getGameArea(), direction,
 				model.getPawnPosition());
-		moveGameElementTypes(model.getGameArea(), newPawnposition, act,
-				direction);
+
+		switch (activity) {
+		case MOVE:
+			GameElementUtile.changeGameElementTypes(model.getGameArea(),
+					model.getPawnPosition(), newPawnposition);
+			model.setPawnPosition(newPawnposition);
+			break;
+
+		case PUSH:
+			Position positionAfterBox = GameElementUtile.getNextPosition(
+					model.getGameArea(), direction, newPawnposition);
+			GameElementUtile.changeGameElementTypes(model.getGameArea(),
+					model.getPawnPosition(), newPawnposition, positionAfterBox);
+			model.setPawnPosition(newPawnposition);
+			break;
+		}
 	}
 
 	public GameElementType[][] initWarehouse(List<String> lines) {
@@ -72,89 +86,22 @@ public class Controller {
 		return area;
 	}
 
-	public void backup(Box box) {
-		model.setBackupPawnPosition(new Position(model.getPawn().getPosition()
-				.getPosX(), model.getPawn().getPosition().getPosY()));
-
-		if (box != null) {
-			model.setBackupBoxPosition(new Position(
-					box.getPosition().getPosX(), box.getPosition().getPosY()));
-			model.setBackupBoxReference(box);
-		}
-	}
-
 	public void undo() {
-		if (model.getBackupPawnPosition() != null) {
-			Position tempPosition = model.getPawn().getPosition();
-			model.getPawn().setPosition(model.getBackupPawnPosition());
-			model.setBackupPawnPosition(tempPosition);
-		}
-		if (model.getBackupBoxPosition() != null) {
-			Position tempPosition = model.getBackupBoxReference().getPosition();
-			model.getBackupBoxReference().setPosition(
-					model.getBackupBoxPosition());
-			model.setBackupBoxPosition(tempPosition);
-
-			GameElementUtile.updateStorages(model.getStorages(),
-					model.getBoxes());
-		}
+		// if (model.getBackupPawnPosition() != null) {
+		// Position tempPosition = model.getPawn().getPosition();
+		// model.getPawn().setPosition(model.getBackupPawnPosition());
+		// model.setBackupPawnPosition(tempPosition);
+		// }
+		// if (model.getBackupBoxPosition() != null) {
+		// Position tempPosition = model.getBackupBoxReference().getPosition();
+		// model.getBackupBoxReference().setPosition(
+		// model.getBackupBoxPosition());
+		// model.setBackupBoxPosition(tempPosition);
+		//
+		// GameElementUtile.updateStorages(model.getStorages(),
+		// model.getBoxes());
+		// }
 	}
-
-	public GameElementType[][] moveGameElementTypes(
-			GameElementType[][] gameArea, Position newPawnposition,
-			Activity activity, Direction direction) {
-		switch (activity) {
-		case MOVE:
-			GameElementUtile.changeGameElementTypes(model.getGameArea(),
-					model.getPawnPosition(), newPawnposition);
-			model.setPawnPosition(newPawnposition);
-			break;
-		case MOVE_ON_STORAGE:
-			model.getGameArea()[newPawnposition.getPosX()][newPawnposition
-					.getPosY()] = GameElementType.PAWN_ON_STORAGE;
-			model.getGameArea()[model.getPawnPosition().getPosX()][model
-					.getPawnPosition().getPosY()] = GameElementType.FLOOR;
-			model.setPawnPosition(newPawnposition);
-			break;
-		case MOVE_FROM_STORAGE:
-			model.getGameArea()[newPawnposition.getPosX()][newPawnposition
-					.getPosY()] = GameElementType.PAWN;
-			model.getGameArea()[model.getPawnPosition().getPosX()][model
-					.getPawnPosition().getPosY()] = GameElementType.STORAGE;
-			model.setPawnPosition(newPawnposition);
-			break;
-		case PUSH:
-			Position positionAfterBox = GameElementUtile.getNextPosition(
-					model.getGameArea(), direction, newPawnposition);
-			if (GameElementUtile.isStorage(model.getGameArea(),
-					positionAfterBox)) {
-				model.getGameArea()[positionAfterBox.getPosY()][positionAfterBox
-						.getPosX()] = GameElementType.BOX_ON_STORAGE;
-				model.getGameArea()[newPawnposition.getPosY()][newPawnposition
-						.getPosX()] = GameElementType.PAWN;
-				model.getGameArea()[model.getPawnPosition().getPosY()][model
-						.getPawnPosition().getPosX()] = GameElementType.FLOOR;
-			} else {
-
-				GameElementUtile.changeGameElementTypes(model.getGameArea(),
-						positionAfterBox, newPawnposition);
-
-				GameElementUtile.changeGameElementTypes(model.getGameArea(),
-						model.getPawnPosition(), newPawnposition);
-			}
-			model.setPawnPosition(newPawnposition);
-			break;
-		}
-
-		return gameArea;
-	}
-
-	// public void addGameElements() {
-	// model.getGameElements().addAll(model.getWalls());
-	// model.getGameElements().addAll(model.getStorages());
-	// model.getGameElements().addAll(model.getBoxes());
-	// model.getGameElements().add(model.getPawn());
-	// }
 
 	public static void saveCustomProblem(GameElementType[][] gameElements) {
 		GameSaver.saveCustomProblems(gameElements);

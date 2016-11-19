@@ -14,8 +14,8 @@ public class Model implements Serializable {
 	private boolean ownProblem;
 	private int level;
 
-	private int width;
-	private int height;
+	public static int width;
+	public static int height;
 
 	private GameElementType[][] gameArea;
 	private Position pawnPosition;
@@ -117,10 +117,6 @@ public class Model implements Serializable {
 	}
 
 	public void initGameElements() {
-		// this.gameElements = new ArrayList<GameElement>();
-		// walls = new ArrayList<Wall>();
-		// boxes = new ArrayList<Box>();
-		// storages = new ArrayList<Storage>();
 		setPawnPosition(new Position(-1, -1));
 		gameArea = new GameElementType[width][height];
 	}

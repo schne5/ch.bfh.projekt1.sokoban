@@ -5,29 +5,6 @@ package ch.bfh.projekt1.sokoban;
  */
 public class Rules {
 
-	// private static Activity checkCollision(List<GameElement> gameElements,
-	// Position position, Direction direction) {
-	// GameElement element = GameElementUtile.getElementByPosition(position,
-	// gameElements);
-	// if (element instanceof Wall) {
-	// return Activity.COLLISION;
-	// } else if (element instanceof Box
-	// || GameElementUtile.isOccupiedStorage(element)) {
-	// GameElement next = GameElementUtile.getNextElement(element,
-	// direction, gameElements);
-	// if (next instanceof Wall || next instanceof Box
-	// || GameElementUtile.isOccupiedStorage(next)) {
-	// return Activity.COLLISION;
-	// } else {
-	// return Activity.PUSH;
-	// }
-	// } else if (element instanceof Storage) {
-	//
-	// }
-	// return Activity.MOVE;
-	//
-	// }
-
 	private static Activity checkCollision(GameElementType[][] gameArea,
 			Direction direction, Position pawnPosition) {
 		Position newPosition = GameElementUtile.getNextPosition(gameArea,
@@ -48,34 +25,17 @@ public class Rules {
 						.getPosX()][positionAfterBox.getPosY()];
 				switch (typeAfterBox) {
 				case FLOOR:
-					if (type == GameElementType.BOX_ON_STORAGE) {
-						return Activity.PUSH_FROM_STORAGE;
-					} else {
-						return Activity.PUSH;
-					}
+					return Activity.PUSH;
 				case STORAGE:
-					if (type == GameElementType.BOX_ON_STORAGE) {
-						return Activity.PUSH;
-					} else {
-						return Activity.PUSH_ON_STORAGE;
-					}
+					return Activity.PUSH;
 				case WALL:
 				case BOX:
 				case BOX_ON_STORAGE:
 					return Activity.COLLISION;
 				}
 			case FLOOR:
-				if (gameArea[pawnPosition.getPosX()][pawnPosition.getPosY()] == GameElementType.PAWN_ON_STORAGE) {
-					return Activity.MOVE_FROM_STORAGE;
-				} else {
-					return Activity.MOVE;
-				}
 			case STORAGE:
-				if (gameArea[pawnPosition.getPosX()][pawnPosition.getPosY()] == GameElementType.PAWN_ON_STORAGE) {
-					return Activity.MOVE;
-				} else {
-					return Activity.MOVE_ON_STORAGE;
-				}
+				return Activity.MOVE;
 			}
 		}
 		return Activity.COLLISION;

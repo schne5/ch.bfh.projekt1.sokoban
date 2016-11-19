@@ -3,8 +3,6 @@ package ch.bfh.projekt1.sokoban;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -14,13 +12,13 @@ import javax.swing.JPanel;
 public class ProblemDesignArea extends JPanel implements MouseListener {
 	public static final int WIDTH = 20;
 	public static final int HEIGHT = 16;
-
-	List<GameElementView> area;
+	GameElementView[][] gameArea;
 	GridLayout layout;
 	GameElementType activeType;
 
 	public ProblemDesignArea() {
-		area = new ArrayList<GameElementView>();
+		gameArea = new GameElementView[WIDTH][HEIGHT];
+		// area = new ArrayList<GameElementView>();
 		layout = new GridLayout(HEIGHT, WIDTH);
 		layout.setHgap(0);
 		layout.setVgap(0);
@@ -29,13 +27,15 @@ public class ProblemDesignArea extends JPanel implements MouseListener {
 	}
 
 	public void drawArea() {
+		for (int i = 0; i < gameArea[0].length; i++) {
+			for (int j = 0; j < gameArea.length; j++) {
+				GameElementView v = GameElementView.create(
+						GameElementType.FLOOR, null);
+				add(v);
+				gameArea[j][i] = v;
+				v.addMouseListener(this);
 
-		for (int i = 0; i < HEIGHT * WIDTH; i++) {
-			GameElementView v = GameElementView.create(GameElementType.FLOOR,
-					null);
-			add(v);
-			area.add(v);
-			v.addMouseListener(this);
+			}
 		}
 	}
 
@@ -78,15 +78,12 @@ public class ProblemDesignArea extends JPanel implements MouseListener {
 	}
 
 	public GameElementType[][] prepareSave() {
-		GameElementType[][] gameElements = new GameElementType[HEIGHT][WIDTH];
-		int i = 0;
-		int j = 0;
-		for (GameElementView gameElementView : area) {
-			gameElements[i][j] = gameElementView.getType();
-			j++;
-			if (j >= WIDTH) {
-				i++;
-				j = 0;
+		GameElementType[][] gameElements = new GameElementType[WIDTH][HEIGHT];
+
+		for (int i = 0; i < gameArea[0].length; i++) {
+			for (int j = 0; j < gameArea.length; j++) {
+				GameElementType type = gameArea[j][i].getType();
+				gameElements[j][i] = gameArea[j][i].getType();
 			}
 		}
 		return gameElements;

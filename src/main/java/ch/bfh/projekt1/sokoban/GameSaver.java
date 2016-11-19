@@ -50,23 +50,23 @@ public class GameSaver {
 
 		List<String> lines = new ArrayList<String>();
 		String line;
-		for (int i = 0; i < gameElements.length; i++) {
+		for (int i = 0; i < gameElements[0].length; i++) {
 			line = "";
-			for (int j = 0; j < gameElements[i].length; j++) {
-				if (gameElements[i][j] == GameElementType.PAWN) {
+			for (int j = 0; j < gameElements.length; j++) {
+				if (gameElements[j][i] == GameElementType.PAWN) {
 					line += Controller.PAWN;
-				} else if (gameElements[i][j] == GameElementType.BOX) {
+				} else if (gameElements[j][i] == GameElementType.BOX) {
 					line += Controller.BOX;
-				} else if (gameElements[i][j] == GameElementType.STORAGE) {
+				} else if (gameElements[j][i] == GameElementType.STORAGE) {
 					line += Controller.STORAGE;
-				} else if (gameElements[i][j] == GameElementType.WALL) {
+				} else if (gameElements[j][i] == GameElementType.WALL) {
 					line += Controller.WALL;
-				} else if (gameElements[i][j] == GameElementType.BOX_ON_STORAGE) {
+				} else if (gameElements[j][i] == GameElementType.BOX_ON_STORAGE) {
 					line += Controller.BOX_ON_STORAGE;
-				} else if (gameElements[i][j] == GameElementType.PAWN_ON_STORAGE) {
+				} else if (gameElements[j][i] == GameElementType.PAWN_ON_STORAGE) {
 					line += Controller.PAWN_ON_STORAGE;
-				} else if (gameElements[i][j] == GameElementType.FLOOR
-						|| gameElements[i][j] == null) {
+				} else if (gameElements[j][i] == GameElementType.FLOOR
+						|| gameElements[j][i] == null) {
 					line += Controller.FLOOR;
 				}
 			}
