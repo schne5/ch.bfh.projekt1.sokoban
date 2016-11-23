@@ -53,50 +53,47 @@ public class Warehouse extends JPanel implements KeyListener {
 			for (int x = 0; x < gameArea.length; x++) {
 				switch (gameArea[x][y].getGameElementType()) {
 				case WALL:
-					g.drawImage(Wall.loadImage(), x * IMAGE_WIDTH,
-							(y * IMAGE_WIDTH) + IMAGE_WIDTH, IMAGE_WIDTH,
-							IMAGE_WIDTH, this);
+					g.drawImage(Wall.loadImage(),
+							x * IMAGE_WIDTH + IMAGE_WIDTH, y * IMAGE_WIDTH
+									+ IMAGE_WIDTH, IMAGE_WIDTH, IMAGE_WIDTH,
+							this);
 					break;
 				case BOX:
-					g.drawImage(Box.loadImage(), x * IMAGE_WIDTH, y
-							* IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
+					g.drawImage(Box.loadImage(), x * IMAGE_WIDTH + IMAGE_WIDTH,
+							y * IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
 							IMAGE_WIDTH, this);
 					break;
 				case STORAGE:
-					g.drawImage(Storage.loadImage(), x * IMAGE_WIDTH, y
-							* IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
-							IMAGE_WIDTH, this);
+					g.drawImage(Storage.loadImage(), x * IMAGE_WIDTH
+							+ IMAGE_WIDTH, y * IMAGE_WIDTH + IMAGE_WIDTH,
+							IMAGE_WIDTH, IMAGE_WIDTH, this);
 					break;
 				case PAWN:
-					g.drawImage(Pawn.loadImage(), x * IMAGE_WIDTH, y
-							* IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
-							IMAGE_WIDTH, this);
+					g.drawImage(Pawn.loadImage(),
+							x * IMAGE_WIDTH + IMAGE_WIDTH, y * IMAGE_WIDTH
+									+ IMAGE_WIDTH, IMAGE_WIDTH, IMAGE_WIDTH,
+							this);
 					break;
 				case FLOOR:
-					// g.drawImage(Floor.loadImage(), i * IMAGE_WIDTH, j
-					// * IMAGE_WIDTH, IMAGE_WIDTH, IMAGE_WIDTH, this);
+					// g.drawImage(Floor.loadImage(), x * IMAGE_WIDTH
+					// + IMAGE_WIDTH, y * IMAGE_WIDTH + IMAGE_WIDTH,
+					// IMAGE_WIDTH, IMAGE_WIDTH, this);
 					break;
 				case PAWN_ON_STORAGE:
-					g.drawImage(Pawn.loadImage(), x * IMAGE_WIDTH, y
-							* IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
-							IMAGE_WIDTH, this);
+					g.drawImage(Pawn.loadImage(),
+							x * IMAGE_WIDTH + IMAGE_WIDTH, y * IMAGE_WIDTH
+									+ IMAGE_WIDTH, IMAGE_WIDTH, IMAGE_WIDTH,
+							this);
 					break;
 				case BOX_ON_STORAGE:
-					g.drawImage(Box.loadImage(), x * IMAGE_WIDTH, y
-							* IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
+					g.drawImage(Box.loadImage(), x * IMAGE_WIDTH + IMAGE_WIDTH,
+							y * IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
 							IMAGE_WIDTH, this);
 					break;
 				}
 
 			}
 		}
-		// List<GameElement> gameElements = model.getGameElements();
-		// for (GameElement gameElement : gameElements) {
-		// g.drawImage(gameElement.getImage(), gameElement.getPosition()
-		// .getPosX(), gameElement.getPosition().getPosY(), WIDTH,
-		// WIDTH, this);
-		// }
-
 	}
 
 	@Override
