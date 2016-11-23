@@ -35,8 +35,8 @@ public class Controller {
 	}
 
 	public void move(Direction direction, Activity activity) {
-		Position newPawnposition = GameElementUtile.getNextPosition(
-				model.getGameArea(), direction, model.getPawnPosition());
+		Position newPawnposition = GameElementUtile.getNextPosition(direction,
+				model.getPawnPosition());
 
 		switch (activity) {
 		case MOVE:
@@ -45,7 +45,7 @@ public class Controller {
 			break;
 		case PUSH:
 			Position positionAfterBox = GameElementUtile.getNextPosition(
-					model.getGameArea(), direction, newPawnposition);
+					direction, newPawnposition);
 			GameElementUtile.changeGameElementTypes(model.getGameArea(),
 					model.getPawnPosition(), newPawnposition, positionAfterBox,
 					activity);
@@ -53,9 +53,8 @@ public class Controller {
 		case PULL:
 			// true, da das next auf der gegenüberliegenden Siete benötigt wird
 			// wird nur für Undo benötigt
-			Position boxposition = GameElementUtile.getNextPosition(
-					model.getGameArea(), direction, model.getPawnPosition(),
-					true);
+			Position boxposition = GameElementUtile.getNextPosition(direction,
+					model.getPawnPosition(), true);
 			GameElementUtile.changeGameElementTypes(model.getGameArea(),
 					model.getPawnPosition(), newPawnposition, boxposition,
 					activity);
@@ -64,11 +63,11 @@ public class Controller {
 		model.setPawnPosition(newPawnposition);
 	}
 
-	public GameElementType[][] initWarehouse(List<String> lines) {
+	public GraphTuple[][] initWarehouse(List<String> lines) {
 		model.setWidth(lines.get(0).length());
 		model.setHeight(lines.size());
 		model.initGameElements();
-		GameElementType[][] area = model.getGameArea();
+		GraphTuple[][] area = model.getGameArea();
 		int x = 0;
 		int y = 0;
 
@@ -77,20 +76,20 @@ public class Controller {
 
 			for (char c : charsLine) {
 				if (c == WALL) {
-					area[x][y] = GameElementType.WALL;
+					area[x][y] = new GraphTuple(GameElementType.WALL);
 				} else if (c == FLOOR) {
-					area[x][y] = GameElementType.FLOOR;
+					area[x][y] = new GraphTuple(GameElementType.FLOOR);
 				} else if (c == STORAGE) {
-					area[x][y] = GameElementType.STORAGE;
+					area[x][y] = new GraphTuple(GameElementType.STORAGE);
 				} else if (c == BOX) {
-					area[x][y] = GameElementType.BOX;
+					area[x][y] = new GraphTuple(GameElementType.BOX);
 				} else if (c == PAWN) {
-					area[x][y] = GameElementType.PAWN;
+					area[x][y] = new GraphTuple(GameElementType.PAWN);
 					model.setPawnPosition(new Position(x, y));
 				} else if (c == PAWN_ON_STORAGE) {
-					area[x][y] = GameElementType.PAWN_ON_STORAGE;
+					area[x][y] = new GraphTuple(GameElementType.PAWN_ON_STORAGE);
 				} else if (c == BOX_ON_STORAGE) {
-					area[x][y] = GameElementType.BOX_ON_STORAGE;
+					area[x][y] = new GraphTuple(GameElementType.BOX_ON_STORAGE);
 				}
 				x++;
 				if (x >= model.getWidth()) {
@@ -122,28 +121,28 @@ public class Controller {
 		}
 	}
 
-	public static void saveCustomProblem(GameElementType[][] gameElements) {
+	public static void saveCustomProblem(GraphTuple[][] gameElements) {
 		GameSaver.saveCustomProblems(gameElements);
 	}
 
 	public void saveGame(String name) {
-		GameElementType[][] gameElements = model.getGameArea();
+		GraphTuple[][] gameElements = model.getGameArea();
 		GameSaver.saveGame(gameElements, name);
 	}
 
-	public GameElementType[][] loadGame(String fileName) {
+	public GraphTuple[][] loadGame(String fileName) {
 		return initWarehouse(GameSaver.loadGame(fileName));
 	}
 
-	public GameElementType[][] loadGame() {
+	public GraphTuple[][] loadGame() {
 		return initWarehouse(GameSaver.loadGame(model.getFileName()));
 	}
 
-	public GameElementType[][] loadProblem() {
+	public GraphTuple[][] loadProblem() {
 		return initWarehouse(GameSaver.loadProblem(model.getFileName()));
 	}
 
-	public GameElementType[][] loadCustomProblem(String fileName) {
+	public GraphTuple[][] loadCustomProblem(String fileName) {
 		return initWarehouse(GameSaver.loadCustomProblems(fileName));
 	}
 

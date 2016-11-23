@@ -27,8 +27,8 @@ public class GameElementUtile {
 		return null;
 	}
 
-	public static Position getNextPosition(GameElementType[][] gameArea,
-			Direction direction, Position position, boolean opposite) {
+	public static Position getNextPosition(Direction direction,
+			Position position, boolean opposite) {
 		Position newPosition = new Position(position.getPosX(),
 				position.getPosY());
 		int newPosX;
@@ -66,29 +66,19 @@ public class GameElementUtile {
 		return null;
 	}
 
-	public static Position getNextPosition(GameElementType[][] gameArea,
-			Direction direction, Position position) {
-		return getNextPosition(gameArea, direction, position, false);
-	}
-
-	public static boolean isStorage(GameElementType[][] gameArea,
+	public static Position getNextPosition(Direction direction,
 			Position position) {
-		return gameArea[position.getPosX()][position.getPosY()] == GameElementType.STORAGE;
+		return getNextPosition(direction, position, false);
 	}
 
-	public static boolean isPawnOnStorage(GameElementType[][] gameArea,
-			Position position) {
-		return gameArea[position.getPosX()][position.getPosY()] == GameElementType.PAWN_ON_STORAGE;
-	}
-
-	public static GameElementType[][] changeGameElementTypes(
-			GameElementType[][] gameArea, Position first, Position second,
+	public static GraphTuple[][] changeGameElementTypes(
+			GraphTuple[][] gameArea, Position first, Position second,
 			Activity activity) {
 		return changeGameElementTypes(gameArea, first, second, null, activity);
 	}
 
-	public static GameElementType[][] changeGameElementTypes(
-			GameElementType[][] gameArea, Position first, Position second,
+	public static GraphTuple[][] changeGameElementTypes(
+			GraphTuple[][] gameArea, Position first, Position second,
 			Position third, Activity activity) {
 		int xFirst = first.getPosX();
 		int yFirst = first.getPosY();
@@ -96,19 +86,23 @@ public class GameElementUtile {
 		int xSecond = second.getPosX();
 		int ySecond = second.getPosY();
 
-		gameArea[xFirst][yFirst] = TransitionTable
-				.getTransitionByGameElementType(gameArea[xFirst][yFirst],
-						activity);
+		gameArea[xFirst][yFirst]
+				.setGameElementType(TransitionTable
+						.getTransitionByGameElementType(
+								gameArea[xFirst][yFirst].getGameElementType(),
+								activity));
 
-		gameArea[xSecond][ySecond] = TransitionTable
-				.getTransitionByGameElementType(gameArea[xSecond][ySecond],
-						activity);
+		gameArea[xSecond][ySecond].setGameElementType(TransitionTable
+				.getTransitionByGameElementType(
+						gameArea[xSecond][ySecond].getGameElementType(),
+						activity));
 		if (third != null) {
 			int xThird = third.getPosX();
 			int yThird = third.getPosY();
-			gameArea[xThird][yThird] = TransitionTable
-					.getTransitionByGameElementType(gameArea[xThird][yThird],
-							activity);
+			gameArea[xThird][yThird].setGameElementType(TransitionTable
+					.getTransitionByGameElementType(
+							gameArea[xThird][yThird].getGameElementType(),
+							activity));
 		}
 		return gameArea;
 	}
@@ -138,4 +132,15 @@ public class GameElementUtile {
 		}
 		return null;
 	}
+
+	// public static GraphTuple[][] convertToGraph(GameElementType[][] gameArea)
+	// {
+	// GraphTuple[][] graph = new GraphTuple[Model.width][Model.height];
+	// for (int y = 0; y < Model.height; y++) {
+	// for (int x = 0; x < Model.width; x++) {
+	// graph[x][y] = new GraphTuple(gameArea[x][y]);
+	// }
+	// }
+	// return graph;
+	// }
 }

@@ -5,24 +5,25 @@ package ch.bfh.projekt1.sokoban;
  */
 public class Rules {
 
-	private static Activity checkCollision(GameElementType[][] gameArea,
+	private static Activity checkCollision(GraphTuple[][] gameArea,
 			Direction direction, Position pawnPosition) {
-		Position newPosition = GameElementUtile.getNextPosition(gameArea,
-				direction, pawnPosition);
+		Position newPosition = GameElementUtile.getNextPosition(direction,
+				pawnPosition);
 		if (newPosition != null) {
 
 			GameElementType type = gameArea[newPosition.getPosX()][newPosition
-					.getPosY()];
+					.getPosY()].getGameElementType();
 			switch (type) {
 			case BOX:
 			case BOX_ON_STORAGE:
 				Position positionAfterBox = GameElementUtile.getNextPosition(
-						gameArea, direction, newPosition);
+						direction, newPosition);
 				if (positionAfterBox == null) {
 					return Activity.COLLISION;
 				}
 				GameElementType typeAfterBox = gameArea[positionAfterBox
-						.getPosX()][positionAfterBox.getPosY()];
+						.getPosX()][positionAfterBox.getPosY()]
+						.getGameElementType();
 				switch (typeAfterBox) {
 				case FLOOR:
 				case STORAGE:
@@ -43,11 +44,11 @@ public class Rules {
 		return Activity.COLLISION;
 	}
 
-	public static boolean finish(GameElementType[][] gameArea) {
+	public static boolean finish(GraphTuple[][] gameArea) {
 		for (int x = 0; x < gameArea.length; x++) {
 			for (int y = 0; y < gameArea[x].length; y++) {
-				if (gameArea[x][y] == GameElementType.STORAGE
-						|| gameArea[x][y] == GameElementType.PAWN_ON_STORAGE) {
+				if (gameArea[x][y].getGameElementType() == GameElementType.STORAGE
+						|| gameArea[x][y].getGameElementType() == GameElementType.PAWN_ON_STORAGE) {
 					return false;
 				}
 			}
@@ -70,7 +71,7 @@ public class Rules {
 	//
 	// }
 
-	public static Activity checkRules(GameElementType[][] gameArea,
+	public static Activity checkRules(GraphTuple[][] gameArea,
 			Direction direction, Position pawnPosition) {
 		return checkCollision(gameArea, direction, pawnPosition);
 

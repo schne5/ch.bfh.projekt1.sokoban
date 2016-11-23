@@ -48,10 +48,10 @@ public class Warehouse extends JPanel implements KeyListener {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		GameElementType[][] gameArea = model.getGameArea();
+		GraphTuple[][] gameArea = model.getGameArea();
 		for (int y = 0; y < gameArea[0].length; y++) {
 			for (int x = 0; x < gameArea.length; x++) {
-				switch (gameArea[x][y]) {
+				switch (gameArea[x][y].getGameElementType()) {
 				case WALL:
 					g.drawImage(Wall.loadImage(), x * IMAGE_WIDTH,
 							(y * IMAGE_WIDTH) + IMAGE_WIDTH, IMAGE_WIDTH,

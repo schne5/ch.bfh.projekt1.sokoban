@@ -46,26 +46,26 @@ public class GameSaver {
 		return currentUserFiles;
 	}
 
-	public static List<String> saveAsTextFile(GameElementType[][] gameElements) {
+	public static List<String> saveAsTextFile(GraphTuple[][] gameElements) {
 
 		List<String> lines = new ArrayList<String>();
 		String line;
 		for (int i = 0; i < gameElements[0].length; i++) {
 			line = "";
 			for (int j = 0; j < gameElements.length; j++) {
-				if (gameElements[j][i] == GameElementType.PAWN) {
+				if (gameElements[j][i].getGameElementType() == GameElementType.PAWN) {
 					line += Controller.PAWN;
-				} else if (gameElements[j][i] == GameElementType.BOX) {
+				} else if (gameElements[j][i].getGameElementType() == GameElementType.BOX) {
 					line += Controller.BOX;
-				} else if (gameElements[j][i] == GameElementType.STORAGE) {
+				} else if (gameElements[j][i].getGameElementType() == GameElementType.STORAGE) {
 					line += Controller.STORAGE;
-				} else if (gameElements[j][i] == GameElementType.WALL) {
+				} else if (gameElements[j][i].getGameElementType() == GameElementType.WALL) {
 					line += Controller.WALL;
-				} else if (gameElements[j][i] == GameElementType.BOX_ON_STORAGE) {
+				} else if (gameElements[j][i].getGameElementType() == GameElementType.BOX_ON_STORAGE) {
 					line += Controller.BOX_ON_STORAGE;
-				} else if (gameElements[j][i] == GameElementType.PAWN_ON_STORAGE) {
+				} else if (gameElements[j][i].getGameElementType() == GameElementType.PAWN_ON_STORAGE) {
 					line += Controller.PAWN_ON_STORAGE;
-				} else if (gameElements[j][i] == GameElementType.FLOOR
+				} else if (gameElements[j][i].getGameElementType() == GameElementType.FLOOR
 						|| gameElements[j][i] == null) {
 					line += Controller.FLOOR;
 				}
@@ -76,7 +76,7 @@ public class GameSaver {
 
 	}
 
-	public static void saveCustomProblems(GameElementType[][] gameElements) {
+	public static void saveCustomProblems(GraphTuple[][] gameElements) {
 		Path file = Paths.get(PATH_CUSTOM_PROBLEMS + getSystemUserName()
 				+ "_custom.txt");
 		try {
@@ -87,8 +87,7 @@ public class GameSaver {
 		}
 	}
 
-	public static void saveGame(GameElementType[][] gameElements,
-			String userInput) {
+	public static void saveGame(GraphTuple[][] gameElements, String userInput) {
 		String systemusername = getSystemUserName();
 		Path file = Paths.get(PATH_GAME_SAVE + systemusername + "_"
 				+ getLocalDateTime() + "_" + userInput);

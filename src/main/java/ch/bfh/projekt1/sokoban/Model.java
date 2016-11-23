@@ -15,11 +15,9 @@ public class Model implements Serializable {
 	private String fileName;
 	private String path;
 	private int level;
-
 	public static int width;
 	public static int height;
-
-	private GameElementType[][] gameArea;
+	private GraphTuple[][] gameArea;
 	private Position pawnPosition;
 
 	public String getPath() {
@@ -72,14 +70,15 @@ public class Model implements Serializable {
 		setPawnPosition(new Position(-1, -1));
 		stackRedo = new SokobanStack();
 		stackUndo = new SokobanStack();
-		gameArea = new GameElementType[width][height];
+		gameArea = new GraphTuple[width][height];
+		// graph = new GraphTuple[width][height];
 	}
 
-	public GameElementType[][] getGameArea() {
+	public GraphTuple[][] getGameArea() {
 		return gameArea;
 	}
 
-	public void setGameArea(GameElementType[][] gameArea) {
+	public void setGameArea(GraphTuple[][] gameArea) {
 		this.gameArea = gameArea;
 	}
 
