@@ -25,6 +25,6 @@ public class SokobanStack {
 	}
 
 	public boolean isValidPointer() {
-		return stack != null || !stack.isEmpty();
+		return stack != null && !stack.isEmpty();
 	}
 }

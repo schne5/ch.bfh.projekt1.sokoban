@@ -41,13 +41,24 @@ public class Controller {
 		switch (activity) {
 		case MOVE:
 			GameElementUtile.changeGameElementTypes(model.getGameArea(),
-					model.getPawnPosition(), newPawnposition);
+					model.getPawnPosition(), newPawnposition, activity);
 			break;
 		case PUSH:
 			Position positionAfterBox = GameElementUtile.getNextPosition(
 					model.getGameArea(), direction, newPawnposition);
 			GameElementUtile.changeGameElementTypes(model.getGameArea(),
-					model.getPawnPosition(), newPawnposition, positionAfterBox);
+					model.getPawnPosition(), newPawnposition, positionAfterBox,
+					activity);
+			break;
+		case PULL:
+			// true, da das next auf der gegenüberliegenden Siete benötigt wird
+			// wird nur für Undo benötigt
+			Position boxposition = GameElementUtile.getNextPosition(
+					model.getGameArea(), direction, model.getPawnPosition(),
+					true);
+			GameElementUtile.changeGameElementTypes(model.getGameArea(),
+					model.getPawnPosition(), newPawnposition, boxposition,
+					activity);
 			break;
 		}
 		model.setPawnPosition(newPawnposition);
@@ -93,16 +104,22 @@ public class Controller {
 
 	public void undo() {
 		SokobanStackTuple tuple = model.getStackUndo().pop();
-		Direction opposite = GameElementUtile.getOppositeDiredction(tuple
-				.getDirection());
-		move(opposite, tuple.getActivity());
-		model.getStackRedo().push(tuple);
+		if (tuple != null) {
+			Direction oppositeDirection = GameElementUtile
+					.getOppositeDiredction(tuple.getDirection());
+			Activity oppositeActivity = GameElementUtile
+					.getOppositeActivity(tuple.getActivity());
+			move(oppositeDirection, oppositeActivity);
+			model.getStackRedo().push(tuple);
+		}
 	}
 
 	public void redo() {
 		SokobanStackTuple tuple = model.getStackRedo().pop();
-		move(tuple.getDirection(), tuple.getActivity());
-		model.getStackUndo().push(tuple);
+		if (tuple != null) {
+			move(tuple.getDirection(), tuple.getActivity());
+			model.getStackUndo().push(tuple);
+		}
 	}
 
 	public static void saveCustomProblem(GameElementType[][] gameElements) {

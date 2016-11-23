@@ -28,22 +28,32 @@ public class GameElementUtile {
 	}
 
 	public static Position getNextPosition(GameElementType[][] gameArea,
-			Direction direction, Position position) {
+			Direction direction, Position position, boolean opposite) {
 		Position newPosition = new Position(position.getPosX(),
 				position.getPosY());
+		int newPosX;
+		int newPosY;
 
 		switch (direction) {
 		case UP:
-			newPosition.setPosY(newPosition.getPosY() - 1);
+			newPosY = opposite == false ? (newPosition.getPosY() - 1)
+					: (newPosition.getPosY() + 1);
+			newPosition.setPosY(newPosY);
 			break;
 		case DOWN:
-			newPosition.setPosY(newPosition.getPosY() + 1);
+			newPosY = opposite == false ? (newPosition.getPosY() + 1)
+					: (newPosition.getPosY() - 1);
+			newPosition.setPosY(newPosY);
 			break;
 		case LEFT:
-			newPosition.setPosX(newPosition.getPosX() - 1);
+			newPosX = opposite == false ? (newPosition.getPosX() - 1)
+					: (newPosition.getPosX() + 1);
+			newPosition.setPosX(newPosX);
 			break;
 		case RIGHT:
-			newPosition.setPosX(newPosition.getPosX() + 1);
+			newPosX = opposite == false ? (newPosition.getPosX() + 1)
+					: (newPosition.getPosX() - 1);
+			newPosition.setPosX(newPosX);
 			break;
 		}
 		if (newPosition.getPosX() <= Model.width && newPosition.getPosX() >= 0) {
@@ -54,6 +64,11 @@ public class GameElementUtile {
 
 		}
 		return null;
+	}
+
+	public static Position getNextPosition(GameElementType[][] gameArea,
+			Direction direction, Position position) {
+		return getNextPosition(gameArea, direction, position, false);
 	}
 
 	public static boolean isStorage(GameElementType[][] gameArea,
@@ -67,14 +82,14 @@ public class GameElementUtile {
 	}
 
 	public static GameElementType[][] changeGameElementTypes(
-			GameElementType[][] gameArea, Position first, Position second) {
-		return changeGameElementTypes(gameArea, first, second, null);
+			GameElementType[][] gameArea, Position first, Position second,
+			Activity activity) {
+		return changeGameElementTypes(gameArea, first, second, null, activity);
 	}
 
 	public static GameElementType[][] changeGameElementTypes(
 			GameElementType[][] gameArea, Position first, Position second,
-			Position third) {
-		Activity activity = third == null ? Activity.MOVE : Activity.PUSH;
+			Position third, Activity activity) {
 		int xFirst = first.getPosX();
 		int yFirst = first.getPosY();
 
@@ -108,6 +123,18 @@ public class GameElementUtile {
 			return Direction.UP;
 		case UP:
 			return Direction.DOWN;
+		}
+		return null;
+	}
+
+	public static Activity getOppositeActivity(Activity activity) {
+		switch (activity) {
+		case MOVE:
+			return Activity.MOVE;
+		case PUSH:
+			return Activity.PULL;
+		case PULL:
+			return Activity.PUSH;
 		}
 		return null;
 	}
