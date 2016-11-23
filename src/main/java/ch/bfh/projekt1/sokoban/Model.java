@@ -56,7 +56,7 @@ public class Model implements Serializable {
 		} else {
 			this.level = level;
 		}
-		this.fileName = PROBLEM_NAME + 1 + PROBLEM_NAME_EXTENSION;
+		this.fileName = PROBLEM_NAME + level + PROBLEM_NAME_EXTENSION;
 	}
 
 	public void higherLevel() {
