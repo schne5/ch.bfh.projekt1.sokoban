@@ -1,5 +1,8 @@
 package ch.bfh.projekt1.sokoban;
 
+/*
+ *@author:Elisa, Anna
+ */
 public class GraphTuple {
 	private GameElementType gameElementType;
 	private Position position;

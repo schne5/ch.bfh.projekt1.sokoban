@@ -2,6 +2,10 @@ package ch.bfh.projekt1.sokoban;
 
 import java.io.Serializable;
 
+/*
+ *@author:Elisa, Anna
+ */
+
 public class Model implements Serializable {
 	public static final String PROBLEM_PATH = "sokobanProblems/./";
 	public static final int DEFAULT_PROBLEM = 1;
@@ -15,10 +19,11 @@ public class Model implements Serializable {
 	private String fileName;
 	private String path;
 	private int level;
+	private Position pawnPosition;
 	public static int width;
 	public static int height;
 	private GraphTuple[][] gameArea;
-	private Position pawnPosition;
+	private SokobanQueue<GraphTuple> queue;
 
 	public String getPath() {
 		return path;

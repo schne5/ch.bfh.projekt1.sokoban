@@ -75,9 +75,9 @@ public class Warehouse extends JPanel implements KeyListener {
 							this);
 					break;
 				case FLOOR:
-					// g.drawImage(Floor.loadImage(), x * IMAGE_WIDTH
-					// + IMAGE_WIDTH, y * IMAGE_WIDTH + IMAGE_WIDTH,
-					// IMAGE_WIDTH, IMAGE_WIDTH, this);
+					g.drawImage(Floor.loadImage(), x * IMAGE_WIDTH
+							+ IMAGE_WIDTH, y * IMAGE_WIDTH + IMAGE_WIDTH,
+							IMAGE_WIDTH, IMAGE_WIDTH, this);
 					break;
 				case PAWN_ON_STORAGE:
 					g.drawImage(Pawn.loadImage(),
