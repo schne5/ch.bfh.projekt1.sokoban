@@ -46,7 +46,8 @@ public class Rules {
 	public static boolean finish(GameElementType[][] gameArea) {
 		for (int x = 0; x < gameArea.length; x++) {
 			for (int y = 0; y < gameArea[x].length; y++) {
-				if (gameArea[x][y] == GameElementType.STORAGE) {
+				if (gameArea[x][y] == GameElementType.STORAGE
+						|| gameArea[x][y] == GameElementType.PAWN_ON_STORAGE) {
 					return false;
 				}
 			}
