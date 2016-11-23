@@ -77,13 +77,13 @@ public class ProblemDesignArea extends JPanel implements MouseListener {
 		this.activeType = activeType;
 	}
 
-	public GameElementType[][] prepareSave() {
-		GameElementType[][] gameElements = new GameElementType[WIDTH][HEIGHT];
+	public GraphTuple[][] prepareSave() {
+		GraphTuple[][] gameElements = new GraphTuple[WIDTH][HEIGHT];
 
 		for (int i = 0; i < gameArea[0].length; i++) {
 			for (int j = 0; j < gameArea.length; j++) {
 				GameElementType type = gameArea[j][i].getType();
-				gameElements[j][i] = gameArea[j][i].getType();
+				gameElements[j][i] = new GraphTuple(gameArea[j][i].getType());
 			}
 		}
 		return gameElements;
