@@ -55,7 +55,7 @@ public class Model implements Serializable {
 	}
 
 	public void setLevel(int level) {
-		if (level < 1 || level > MAX_PROBLEM) {
+		if (level < 1 || level >= MAX_PROBLEM) {
 			this.level = 1;
 		} else {
 			this.level = level;
