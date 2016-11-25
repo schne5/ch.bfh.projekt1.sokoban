@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -118,11 +119,33 @@ public class Warehouse extends JPanel implements KeyListener {
 			break;
 		// Nur für Test movetoField
 		case KeyEvent.VK_P:
-			// Nur für Test pawn start = 11, 8
-			controller.moveToField(new Position(16, 8));
+
+			new Thread() {
+				public void run() {
+					ArrayList<Position> path = controller.getPath(new Position(
+							16, 8));
+					if (!path.isEmpty()) {
+
+						for (int i = path.size() - 1; i >= 0; i--) {
+							controller.move(path.get(i), Activity.MOVE, null);
+							repaint();
+
+							try {
+								Thread.sleep(500);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					}
+				}
+			}.run();
+
+			System.out.println(Thread.currentThread());
 			break;
 		}
-		repaint();
+
+		// repaint();
 		if (model.checkFinish()) {
 			int option = JOptionPane.showConfirmDialog(this, MESSAGE,
 					"Gewonnen", JOptionPane.YES_NO_OPTION);
@@ -130,6 +153,13 @@ public class Warehouse extends JPanel implements KeyListener {
 				model.higherLevel();
 			}
 			initGame();
+		}
+	}
+
+	private void pause(long milliseconds) {
+		long expectedTime = System.currentTimeMillis() + milliseconds;
+		while (System.currentTimeMillis() < expectedTime) {
+			// Empty loop wait
 		}
 	}
 

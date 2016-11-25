@@ -152,7 +152,7 @@ public class Controller {
 		return initWarehouse(GameSaver.loadCustomProblems(fileName));
 	}
 
-	public void moveToField(Position target) {
+	public ArrayList<Position> getPath(Position target) {
 		model.setQueue(new SokobanQueue<Position>());
 		ArrayList<Position> path = new ArrayList<Position>();
 		boolean found = findPath(target);
@@ -160,13 +160,7 @@ public class Controller {
 			path = GameElementUtile.getPath(model.getGameArea(), target,
 					model.getPawnPosition());
 		}
-		if (!path.isEmpty()) {
-			for (int i = path.size() - 1; i >= 0; i--) {
-				// Wenn Kiste schieben, nicht mehr null mitgeben
-				move(path.get(i), Activity.MOVE, null);
-			}
-		}
-
+		return path;
 	}
 
 	public boolean findPath(Position target) {
