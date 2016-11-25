@@ -23,7 +23,7 @@ public class Model implements Serializable {
 	public static int width;
 	public static int height;
 	private GraphTuple[][] gameArea;
-	private SokobanQueue<GraphTuple> queue;
+	private SokobanQueue<Position> queue;
 
 	public String getPath() {
 		return path;
@@ -76,7 +76,6 @@ public class Model implements Serializable {
 		stackRedo = new SokobanStack();
 		stackUndo = new SokobanStack();
 		gameArea = new GraphTuple[width][height];
-		// graph = new GraphTuple[width][height];
 	}
 
 	public GraphTuple[][] getGameArea() {
@@ -125,6 +124,14 @@ public class Model implements Serializable {
 
 	public void setStackRedo(SokobanStack stackRedo) {
 		this.stackRedo = stackRedo;
+	}
+
+	public SokobanQueue<Position> getQueue() {
+		return queue;
+	}
+
+	public void setQueue(SokobanQueue<Position> queue) {
+		this.queue = queue;
 	}
 
 }

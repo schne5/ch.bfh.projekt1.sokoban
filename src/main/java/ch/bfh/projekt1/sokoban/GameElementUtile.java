@@ -1,5 +1,7 @@
 package ch.bfh.projekt1.sokoban;
 
+import java.util.ArrayList;
+
 /*
  *@author:Elisa, Anna
  */
@@ -133,14 +135,52 @@ public class GameElementUtile {
 		return null;
 	}
 
-	// public static GraphTuple[][] convertToGraph(GameElementType[][] gameArea)
-	// {
-	// GraphTuple[][] graph = new GraphTuple[Model.width][Model.height];
-	// for (int y = 0; y < Model.height; y++) {
-	// for (int x = 0; x < Model.width; x++) {
-	// graph[x][y] = new GraphTuple(gameArea[x][y]);
-	// }
-	// }
-	// return graph;
-	// }
+	public static ArrayList<Position> getValidNeighbours(Position position,
+			GraphTuple[][] gameArea) {
+		ArrayList<Position> positions = new ArrayList<Position>();
+		Position up = getNextPosition(Direction.UP, position);
+		Position down = getNextPosition(Direction.DOWN, position);
+		Position left = getNextPosition(Direction.LEFT, position);
+		Position right = getNextPosition(Direction.RIGHT, position);
+		if (canMoveOnField(up, gameArea)) {
+			positions.add(up);
+		}
+		if (canMoveOnField(down, gameArea)) {
+			positions.add(down);
+		}
+		if (canMoveOnField(left, gameArea)) {
+			positions.add(left);
+		}
+		if (canMoveOnField(right, gameArea)) {
+			positions.add(right);
+		}
+		return positions;
+	}
+
+	private static boolean canMoveOnField(Position position,
+			GraphTuple[][] gameArea) {
+		int x = position.getPosX();
+		int y = position.getPosY();
+		if (position != null) {
+			GameElementType type = gameArea[x][y].getGameElementType();
+			if (type == GameElementType.FLOOR
+					|| type == GameElementType.STORAGE) {
+				return true;
+
+			}
+		}
+		return false;
+	}
+
+	public static ArrayList<Position> getPath(GraphTuple[][] gameArea,
+			Position start, Position end) {
+		ArrayList<Position> positions = new ArrayList<Position>();
+		Position current = start;
+		while (!current.equals(end)) {
+			positions.add(current);
+			current = gameArea[current.getPosX()][current.getPosY()]
+					.getPosition();
+		}
+		return positions;
+	}
 }

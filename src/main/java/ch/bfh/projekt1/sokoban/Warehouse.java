@@ -116,6 +116,11 @@ public class Warehouse extends JPanel implements KeyListener {
 		case KeyEvent.VK_LEFT:
 			controller.move(Direction.LEFT);
 			break;
+		// Nur für Test movetoField
+		case KeyEvent.VK_P:
+			// Nur für Test pawn start = 11, 8
+			controller.moveToField(new Position(16, 8));
+			break;
 		}
 		repaint();
 		if (model.checkFinish()) {

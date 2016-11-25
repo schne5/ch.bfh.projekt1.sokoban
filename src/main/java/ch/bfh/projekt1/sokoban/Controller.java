@@ -1,5 +1,6 @@
 package ch.bfh.projekt1.sokoban;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
@@ -37,6 +38,11 @@ public class Controller {
 	public void move(Direction direction, Activity activity) {
 		Position newPawnposition = GameElementUtile.getNextPosition(direction,
 				model.getPawnPosition());
+		move(newPawnposition, activity, direction);
+	}
+
+	public void move(Position newPawnposition, Activity activity,
+			Direction direction) {
 
 		switch (activity) {
 		case MOVE:
@@ -51,8 +57,8 @@ public class Controller {
 					activity);
 			break;
 		case PULL:
-			// true, da das next auf der gegenüberliegenden Siete benötigt wird
-			// wird nur für Undo benötigt
+			// true, da das next auf der gegenï¿½berliegenden Siete benï¿½tigt wird
+			// wird nur fï¿½r Undo benï¿½tigt
 			Position boxposition = GameElementUtile.getNextPosition(direction,
 					model.getPawnPosition(), true);
 			GameElementUtile.changeGameElementTypes(model.getGameArea(),
@@ -146,4 +152,45 @@ public class Controller {
 		return initWarehouse(GameSaver.loadCustomProblems(fileName));
 	}
 
+	public void moveToField(Position target) {
+		model.setQueue(new SokobanQueue<Position>());
+		ArrayList<Position> path = new ArrayList<Position>();
+		boolean found = findPath(target);
+		if (found) {
+			path = GameElementUtile.getPath(model.getGameArea(), target,
+					model.getPawnPosition());
+		}
+		if (!path.isEmpty()) {
+			for (int i = path.size() - 1; i >= 0; i--) {
+				// Wenn Kiste schieben, nicht mehr null mitgeben
+				move(path.get(i), Activity.MOVE, null);
+			}
+		}
+
+	}
+
+	public boolean findPath(Position target) {
+		model.getQueue().enqueue(model.getPawnPosition());
+		while (!model.getQueue().isEmpty()) {
+			Position first = model.getQueue().dequeue();
+			ArrayList<Position> neighbours = GameElementUtile
+					.getValidNeighbours(first, model.getGameArea());
+			int x;
+			int y;
+
+			for (Position neighbour : neighbours) {
+				x = neighbour.getPosX();
+				y = neighbour.getPosY();
+
+				if (model.getGameArea()[x][y].getPosition() == null) {
+					model.getGameArea()[x][y].setPosition(first);
+					if (neighbour.equals(target)) {
+						return true;
+					}
+					model.getQueue().enqueue(neighbour);
+				}
+			}
+		}
+		return false;
+	}
 }
