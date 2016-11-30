@@ -38,7 +38,7 @@ public class Sokoban extends JFrame {
 		redo.setText(REDO);
 		redo.addActionListener(t -> {
 			warehouse.getController().redo();
-			warehouse.repaint();
+			warehouse.redraw();
 			setFocusOnWarehouse();
 		});
 
@@ -46,7 +46,7 @@ public class Sokoban extends JFrame {
 		undo.setText(UNDO);
 		undo.addActionListener(t -> {
 			warehouse.getController().undo();
-			warehouse.repaint();
+			warehouse.redraw();
 			setFocusOnWarehouse();
 		});
 
@@ -126,7 +126,7 @@ public class Sokoban extends JFrame {
 						warehouse.getController().loadCustomProblem(selected);
 					}
 
-					warehouse.repaint();
+					warehouse.redraw();
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(this,
 							"Kein Spiel zu File: \"" + selected

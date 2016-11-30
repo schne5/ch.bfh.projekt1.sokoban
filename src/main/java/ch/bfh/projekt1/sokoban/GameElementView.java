@@ -4,36 +4,34 @@ import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.TransferHandler;
 
 /*
  *@author:Elisa
  */
 public class GameElementView extends JLabel {
+	static ImageIcon imagePawn;
+	static ImageIcon imageFloor;
+	static ImageIcon imageBox;
+	static ImageIcon imageStorage;
+	static ImageIcon imageWall;
 
 	GameElementType type;
-
-	public GameElementView(GameElementType type, MouseListener ml) {
-		setType(type);
-		setBounds(ProblemDesigner.SPACE, 0, GameElementUtile.WIDTH,
-				GameElementUtile.WIDTH);
-		addMouseListener(ml);
-		setTransferHandler(new TransferHandler("icon"));
-	}
-
-	public GameElementView() {
-		// TODO Auto-generated constructor stub
-	}
+	private Position position;
 
 	public static GameElementView create(GameElementType type, MouseListener ml) {
-		GameElementView gmv = new GameElementView();
-		gmv.setType(type);
-		gmv.setIcon();
-		gmv.setBounds(ProblemDesigner.SPACE, 0, GameElementUtile.WIDTH,
-				GameElementUtile.WIDTH);
-		gmv.addMouseListener(ml);
-		gmv.setTransferHandler(new TransferHandler("icon"));
-		return gmv;
+		return create(type, ml, 0, 0);
+	}
+
+	public static GameElementView create(GameElementType type,
+			MouseListener ml, int x, int y) {
+		loadImages();
+		GameElementView gameElementView = new GameElementView();
+		gameElementView.setType(type);
+		gameElementView.setBounds(ProblemDesigner.SPACE, 0,
+				GameElementUtile.WIDTH, GameElementUtile.WIDTH);
+		gameElementView.addMouseListener(ml);
+		gameElementView.position = new Position(x, y);
+		return gameElementView;
 	}
 
 	public void changeType(GameElementType type) {
@@ -44,19 +42,21 @@ public class GameElementView extends JLabel {
 		ImageIcon image = null;
 		switch (type) {
 		case FLOOR:
-			image = new ImageIcon(Floor.loadImage());
+			image = imageFloor;
 			break;
 		case PAWN:
-			image = new ImageIcon(Pawn.loadImage());
+		case PAWN_ON_STORAGE:
+			image = imagePawn;
 			break;
 		case BOX:
-			image = new ImageIcon(Box.loadImage());
+		case BOX_ON_STORAGE:
+			image = imageBox;
 			break;
 		case WALL:
-			image = new ImageIcon(Wall.loadImage());
+			image = imageWall;
 			break;
 		case STORAGE:
-			image = new ImageIcon(Storage.loadImage());
+			image = imageStorage;
 			break;
 		}
 
@@ -66,6 +66,14 @@ public class GameElementView extends JLabel {
 		setIcon(image);
 	}
 
+	private static void loadImages() {
+		imageFloor = new ImageIcon(Floor.loadImage());
+		imagePawn = new ImageIcon(Pawn.loadImage());
+		imageBox = new ImageIcon(Box.loadImage());
+		imageWall = new ImageIcon(Wall.loadImage());
+		imageStorage = new ImageIcon(Storage.loadImage());
+	}
+
 	public GameElementType getType() {
 		return type;
 	}
@@ -73,5 +81,13 @@ public class GameElementView extends JLabel {
 	public void setType(GameElementType type) {
 		this.type = type;
 		setIcon();
+	}
+
+	public Position getPosition() {
+		return position;
+	}
+
+	public void setPosition(Position position) {
+		this.position = position;
 	}
 }

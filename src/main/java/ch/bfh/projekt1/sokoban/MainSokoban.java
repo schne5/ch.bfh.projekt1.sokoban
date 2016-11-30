@@ -27,7 +27,9 @@ public class MainSokoban {
 			sokobanGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			sokobanGame.setSize(650, 600);
 			sokobanGame.setVisible(true);
+			sokobanGame.pack();
 			enter.setVisible(false);
+
 		});
 		JButton design = new JButton("Problem designen");
 		design.addActionListener(a -> {

@@ -183,4 +183,25 @@ public class GameElementUtile {
 		}
 		return positions;
 	}
+
+	public static GameElementType getType(GraphTuple[][] gameArea, int x, int y) {
+		switch (gameArea[x][y].getGameElementType()) {
+		case WALL:
+			return GameElementType.WALL;
+		case BOX:
+			return GameElementType.BOX;
+		case STORAGE:
+			return GameElementType.STORAGE;
+		case PAWN:
+			return GameElementType.PAWN;
+
+		case PAWN_ON_STORAGE:
+			return GameElementType.PAWN_ON_STORAGE;
+		case BOX_ON_STORAGE:
+			return GameElementType.BOX_ON_STORAGE;
+		case FLOOR:
+		default:
+			return GameElementType.FLOOR;
+		}
+	}
 }

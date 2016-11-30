@@ -1,9 +1,13 @@
 package ch.bfh.projekt1.sokoban;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -12,30 +16,15 @@ import javax.swing.JPanel;
 /*
  *@author:Elisa, Anna
  */
-public class Warehouse extends JPanel implements KeyListener {
+public class Warehouse extends JPanel implements KeyListener, MouseListener {
 	public static final int IMAGE_WIDTH = 30;
 	public static final int YES = 0;
 	public static final String MESSAGE = "Sie haben das Spiel gewonnen. "
 			+ "Wollen Sie das naechste Problem spielen?";
+	GameElementView[][] gameAreaView;
 	private Model model;
 	private Controller controller;
-
-	public Model getModel() {
-		return model;
-	}
-
-	public void setModel(Model model) {
-		this.model = model;
-		this.controller.setModel(model);
-	}
-
-	public Controller getController() {
-		return controller;
-	}
-
-	public void setController(Controller controller) {
-		this.controller = controller;
-	}
+	GridLayout layout;
 
 	public Warehouse() {
 		addKeyListener(this);
@@ -43,6 +32,13 @@ public class Warehouse extends JPanel implements KeyListener {
 		model = new Model();
 		controller = new Controller(model);
 		initGame();
+		layout = new GridLayout(model.getHeight(), model.getWidth());
+		layout.setHgap(0);
+		layout.setVgap(0);
+		setLayout(layout);
+		paintInitGameArea();
+		setPreferredSize(new Dimension(model.getWidth() * IMAGE_WIDTH,
+				model.getHeight() * IMAGE_WIDTH));
 
 	}
 
@@ -50,51 +46,51 @@ public class Warehouse extends JPanel implements KeyListener {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		GraphTuple[][] gameArea = model.getGameArea();
-		for (int y = 0; y < gameArea[0].length; y++) {
-			for (int x = 0; x < gameArea.length; x++) {
-				switch (gameArea[x][y].getGameElementType()) {
-				case WALL:
-					g.drawImage(Wall.loadImage(),
-							x * IMAGE_WIDTH + IMAGE_WIDTH, y * IMAGE_WIDTH
-									+ IMAGE_WIDTH, IMAGE_WIDTH, IMAGE_WIDTH,
-							this);
-					break;
-				case BOX:
-					g.drawImage(Box.loadImage(), x * IMAGE_WIDTH + IMAGE_WIDTH,
-							y * IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
-							IMAGE_WIDTH, this);
-					break;
-				case STORAGE:
-					g.drawImage(Storage.loadImage(), x * IMAGE_WIDTH
-							+ IMAGE_WIDTH, y * IMAGE_WIDTH + IMAGE_WIDTH,
-							IMAGE_WIDTH, IMAGE_WIDTH, this);
-					break;
-				case PAWN:
-					g.drawImage(Pawn.loadImage(),
-							x * IMAGE_WIDTH + IMAGE_WIDTH, y * IMAGE_WIDTH
-									+ IMAGE_WIDTH, IMAGE_WIDTH, IMAGE_WIDTH,
-							this);
-					break;
-				case FLOOR:
-					g.drawImage(Floor.loadImage(), x * IMAGE_WIDTH
-							+ IMAGE_WIDTH, y * IMAGE_WIDTH + IMAGE_WIDTH,
-							IMAGE_WIDTH, IMAGE_WIDTH, this);
-					break;
-				case PAWN_ON_STORAGE:
-					g.drawImage(Pawn.loadImage(),
-							x * IMAGE_WIDTH + IMAGE_WIDTH, y * IMAGE_WIDTH
-									+ IMAGE_WIDTH, IMAGE_WIDTH, IMAGE_WIDTH,
-							this);
-					break;
-				case BOX_ON_STORAGE:
-					g.drawImage(Box.loadImage(), x * IMAGE_WIDTH + IMAGE_WIDTH,
-							y * IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
-							IMAGE_WIDTH, this);
-					break;
-				}
+		// for (int y = 0; y < gameArea[0].length; y++) {
+		// for (int x = 0; x < gameArea.length; x++) {
+		// switch (gameArea[x][y].getGameElementType()) {
+		// case WALL:
+		// g.drawImage(Wall.loadImage(),
+		// x * IMAGE_WIDTH + IMAGE_WIDTH, y * IMAGE_WIDTH
+		// + IMAGE_WIDTH, IMAGE_WIDTH, IMAGE_WIDTH,
+		// this);
+		// break;
+		// case BOX:
+		// g.drawImage(Box.loadImage(), x * IMAGE_WIDTH + IMAGE_WIDTH,
+		// y * IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
+		// IMAGE_WIDTH, this);
+		// break;
+		// case STORAGE:
+		// g.drawImage(Storage.loadImage(), x * IMAGE_WIDTH
+		// + IMAGE_WIDTH, y * IMAGE_WIDTH + IMAGE_WIDTH,
+		// IMAGE_WIDTH, IMAGE_WIDTH, this);
+		// break;
+		// case PAWN:
+		// g.drawImage(Pawn.loadImage(),
+		// x * IMAGE_WIDTH + IMAGE_WIDTH, y * IMAGE_WIDTH
+		// + IMAGE_WIDTH, IMAGE_WIDTH, IMAGE_WIDTH,
+		// this);
+		// break;
+		// case FLOOR:
+		// g.drawImage(Floor.loadImage(), x * IMAGE_WIDTH
+		// + IMAGE_WIDTH, y * IMAGE_WIDTH + IMAGE_WIDTH,
+		// IMAGE_WIDTH, IMAGE_WIDTH, this);
+		// break;
+		// case PAWN_ON_STORAGE:
+		// g.drawImage(Pawn.loadImage(),
+		// x * IMAGE_WIDTH + IMAGE_WIDTH, y * IMAGE_WIDTH
+		// + IMAGE_WIDTH, IMAGE_WIDTH, IMAGE_WIDTH,
+		// this);
+		// break;
+		// case BOX_ON_STORAGE:
+		// g.drawImage(Box.loadImage(), x * IMAGE_WIDTH + IMAGE_WIDTH,
+		// y * IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
+		// IMAGE_WIDTH, this);
+		// break;
+		// }
 
-			}
-		}
+		// }
+		// }
 	}
 
 	@Override
@@ -119,33 +115,12 @@ public class Warehouse extends JPanel implements KeyListener {
 			break;
 		// Nur für Test movetoField
 		case KeyEvent.VK_P:
-
-			new Thread() {
-				public void run() {
-					ArrayList<Position> path = controller.getPath(new Position(
-							8, 4));
-					if (!path.isEmpty()) {
-
-						for (int i = path.size() - 1; i >= 0; i--) {
-							controller.move(path.get(i), Activity.MOVE, null);
-							repaint();
-
-							try {
-								Thread.sleep(400);
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-					}
-				}
-			}.start();
-
-			System.out.println(Thread.currentThread());
 			break;
 		}
 
-		repaint();
+		// repaint();
+		redraw();
+
 		if (model.checkFinish()) {
 			int option = JOptionPane.showConfirmDialog(this, MESSAGE,
 					"Gewonnen", JOptionPane.YES_NO_OPTION);
@@ -161,9 +136,108 @@ public class Warehouse extends JPanel implements KeyListener {
 
 	}
 
+	public void redraw() {
+		int width = model.getWidth();
+		int height = model.getHeight();
+
+		GraphTuple[][] gameArea = model.getGameArea();
+
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				gameAreaView[x][y].changeType(GameElementUtile.getType(
+						gameArea, x, y));
+			}
+		}
+
+	}
+
 	public void initGame() {
 		model.initGameElements();
 		model.setGameArea(controller.loadProblem());
-		repaint();
+		// repaint();
+	}
+
+	private void paintInitGameArea() {
+		int width = model.getWidth();
+		int height = model.getHeight();
+		gameAreaView = new GameElementView[width][height];
+
+		GraphTuple[][] gameArea = model.getGameArea();
+		GameElementView gameElementView = null;
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				gameElementView = GameElementView.create(
+						GameElementUtile.getType(gameArea, x, y), this, x, y);
+				add(gameElementView);
+				gameAreaView[x][y] = gameElementView;
+			}
+		}
+
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		GameElementView gameElementView = (GameElementView) e.getSource();
+
+		new Thread() {
+			public void run() {
+				ArrayList<Position> path = controller.getPath(gameElementView
+						.getPosition());
+				if (!path.isEmpty()) {
+
+					for (int i = path.size() - 1; i >= 0; i--) {
+						controller.move(path.get(i), Activity.MOVE, null);
+						redraw();
+
+						try {
+							Thread.sleep(200);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		}.start();
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public Model getModel() {
+		return model;
+	}
+
+	public void setModel(Model model) {
+		this.model = model;
+		this.controller.setModel(model);
+	}
+
+	public Controller getController() {
+		return controller;
+	}
+
+	public void setController(Controller controller) {
+		this.controller = controller;
 	}
 }

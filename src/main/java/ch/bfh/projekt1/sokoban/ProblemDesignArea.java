@@ -18,7 +18,6 @@ public class ProblemDesignArea extends JPanel implements MouseListener {
 
 	public ProblemDesignArea() {
 		gameArea = new GameElementView[WIDTH][HEIGHT];
-		// area = new ArrayList<GameElementView>();
 		layout = new GridLayout(HEIGHT, WIDTH);
 		layout.setHgap(0);
 		layout.setVgap(0);
