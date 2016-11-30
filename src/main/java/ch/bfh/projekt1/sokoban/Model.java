@@ -19,6 +19,7 @@ public class Model implements Serializable {
 	private String fileName;
 	private String path;
 	private int level;
+	private boolean reverse;
 	private Position pawnPosition;
 	public static int width;
 	public static int height;
@@ -134,4 +135,11 @@ public class Model implements Serializable {
 		this.queue = queue;
 	}
 
+	public boolean isReverse() {
+		return reverse;
+	}
+
+	public void setReverse(boolean reverse) {
+		this.reverse = reverse;
+	}
 }
