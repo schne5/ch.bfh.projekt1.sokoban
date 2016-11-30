@@ -123,7 +123,7 @@ public class Warehouse extends JPanel implements KeyListener {
 			new Thread() {
 				public void run() {
 					ArrayList<Position> path = controller.getPath(new Position(
-							16, 8));
+							8, 4));
 					if (!path.isEmpty()) {
 
 						for (int i = path.size() - 1; i >= 0; i--) {
@@ -131,7 +131,7 @@ public class Warehouse extends JPanel implements KeyListener {
 							repaint();
 
 							try {
-								Thread.sleep(500);
+								Thread.sleep(400);
 							} catch (InterruptedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -139,13 +139,13 @@ public class Warehouse extends JPanel implements KeyListener {
 						}
 					}
 				}
-			}.run();
+			}.start();
 
 			System.out.println(Thread.currentThread());
 			break;
 		}
 
-		// repaint();
+		repaint();
 		if (model.checkFinish()) {
 			int option = JOptionPane.showConfirmDialog(this, MESSAGE,
 					"Gewonnen", JOptionPane.YES_NO_OPTION);
@@ -153,13 +153,6 @@ public class Warehouse extends JPanel implements KeyListener {
 				model.higherLevel();
 			}
 			initGame();
-		}
-	}
-
-	private void pause(long milliseconds) {
-		long expectedTime = System.currentTimeMillis() + milliseconds;
-		while (System.currentTimeMillis() < expectedTime) {
-			// Empty loop wait
 		}
 	}
 

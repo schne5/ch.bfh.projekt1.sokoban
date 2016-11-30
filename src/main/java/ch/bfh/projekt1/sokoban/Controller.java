@@ -154,6 +154,7 @@ public class Controller {
 
 	public ArrayList<Position> getPath(Position target) {
 		model.setQueue(new SokobanQueue<Position>());
+		resetGameArea();
 		ArrayList<Position> path = new ArrayList<Position>();
 		boolean found = findPath(target);
 		if (found) {
@@ -186,5 +187,14 @@ public class Controller {
 			}
 		}
 		return false;
+	}
+
+	private void resetGameArea() {
+		for (int x = 0; x < model.getWidth(); x++) {
+			for (int y = 0; y < model.getHeight(); y++) {
+				model.getGameArea()[x][y].setPosition(null);
+			}
+		}
+
 	}
 }
