@@ -6,7 +6,8 @@ package ch.bfh.projekt1.sokoban;
 public class Rules {
 
 	private static Activity checkCollision(GraphTuple[][] gameArea,
-			Direction direction, Position pawnPosition) {
+			Direction direction, Position pawnPosition, boolean reverse) {
+
 		Position newPosition = GameElementUtile.getNextPosition(direction,
 				pawnPosition);
 		if (newPosition != null) {
@@ -16,6 +17,9 @@ public class Rules {
 			switch (type) {
 			case BOX:
 			case BOX_ON_STORAGE:
+				if (reverse) {
+					return Activity.COLLISION;
+				}
 				Position positionAfterBox = GameElementUtile.getNextPosition(
 						direction, newPosition);
 				if (positionAfterBox == null) {
@@ -35,7 +39,20 @@ public class Rules {
 				}
 			case FLOOR:
 			case STORAGE:
+				if (reverse) {
+					Position pos = GameElementUtile.getNextPosition(
+							GameElementUtile.getOppositeDiredction(direction),
+							pawnPosition);
+					GameElementType typeBeforePawn = gameArea[pos.getPosX()][pos
+							.getPosY()].getGameElementType();
+					if (typeBeforePawn == GameElementType.BOX
+							|| typeBeforePawn == GameElementType.BOX_ON_STORAGE) {
+						return Activity.PULL;
+					}
+
+				}
 				return Activity.MOVE;
+
 			default:
 				return Activity.COLLISION;
 			}
@@ -65,15 +82,9 @@ public class Rules {
 		return false;
 	}
 
-	// public static Activity checkRules(List<GameElement> gameElements,
-	// Position position, Direction direction) {
-	// return checkCollision(gameElements, position, direction);
-	//
-	// }
-
 	public static Activity checkRules(GraphTuple[][] gameArea,
-			Direction direction, Position pawnPosition) {
-		return checkCollision(gameArea, direction, pawnPosition);
+			Direction direction, Position pawnPosition, boolean reverse) {
+		return checkCollision(gameArea, direction, pawnPosition, reverse);
 
 	}
 

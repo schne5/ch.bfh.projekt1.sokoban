@@ -2,7 +2,6 @@ package ch.bfh.projekt1.sokoban;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -43,57 +42,6 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 	}
 
 	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		GraphTuple[][] gameArea = model.getGameArea();
-		// for (int y = 0; y < gameArea[0].length; y++) {
-		// for (int x = 0; x < gameArea.length; x++) {
-		// switch (gameArea[x][y].getGameElementType()) {
-		// case WALL:
-		// g.drawImage(Wall.loadImage(),
-		// x * IMAGE_WIDTH + IMAGE_WIDTH, y * IMAGE_WIDTH
-		// + IMAGE_WIDTH, IMAGE_WIDTH, IMAGE_WIDTH,
-		// this);
-		// break;
-		// case BOX:
-		// g.drawImage(Box.loadImage(), x * IMAGE_WIDTH + IMAGE_WIDTH,
-		// y * IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
-		// IMAGE_WIDTH, this);
-		// break;
-		// case STORAGE:
-		// g.drawImage(Storage.loadImage(), x * IMAGE_WIDTH
-		// + IMAGE_WIDTH, y * IMAGE_WIDTH + IMAGE_WIDTH,
-		// IMAGE_WIDTH, IMAGE_WIDTH, this);
-		// break;
-		// case PAWN:
-		// g.drawImage(Pawn.loadImage(),
-		// x * IMAGE_WIDTH + IMAGE_WIDTH, y * IMAGE_WIDTH
-		// + IMAGE_WIDTH, IMAGE_WIDTH, IMAGE_WIDTH,
-		// this);
-		// break;
-		// case FLOOR:
-		// g.drawImage(Floor.loadImage(), x * IMAGE_WIDTH
-		// + IMAGE_WIDTH, y * IMAGE_WIDTH + IMAGE_WIDTH,
-		// IMAGE_WIDTH, IMAGE_WIDTH, this);
-		// break;
-		// case PAWN_ON_STORAGE:
-		// g.drawImage(Pawn.loadImage(),
-		// x * IMAGE_WIDTH + IMAGE_WIDTH, y * IMAGE_WIDTH
-		// + IMAGE_WIDTH, IMAGE_WIDTH, IMAGE_WIDTH,
-		// this);
-		// break;
-		// case BOX_ON_STORAGE:
-		// g.drawImage(Box.loadImage(), x * IMAGE_WIDTH + IMAGE_WIDTH,
-		// y * IMAGE_WIDTH + IMAGE_WIDTH, IMAGE_WIDTH,
-		// IMAGE_WIDTH, this);
-		// break;
-		// }
-
-		// }
-		// }
-	}
-
-	@Override
 	public void keyTyped(KeyEvent e) {
 
 	}
@@ -113,12 +61,8 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 		case KeyEvent.VK_LEFT:
 			controller.move(Direction.LEFT);
 			break;
-		// Nur für Test movetoField
-		case KeyEvent.VK_P:
-			break;
 		}
 
-		// repaint();
 		redraw();
 
 		if (model.checkFinish()) {
@@ -154,7 +98,6 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 	public void initGame() {
 		model.initGameElements();
 		model.setGameArea(controller.loadProblem());
-		// repaint();
 	}
 
 	private void paintInitGameArea() {

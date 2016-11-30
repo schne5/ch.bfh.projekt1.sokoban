@@ -28,6 +28,7 @@ public class MainSokoban {
 			sokobanGame.setSize(650, 600);
 			sokobanGame.setVisible(true);
 			sokobanGame.pack();
+			sokobanGame.setResizable(false);
 			enter.setVisible(false);
 
 		});
