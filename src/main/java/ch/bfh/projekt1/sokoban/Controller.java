@@ -27,7 +27,7 @@ public class Controller {
 
 	public void move(Direction direction) {
 		Activity activity = Rules.checkRules(model.getGameArea(), direction,
-				model.getPawnPosition());
+				model.getPawnPosition(), model.isReverse());
 		if (activity != Activity.COLLISION) {
 			model.getStackUndo().push(
 					new SokobanStackTuple(activity, direction));
