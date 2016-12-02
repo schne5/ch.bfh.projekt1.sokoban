@@ -20,6 +20,7 @@ public class Model implements Serializable {
 	private String path;
 	private int level;
 	private boolean reverse;
+	private boolean ownProblem;
 	private Position pawnPosition;
 	public static int width;
 	public static int height;
@@ -141,5 +142,13 @@ public class Model implements Serializable {
 
 	public void setReverse(boolean reverse) {
 		this.reverse = reverse;
+	}
+
+	public boolean isOwnProblem() {
+		return ownProblem;
+	}
+
+	public void setOwnProblem(boolean ownProblem) {
+		this.ownProblem = ownProblem;
 	}
 }
