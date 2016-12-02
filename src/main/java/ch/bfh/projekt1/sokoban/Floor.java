@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
  *Im moment noch nicht verwendet
  */
 public class Floor extends GameElement {
+	// private static final String IMAGE = "floor_empty.png";
 	private static final String IMAGE = "floor.png";
 
 	public Floor() {
