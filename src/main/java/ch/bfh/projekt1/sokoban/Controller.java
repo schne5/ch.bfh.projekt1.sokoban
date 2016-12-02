@@ -136,6 +136,11 @@ public class Controller {
 		GameSaver.saveGame(gameElements, name);
 	}
 
+	public void saveCustomGame(String name) {
+		GraphTuple[][] gameElements = model.getGameArea();
+		GameSaver.saveCustomProblems(gameElements);
+	}
+
 	public GraphTuple[][] loadGame(String fileName) {
 		return initWarehouse(GameSaver.loadGame(fileName));
 	}
