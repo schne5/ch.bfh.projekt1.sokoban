@@ -20,7 +20,7 @@ public class Sokoban extends JFrame {
 	public static String REDO = "Redo";
 	public static String SAVE = "Save";
 	public static String LOAD = "Load";
-	public static String LOAD_OWN_PROBLEM = "Load Own Problem";
+	public static String LOAD_OWN_PROBLEM = "Load Own";
 	public static String REVERSE = "Reverse";
 
 	JPanel buttonPanel;
