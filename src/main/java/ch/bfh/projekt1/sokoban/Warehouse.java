@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -25,19 +26,13 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 	private Controller controller;
 	GridLayout layout;
 
+	private JFrame parent;
+
 	public Warehouse(Controller controller) {
 		addKeyListener(this);
 		this.setBackground(Color.WHITE);
 		this.controller = controller;
 		this.model = controller.getModel();
-		initGame();
-		layout = new GridLayout(model.getHeight(), model.getWidth());
-		layout.setHgap(0);
-		layout.setVgap(0);
-		setLayout(layout);
-		// paintInitGameArea();
-		setPreferredSize(new Dimension(model.getWidth() * IMAGE_WIDTH,
-				model.getHeight() * IMAGE_WIDTH));
 	}
 
 	// public Warehouse() {
@@ -77,7 +72,6 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 			controller.move(Direction.LEFT);
 			break;
 		}
-
 		redraw();
 
 		if (model.checkFinish()) {
@@ -85,11 +79,11 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 					"Gewonnen", JOptionPane.YES_NO_OPTION);
 			if (option == YES) {
 				model.higherLevel();
-				removeAll();
+				reset();
 				initGame();
 				paintInitGameArea();
+				refresh();
 			}
-
 		}
 	}
 
@@ -101,21 +95,41 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 	public void redraw() {
 		int width = model.getWidth();
 		int height = model.getHeight();
-
 		GraphTuple[][] gameArea = model.getGameArea();
-
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				gameAreaView[x][y].changeType(GameElementUtile.getType(
 						gameArea, x, y));
 			}
 		}
-
 	}
 
 	public void initGame() {
 		model.initGameElements();
 		model.setGameArea(controller.loadProblem());
+		init();
+	}
+
+	public void initGame(boolean own, String selected) {
+		model.initGameElements();
+		if (selected != null && !selected.equals("")) {
+			if (own) {
+				model.setGameArea(controller.loadCustomProblem(selected));
+			} else {
+				model.setGameArea(controller.loadGame(selected));
+			}
+			init();
+		}
+
+	}
+
+	public void init() {
+		setPreferredSize(new Dimension(controller.getModel().getWidth() * 30,
+				controller.getModel().getHeight() * 30));
+		layout = new GridLayout(model.getHeight(), model.getWidth());
+		layout.setHgap(0);
+		layout.setVgap(0);
+		setLayout(layout);
 	}
 
 	public void paintInitGameArea() {
@@ -133,16 +147,10 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 				gameAreaView[x][y] = gameElementView;
 			}
 		}
-
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
 		GameElementView gameElementView = (GameElementView) e.getSource();
 
 		new Thread() {
@@ -168,6 +176,11 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 	}
 
 	@Override
+	public void mousePressed(MouseEvent e) {
+
+	}
+
+	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 
@@ -185,6 +198,17 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 
 	}
 
+	public void reset() {
+		this.removeAll();
+		this.gameAreaView = null;
+	}
+
+	public void refresh() {
+		revalidate();
+		repaint();
+		parent.pack();
+	}
+
 	public Model getModel() {
 		return model;
 	}
@@ -200,5 +224,13 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 
 	public void setController(Controller controller) {
 		this.controller = controller;
+	}
+
+	public JFrame getParent() {
+		return parent;
+	}
+
+	public void setParent(JFrame parent) {
+		this.parent = parent;
 	}
 }

@@ -14,6 +14,7 @@ public class Sokoban extends JFrame {
 	public static String UNDO = "Undo";
 	public static String REDO = "Redo";
 	public static String SAVE = "Save";
+	public static String REVERSE = "Reverse";
 
 	JPanel buttonPanel;
 	JButton undo;
