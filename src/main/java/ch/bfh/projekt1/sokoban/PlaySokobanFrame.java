@@ -62,6 +62,7 @@ public class PlaySokobanFrame extends JFrame {
 		load.addActionListener(t -> {
 			openFileSelectionFrame(GameSaver.PATH_GAME_SAVE, false);
 			setFocusOnWarehouse();
+			warehouse.getModel().setOwnProblem(false);
 		});
 
 		loadOwnProblem = new JButton();
@@ -69,6 +70,7 @@ public class PlaySokobanFrame extends JFrame {
 		loadOwnProblem.addActionListener(t -> {
 			openFileSelectionFrame(GameSaver.PATH_CUSTOM_PROBLEMS, true);
 			setFocusOnWarehouse();
+			warehouse.getModel().setOwnProblem(true);
 		});
 
 		buttonPanel.add(undo);

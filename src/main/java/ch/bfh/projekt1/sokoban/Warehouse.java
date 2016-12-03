@@ -21,6 +21,7 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 	public static final int YES = 0;
 	public static final String MESSAGE = "Sie haben das Spiel gewonnen. "
 			+ "Wollen Sie das naechste Problem spielen?";
+	public static final String MESSAGE_OWN = "Sie haben das Spiel gewonnen.";
 	GameElementView[][] gameAreaView;
 	private Model model;
 	private Controller controller;
@@ -75,14 +76,23 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 		redraw();
 
 		if (model.checkFinish()) {
-			int option = JOptionPane.showConfirmDialog(this, MESSAGE,
-					"Gewonnen", JOptionPane.YES_NO_OPTION);
-			if (option == YES) {
-				model.higherLevel();
+			if (model.isOwnProblem()) {
+				JOptionPane.showConfirmDialog(this, MESSAGE_OWN, "Gewonnen",
+						JOptionPane.OK_OPTION);
 				reset();
-				initGame();
-				paintInitGameArea();
 				refresh();
+
+			} else {
+				int option = JOptionPane.showConfirmDialog(this, MESSAGE,
+						"Gewonnen", JOptionPane.YES_NO_OPTION);
+				if (option == YES) {
+					model.higherLevel();
+					reset();
+					initGame();
+					paintInitGameArea();
+					refresh();
+				}
+
 			}
 		}
 	}
