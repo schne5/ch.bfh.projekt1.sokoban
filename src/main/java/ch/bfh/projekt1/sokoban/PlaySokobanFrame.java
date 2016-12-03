@@ -5,7 +5,6 @@ import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,7 +18,6 @@ public class PlaySokobanFrame extends JFrame {
 	public static String SAVE = "Save";
 	public static String LOAD = "Load";
 	public static String LOAD_OWN_PROBLEM = "Load Own";
-	public static String REVERSE = "Reverse";
 
 	JPanel buttonPanel;
 	JButton undo;
@@ -27,8 +25,6 @@ public class PlaySokobanFrame extends JFrame {
 	JButton save;
 	JButton load;
 	JButton loadOwnProblem;
-	JCheckBox reverse;
-
 	private Warehouse warehouse;
 
 	public PlaySokobanFrame(Warehouse warehouse) {
@@ -75,19 +71,11 @@ public class PlaySokobanFrame extends JFrame {
 			setFocusOnWarehouse();
 		});
 
-		reverse = new JCheckBox();
-		reverse.setText(REVERSE);
-		reverse.addActionListener(t -> {
-			warehouse.getModel().setReverse(reverse.isSelected());
-			setFocusOnWarehouse();
-		});
-
 		buttonPanel.add(undo);
 		buttonPanel.add(redo);
 		buttonPanel.add(save);
 		buttonPanel.add(load);
 		buttonPanel.add(loadOwnProblem);
-		buttonPanel.add(reverse);
 		getContentPane().add(warehouse, BorderLayout.CENTER);
 		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 	}
