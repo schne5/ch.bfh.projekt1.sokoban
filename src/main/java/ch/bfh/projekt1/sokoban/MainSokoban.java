@@ -1,11 +1,8 @@
 package ch.bfh.projekt1.sokoban;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -58,11 +55,10 @@ public class MainSokoban {
 			warehouse.setParent(frame);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setVisible(true);
-			// frame.pack();
-				frame.setSize(600, 400);
-				frame.setResizable(false);
-				enter.setVisible(false);
-			});
+			frame.setSize(600, 400);
+			frame.setResizable(false);
+			enter.setVisible(false);
+		});
 
 		buttonPanel.add(play);
 		buttonPanel.add(design);
@@ -73,55 +69,5 @@ public class MainSokoban {
 		enter.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		enter.setSize(400, 200);
 		enter.setVisible(true);
-	}
-
-	private static void openFileSelectionFrame(String path, boolean ownGame,
-			boolean test, JFrame parent) {
-		JFrame dialog = new JFrame();
-		JComboBox<String> files = new JComboBox<String>(
-				GameSaver.loadAllFiles(path));
-		files.setSize(300, 100);
-		JLabel label = new JLabel("Wählen Sie ein Spiel:");
-		JButton ok = new JButton("OK");
-		ok.setMaximumSize(new Dimension(40, 40));
-		dialog.add(files, BorderLayout.CENTER);
-		dialog.add(label, BorderLayout.NORTH);
-		dialog.add(ok, BorderLayout.SOUTH);
-		files.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		label.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
-
-		dialog.pack();
-		dialog.setVisible(true);
-
-		ok.addActionListener(a -> {
-			String selected = files.getSelectedItem().toString();
-			if (!"".equals(selected) && null != selected) {
-				try {
-					Controller controller = new Controller(new Model());
-					Warehouse warehouse = new Warehouse(controller);
-					JFrame frame = new JFrame();
-
-					warehouse.initGame(ownGame, selected);
-					warehouse.paintInitGameArea();
-					if (test) {
-						frame = new ProblemTestFrame(warehouse);
-					} else {
-						frame = new PlaySokobanFrame(warehouse);
-					}
-					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-					frame.setResizable(false);
-					frame.pack();
-					frame.setVisible(true);
-					parent.setVisible(false);
-				} catch (Exception e) {
-					// JOptionPane.showMessageDialog(this,
-					// "Kein Spiel zu File: \"" + selected
-					// + "\" gefunden.");
-				}
-
-			}
-			dialog.dispose();
-			// this.setVisible(true);
-		});
 	}
 }
