@@ -76,9 +76,11 @@ public class GameSaver {
 
 	}
 
-	public static void saveCustomProblems(GraphTuple[][] gameElements) {
+	public static void saveCustomProblems(GraphTuple[][] gameElements,
+			String userinput) {
+		userinput = userinput == null ? "" : userinput;
 		Path file = Paths.get(PATH_CUSTOM_PROBLEMS + getSystemUserName()
-				+ getLocalDateTime() + "_custom.txt");
+				+ getLocalDateTime() + userinput + "_custom.txt");
 		try {
 			Files.write(file, saveAsTextFile(gameElements),
 					Charset.forName("UTF-8"));

@@ -53,7 +53,7 @@ public class ProblemTestFrame extends JFrame {
 		save.addActionListener(t -> {
 			String name = getUserInput();
 			if (!"".equals(name) && null != name) {
-				this.warehouse.getController().saveGame(name);
+				this.warehouse.getController().saveCustomGame(name);
 				setFocusOnWarehouse();
 			}
 		});

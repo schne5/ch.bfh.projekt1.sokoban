@@ -128,7 +128,7 @@ public class Controller {
 	}
 
 	public static void saveCustomProblem(GraphTuple[][] gameElements) {
-		GameSaver.saveCustomProblems(gameElements);
+		GameSaver.saveCustomProblems(gameElements, null);
 	}
 
 	public void saveGame(String name) {
@@ -138,7 +138,7 @@ public class Controller {
 
 	public void saveCustomGame(String name) {
 		GraphTuple[][] gameElements = model.getGameArea();
-		GameSaver.saveCustomProblems(gameElements);
+		GameSaver.saveCustomProblems(gameElements, name);
 	}
 
 	public GraphTuple[][] loadGame(String fileName) {
