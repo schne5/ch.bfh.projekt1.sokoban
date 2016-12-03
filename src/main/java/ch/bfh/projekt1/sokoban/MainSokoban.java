@@ -52,9 +52,17 @@ public class MainSokoban {
 
 		JButton testOwnProblem = new JButton("Problem test");
 		testOwnProblem.addActionListener(a -> {
-			openFileSelectionFrame(GameSaver.PATH_CUSTOM_PROBLEMS, true, true,
-					enter);
-		});
+			Controller controller = new Controller(new Model());
+			Warehouse warehouse = new Warehouse(controller);
+			ProblemTestFrame frame = new ProblemTestFrame(warehouse);
+			warehouse.setParent(frame);
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setVisible(true);
+			// frame.pack();
+				frame.setSize(600, 400);
+				frame.setResizable(false);
+				enter.setVisible(false);
+			});
 
 		buttonPanel.add(play);
 		buttonPanel.add(design);
