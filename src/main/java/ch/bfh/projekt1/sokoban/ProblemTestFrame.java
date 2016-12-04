@@ -18,12 +18,14 @@ public class ProblemTestFrame extends JFrame {
 	public static String LOAD = "Load";
 	public static String SAVE = "Save";
 	public static String REVERSE = "Reverse";
+	public static String CANCEL = "Cancel";
 
 	JPanel buttonPanel;
 	JButton undo;
 	JButton redo;
 	JButton save;
 	JButton loadOwnProblem;
+	JButton cancel;
 	JCheckBox reverse;
 	private Warehouse warehouse;
 	String name;
@@ -72,11 +74,20 @@ public class ProblemTestFrame extends JFrame {
 			setFocusOnWarehouse();
 		});
 
+		cancel = new JButton(CANCEL);
+		cancel.addActionListener(a -> {
+			// Abbrechen und zur startseite
+			this.dispose();
+			MainSokoban.showInitDialog();
+		});
+
 		buttonPanel.add(undo);
 		buttonPanel.add(redo);
 		buttonPanel.add(save);
 		buttonPanel.add(loadOwnProblem);
+		buttonPanel.add(cancel);
 		buttonPanel.add(reverse);
+
 		getContentPane().add(this.warehouse, BorderLayout.CENTER);
 		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 	}

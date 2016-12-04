@@ -20,7 +20,7 @@ public class MainSokoban {
 
 		JFrame enter = new JFrame();
 		JPanel buttonPanel = new JPanel();
-		JLabel welcome = new JLabel("Welcome!!!");
+		JLabel welcome = new JLabel("Welcome to SOKOBAN!!!");
 		welcome.setHorizontalAlignment(JLabel.CENTER);
 
 		JButton play = new JButton("Play");
@@ -35,6 +35,7 @@ public class MainSokoban {
 			sokobanGame.setVisible(true);
 			sokobanGame.pack();
 			sokobanGame.setResizable(false);
+			sokobanGame.setLocationRelativeTo(null);
 			enter.setVisible(false);
 		});
 
@@ -44,6 +45,7 @@ public class MainSokoban {
 			problemDesigner.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			problemDesigner.setSize(620, 600);
 			problemDesigner.setVisible(true);
+			problemDesigner.setLocationRelativeTo(null);
 			enter.setVisible(false);
 		});
 
@@ -57,6 +59,7 @@ public class MainSokoban {
 			frame.setVisible(true);
 			frame.setSize(600, 400);
 			frame.setResizable(false);
+			frame.setLocationRelativeTo(null);
 			enter.setVisible(false);
 		});
 
@@ -67,7 +70,8 @@ public class MainSokoban {
 		enter.add(welcome, BorderLayout.NORTH);
 		enter.add(buttonPanel, BorderLayout.CENTER);
 		enter.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		enter.setSize(400, 200);
+		enter.setSize(400, 100);
+		enter.setLocationRelativeTo(null);
 		enter.setVisible(true);
 	}
 }

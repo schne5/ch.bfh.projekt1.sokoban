@@ -18,6 +18,7 @@ public class PlaySokobanFrame extends JFrame {
 	public static String SAVE = "Save";
 	public static String LOAD = "Load";
 	public static String LOAD_OWN_PROBLEM = "Load Own";
+	public static String CANCEL = "Cancel";
 
 	JPanel buttonPanel;
 	JButton undo;
@@ -25,6 +26,7 @@ public class PlaySokobanFrame extends JFrame {
 	JButton save;
 	JButton load;
 	JButton loadOwnProblem;
+	JButton cancel;
 	private Warehouse warehouse;
 
 	public PlaySokobanFrame(Warehouse warehouse) {
@@ -73,11 +75,20 @@ public class PlaySokobanFrame extends JFrame {
 			warehouse.getModel().setOwnProblem(true);
 		});
 
+		cancel = new JButton(CANCEL);
+		cancel.addActionListener(a -> {
+			// Abbrechen und zur startseite
+			this.dispose();
+			MainSokoban.showInitDialog();
+		});
+
 		buttonPanel.add(undo);
 		buttonPanel.add(redo);
 		buttonPanel.add(save);
 		buttonPanel.add(load);
 		buttonPanel.add(loadOwnProblem);
+		buttonPanel.add(cancel);
+
 		getContentPane().add(warehouse, BorderLayout.CENTER);
 		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 	}
