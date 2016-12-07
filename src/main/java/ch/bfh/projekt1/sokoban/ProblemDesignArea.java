@@ -12,9 +12,11 @@ import javax.swing.JPanel;
 public class ProblemDesignArea extends JPanel implements MouseListener {
 	public static final int WIDTH = 20;
 	public static final int HEIGHT = 16;
-	GameElementView[][] gameArea;
+	private GameElementView[][] gameArea;
+
 	GridLayout layout;
 	GameElementType activeType;
+	private Position pawnPosition;
 
 	public ProblemDesignArea() {
 		gameArea = new GameElementView[WIDTH][HEIGHT];
@@ -79,12 +81,65 @@ public class ProblemDesignArea extends JPanel implements MouseListener {
 	public GraphTuple[][] prepareSave() {
 		GraphTuple[][] gameElements = new GraphTuple[WIDTH][HEIGHT];
 
-		for (int i = 0; i < gameArea[0].length; i++) {
-			for (int j = 0; j < gameArea.length; j++) {
-				GameElementType type = gameArea[j][i].getType();
-				gameElements[j][i] = new GraphTuple(gameArea[j][i].getType());
+		for (int y = 0; y < HEIGHT; y++) {
+			for (int x = 0; x < WIDTH; x++) {
+				GameElementType type = gameArea[x][y].getType();
+				gameElements[x][y] = new GraphTuple(gameArea[x][y].getType());
 			}
 		}
 		return gameElements;
 	}
+
+	public boolean valid() {
+		int boxes = 0;
+		int storages = 0;
+		int pawn = 0;
+
+		GameElementType type;
+		for (int y = 0; y < HEIGHT; y++) {
+			for (int x = 0; x < WIDTH; x++) {
+				type = gameArea[x][y].getType();
+				switch (type) {
+				case PAWN:
+					pawn++;
+					pawnPosition = new Position(x, y);
+					break;
+				case PAWN_ON_STORAGE:
+					pawn++;
+					storages++;
+					pawnPosition = new Position(x, y);
+					break;
+				case BOX:
+					boxes++;
+					break;
+				case BOX_ON_STORAGE:
+					boxes++;
+					storages++;
+					break;
+				}
+			}
+		}
+		if (boxes == storages && boxes > 0 && pawn == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public GameElementView[][] getGameArea() {
+		return gameArea;
+	}
+
+	public void setGameArea(GameElementView[][] gameArea) {
+		this.gameArea = gameArea;
+	}
+
+	public void setPawnPosition(Position pawnPosition) {
+		this.pawnPosition = pawnPosition;
+	}
+
+	public Position getPawnPosition() {
+		return this.pawnPosition;
+	}
+
 }

@@ -30,7 +30,7 @@ public class GameElementUtile {
 	}
 
 	public static Position getNextPosition(Direction direction,
-			Position position, boolean opposite) {
+			Position position, boolean opposite, int width, int height) {
 		Position newPosition = new Position(position.getPosX(),
 				position.getPosY());
 		int newPosX;
@@ -58,9 +58,8 @@ public class GameElementUtile {
 			newPosition.setPosX(newPosX);
 			break;
 		}
-		if (newPosition.getPosX() <= Model.width && newPosition.getPosX() >= 0) {
-			if (newPosition.getPosY() <= Model.height
-					&& newPosition.getPosY() >= 0) {
+		if (newPosition.getPosX() < width && newPosition.getPosX() >= 0) {
+			if (newPosition.getPosY() < height && newPosition.getPosY() >= 0) {
 				return newPosition;
 			}
 
@@ -69,8 +68,8 @@ public class GameElementUtile {
 	}
 
 	public static Position getNextPosition(Direction direction,
-			Position position) {
-		return getNextPosition(direction, position, false);
+			Position position, int width, int height) {
+		return getNextPosition(direction, position, false, width, height);
 	}
 
 	public static GraphTuple[][] changeGameElementTypes(
@@ -136,37 +135,50 @@ public class GameElementUtile {
 	}
 
 	public static ArrayList<Position> getValidNeighbours(Position position,
-			GraphTuple[][] gameArea) {
+			GraphTuple[][] gameArea, boolean validWall, int width, int height) {
 		ArrayList<Position> positions = new ArrayList<Position>();
-		Position up = getNextPosition(Direction.UP, position);
-		Position down = getNextPosition(Direction.DOWN, position);
-		Position left = getNextPosition(Direction.LEFT, position);
-		Position right = getNextPosition(Direction.RIGHT, position);
-		if (canMoveOnField(up, gameArea)) {
+		Position up = getNextPosition(Direction.UP, position, width, height);
+		Position down = getNextPosition(Direction.DOWN, position, width, height);
+		Position left = getNextPosition(Direction.LEFT, position, width, height);
+		Position right = getNextPosition(Direction.RIGHT, position, width,
+				height);
+
+		if (up != null && canMoveOnField(up, gameArea, validWall)) {
 			positions.add(up);
 		}
-		if (canMoveOnField(down, gameArea)) {
+		if (down != null && canMoveOnField(down, gameArea, validWall)) {
 			positions.add(down);
 		}
-		if (canMoveOnField(left, gameArea)) {
+		if (left != null && canMoveOnField(left, gameArea, validWall)) {
 			positions.add(left);
 		}
-		if (canMoveOnField(right, gameArea)) {
+		if (right != null && canMoveOnField(right, gameArea, validWall)) {
 			positions.add(right);
 		}
+
 		return positions;
 	}
 
 	private static boolean canMoveOnField(Position position,
-			GraphTuple[][] gameArea) {
+			GraphTuple[][] gameArea, boolean validWall) {
 		int x = position.getPosX();
 		int y = position.getPosY();
 		if (position != null) {
 			GameElementType type = gameArea[x][y].getGameElementType();
-			if (type == GameElementType.FLOOR
-					|| type == GameElementType.STORAGE) {
-				return true;
+			if (validWall) {
+				if (type == GameElementType.FLOOR
+						|| type == GameElementType.STORAGE
+						|| type == GameElementType.BOX
+						|| type == GameElementType.BOX_ON_STORAGE) {
 
+					return true;
+				}
+			} else {
+				if (type == GameElementType.FLOOR
+						|| type == GameElementType.STORAGE) {
+					return true;
+
+				}
 			}
 		}
 		return false;

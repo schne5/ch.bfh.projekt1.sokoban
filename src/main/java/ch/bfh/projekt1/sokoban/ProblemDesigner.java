@@ -5,10 +5,12 @@ import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /*
@@ -58,9 +60,21 @@ public class ProblemDesigner extends JFrame {
 		ok = new JButton("OK");
 		ok.addActionListener(a -> {
 			// Problem abspeichern
-			Controller.saveCustomProblem(problemDesignArea.prepareSave());
-			this.dispose();
-			MainSokoban.showInitDialog();
+			if (problemDesignArea.valid()) {
+				GraphTuple[][] gameElements = problemDesignArea.prepareSave();
+				if (validWalls(gameElements)) {
+					Controller.saveCustomProblem(gameElements);
+					this.dispose();
+					MainSokoban.showInitDialog();
+				} else {
+					JOptionPane.showMessageDialog(this,
+							"Kein geschlossenes Spielfeld!!");
+				}
+			} else {
+				JOptionPane.showMessageDialog(this,
+						"Anzahl Spielfiguren nicht gueltig");
+			}
+
 		});
 		cancel = new JButton("Cancel");
 		cancel.addActionListener(a -> {
@@ -127,5 +141,56 @@ public class ProblemDesigner extends JFrame {
 				}
 			}
 		}
+	}
+
+	private List<Position> getEndPositions() {
+		List<Position> positions = new ArrayList<Position>();
+		for (int x = 0; x < ProblemDesignArea.WIDTH; x++) {
+			positions.add(new Position(x, 0));
+			positions.add(new Position(x, ProblemDesignArea.HEIGHT - 1));
+		}
+		for (int y = 1; y < ProblemDesignArea.HEIGHT - 1; y++) {
+			positions.add(new Position(0, y));
+			positions.add(new Position(ProblemDesignArea.WIDTH - 1, y));
+		}
+		return positions;
+	}
+
+	private boolean validWalls(GraphTuple[][] gameElements) {
+		SokobanQueue<Position> queue = new SokobanQueue<Position>();
+		List<Position> positions = getEndPositions();
+		for (Position position : positions) {
+			if (findPath(position, queue, problemDesignArea.getPawnPosition(),
+					gameElements)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public boolean findPath(Position target, SokobanQueue<Position> queue,
+			Position pawnPosition, GraphTuple[][] gameElements) {
+		queue.enqueue(pawnPosition);
+		while (!queue.isEmpty()) {
+			Position first = queue.dequeue();
+			ArrayList<Position> neighbours = GameElementUtile
+					.getValidNeighbours(first, gameElements, true,
+							ProblemDesignArea.WIDTH, problemDesignArea.HEIGHT);
+			int x;
+			int y;
+			for (Position neighbour : neighbours) {
+				x = neighbour.getPosX();
+				y = neighbour.getPosY();
+
+				if (gameElements[x][y].getPosition() == null) {
+					gameElements[x][y].setPosition(first);
+					if (neighbour.equals(target)) {
+						return true;
+					}
+					queue.enqueue(neighbour);
+				}
+			}
+		}
+		return false;
 	}
 }

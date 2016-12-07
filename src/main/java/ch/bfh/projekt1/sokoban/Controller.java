@@ -27,7 +27,8 @@ public class Controller {
 
 	public void move(Direction direction) {
 		Activity activity = Rules.checkRules(model.getGameArea(), direction,
-				model.getPawnPosition(), model.isReverse());
+				model.getPawnPosition(), model.isReverse(), model.getWidth(),
+				model.getHeight());
 		if (activity != Activity.COLLISION) {
 			model.getStackUndo().push(
 					new SokobanStackTuple(activity, direction));
@@ -37,7 +38,7 @@ public class Controller {
 
 	public void move(Direction direction, Activity activity) {
 		Position newPawnposition = GameElementUtile.getNextPosition(direction,
-				model.getPawnPosition());
+				model.getPawnPosition(), model.getWidth(), model.getHeight());
 		move(newPawnposition, activity, direction);
 	}
 
@@ -51,7 +52,8 @@ public class Controller {
 			break;
 		case PUSH:
 			Position positionAfterBox = GameElementUtile.getNextPosition(
-					direction, newPawnposition);
+					direction, newPawnposition, model.getWidth(),
+					model.getHeight());
 			GameElementUtile.changeGameElementTypes(model.getGameArea(),
 					model.getPawnPosition(), newPawnposition, positionAfterBox,
 					activity);
@@ -60,7 +62,8 @@ public class Controller {
 			// true, da das next auf der gegen�berliegenden Siete ben�tigt wird
 			// wird nur f�r Undo ben�tigt
 			Position boxposition = GameElementUtile.getNextPosition(direction,
-					model.getPawnPosition(), true);
+					model.getPawnPosition(), true, model.getWidth(),
+					model.getHeight());
 			GameElementUtile.changeGameElementTypes(model.getGameArea(),
 					model.getPawnPosition(), newPawnposition, boxposition,
 					activity);
@@ -175,7 +178,8 @@ public class Controller {
 		while (!model.getQueue().isEmpty()) {
 			Position first = model.getQueue().dequeue();
 			ArrayList<Position> neighbours = GameElementUtile
-					.getValidNeighbours(first, model.getGameArea());
+					.getValidNeighbours(first, model.getGameArea(), false,
+							model.getWidth(), model.getHeight());
 			int x;
 			int y;
 
