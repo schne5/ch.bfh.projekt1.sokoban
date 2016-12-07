@@ -90,6 +90,8 @@ public class ProblemTestFrame extends JFrame {
 
 		getContentPane().add(this.warehouse, BorderLayout.CENTER);
 		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+
+		openFileSelectionFrame(GameSaver.PATH_CUSTOM_PROBLEMS, true);
 	}
 
 	private void openFileSelectionFrame(String path, boolean ownGame) {
