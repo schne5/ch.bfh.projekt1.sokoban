@@ -10,22 +10,34 @@ import javax.swing.JLabel;
  */
 public class GameElementView extends JLabel {
 	static ImageIcon imagePawn;
+	static ImageIcon imagePawnOnStorage;
 	static ImageIcon imageFloor;
 	static ImageIcon imageBox;
+	static ImageIcon imageBoxOnStorage;
 	static ImageIcon imageStorage;
 	static ImageIcon imageWall;
 
 	GameElementType type;
 	private Position position;
+	private boolean design;
 
-	public static GameElementView create(GameElementType type, MouseListener ml) {
-		return create(type, ml, 0, 0);
+	public static GameElementView create(GameElementType type,
+			MouseListener ml, boolean design) {
+		return create(type, ml, 0, 0, design);
+	}
+
+	public GameElementView(boolean design) {
+		this.design = design;
 	}
 
 	public static GameElementView create(GameElementType type,
-			MouseListener ml, int x, int y) {
-		loadImages();
-		GameElementView gameElementView = new GameElementView();
+			MouseListener ml, int x, int y, boolean design) {
+		if (design) {
+			loadImagesDesign();
+		} else {
+			loadImages();
+		}
+		GameElementView gameElementView = new GameElementView(design);
 		gameElementView.setType(type);
 		gameElementView.setBounds(ProblemDesigner.SPACE, 0,
 				GameElementUtile.WIDTH, GameElementUtile.WIDTH);
@@ -45,12 +57,24 @@ public class GameElementView extends JLabel {
 			image = imageFloor;
 			break;
 		case PAWN:
-		case PAWN_ON_STORAGE:
 			image = imagePawn;
 			break;
+		case PAWN_ON_STORAGE:
+			if (design) {
+				image = imagePawnOnStorage;
+			} else {
+				image = imagePawn;
+			}
+			break;
 		case BOX:
-		case BOX_ON_STORAGE:
 			image = imageBox;
+			break;
+		case BOX_ON_STORAGE:
+			if (design) {
+				image = imageBoxOnStorage;
+			} else {
+				image = imageBox;
+			}
 			break;
 		case WALL:
 			image = imageWall;
@@ -74,6 +98,12 @@ public class GameElementView extends JLabel {
 		imageStorage = new ImageIcon(Storage.loadImage());
 	}
 
+	private static void loadImagesDesign() {
+		loadImages();
+		imagePawnOnStorage = new ImageIcon(Pawn.getImagePathOnStorage());
+		imageBoxOnStorage = new ImageIcon(Box.getImagePathOnStorage());
+	}
+
 	public GameElementType getType() {
 		return type;
 	}
@@ -89,5 +119,13 @@ public class GameElementView extends JLabel {
 
 	public void setPosition(Position position) {
 		this.position = position;
+	}
+
+	public boolean isDesign() {
+		return design;
+	}
+
+	public void setDesign(boolean design) {
+		this.design = design;
 	}
 }

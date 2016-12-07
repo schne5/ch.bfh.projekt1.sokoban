@@ -38,15 +38,19 @@ public class ProblemDesigner extends JFrame {
 
 	private void addGameElementViews() {
 		gameElementPanel.add(GameElementView.create(GameElementType.PAWN,
-				mouseListener));
+				mouseListener, true));
 		gameElementPanel.add(GameElementView.create(GameElementType.BOX,
-				mouseListener));
+				mouseListener, true));
 		gameElementPanel.add(GameElementView.create(GameElementType.WALL,
-				mouseListener));
+				mouseListener, true));
 		gameElementPanel.add(GameElementView.create(GameElementType.STORAGE,
-				mouseListener));
+				mouseListener, true));
 		gameElementPanel.add(GameElementView.create(GameElementType.FLOOR,
-				mouseListener));
+				mouseListener, true));
+		gameElementPanel.add(GameElementView.create(
+				GameElementType.PAWN_ON_STORAGE, mouseListener, true));
+		gameElementPanel.add(GameElementView.create(
+				GameElementType.BOX_ON_STORAGE, mouseListener, true));
 	}
 
 	private void initButtons() {
@@ -58,7 +62,7 @@ public class ProblemDesigner extends JFrame {
 			this.dispose();
 			MainSokoban.showInitDialog();
 		});
-		cancel = new JButton("Abbrechen");
+		cancel = new JButton("Cancel");
 		cancel.addActionListener(a -> {
 			// Abbrechen und zur startseite
 			this.dispose();
@@ -69,7 +73,7 @@ public class ProblemDesigner extends JFrame {
 			// TODO Clear
 		});
 		buttonPanel.add(ok);
-		buttonPanel.add(clear);
+		// buttonPanel.add(clear);
 		buttonPanel.add(cancel);
 	}
 

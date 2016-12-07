@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
  */
 public class Pawn extends GameElement {
 	private static final String IMAGE = "pawn.png";
+	private static final String IMAGE_ON_STORAGE = "pawn_on_storage.png";
 
 	public Pawn() {
 	}
@@ -26,8 +27,23 @@ public class Pawn extends GameElement {
 		return image;
 	}
 
+	public static Image loadImageOnStorage() {
+		File pathToFile = new File(getImagePathOnStorage());
+		Image image = null;
+		try {
+			image = ImageIO.read(pathToFile);
+		} catch (IOException e) {
+			System.out.println("Image Pawn on Storage not found");
+		}
+		return image;
+	}
+
 	public static String getImagePath() {
 		return IMAGE_PATH + IMAGE;
+	}
+
+	public static String getImagePathOnStorage() {
+		return IMAGE_PATH + IMAGE_ON_STORAGE;
 	}
 
 }

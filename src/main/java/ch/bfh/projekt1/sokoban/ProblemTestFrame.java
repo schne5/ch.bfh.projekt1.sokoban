@@ -17,7 +17,7 @@ public class ProblemTestFrame extends JFrame {
 	public static String REDO = "Redo";
 	public static String LOAD = "Load";
 	public static String SAVE = "Save";
-	public static String REVERSE = "Reverse";
+	public static String REVERSE = "Pull";
 	public static String CANCEL = "Cancel";
 
 	JPanel buttonPanel;

@@ -36,22 +36,6 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 		this.model = controller.getModel();
 	}
 
-	// public Warehouse() {
-	// addKeyListener(this);
-	// this.setBackground(Color.WHITE);
-	// model = new Model();
-	// controller = new Controller(model);
-	// initGame();
-	// layout = new GridLayout(model.getHeight(), model.getWidth());
-	// layout.setHgap(0);
-	// layout.setVgap(0);
-	// setLayout(layout);
-	// paintInitGameArea();
-	// setPreferredSize(new Dimension(model.getWidth() * IMAGE_WIDTH,
-	// model.getHeight() * IMAGE_WIDTH));
-	//
-	// }
-
 	@Override
 	public void keyTyped(KeyEvent e) {
 
@@ -152,7 +136,8 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				gameElementView = GameElementView.create(
-						GameElementUtile.getType(gameArea, x, y), this, x, y);
+						GameElementUtile.getType(gameArea, x, y), this, x, y,
+						false);
 				add(gameElementView);
 				gameAreaView[x][y] = gameElementView;
 			}

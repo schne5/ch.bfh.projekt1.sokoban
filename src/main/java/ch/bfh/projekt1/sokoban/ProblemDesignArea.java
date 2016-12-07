@@ -29,7 +29,7 @@ public class ProblemDesignArea extends JPanel implements MouseListener {
 		for (int i = 0; i < gameArea[0].length; i++) {
 			for (int j = 0; j < gameArea.length; j++) {
 				GameElementView v = GameElementView.create(
-						GameElementType.FLOOR, null);
+						GameElementType.FLOOR, null, true);
 				add(v);
 				gameArea[j][i] = v;
 				v.addMouseListener(this);

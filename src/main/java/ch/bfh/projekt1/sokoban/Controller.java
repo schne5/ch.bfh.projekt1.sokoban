@@ -94,6 +94,7 @@ public class Controller {
 					model.setPawnPosition(new Position(x, y));
 				} else if (c == PAWN_ON_STORAGE) {
 					area[x][y] = new GraphTuple(GameElementType.PAWN_ON_STORAGE);
+					model.setPawnPosition(new Position(x, y));
 				} else if (c == BOX_ON_STORAGE) {
 					area[x][y] = new GraphTuple(GameElementType.BOX_ON_STORAGE);
 				}
