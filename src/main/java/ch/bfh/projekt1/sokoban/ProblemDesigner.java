@@ -146,20 +146,31 @@ public class ProblemDesigner extends JFrame {
 	private List<Position> getEndPositions() {
 		List<Position> positions = new ArrayList<Position>();
 		for (int x = 0; x < ProblemDesignArea.WIDTH; x++) {
-			positions.add(new Position(x, 0));
-			positions.add(new Position(x, ProblemDesignArea.HEIGHT - 1));
+			if (problemDesignArea.getGameArea()[x][0].getType() != GameElementType.WALL) {
+				positions.add(new Position(x, 0));
+			}
+			if (problemDesignArea.getGameArea()[x][ProblemDesignArea.HEIGHT - 1]
+					.getType() != GameElementType.WALL) {
+				positions.add(new Position(x, ProblemDesignArea.HEIGHT - 1));
+			}
 		}
 		for (int y = 1; y < ProblemDesignArea.HEIGHT - 1; y++) {
-			positions.add(new Position(0, y));
-			positions.add(new Position(ProblemDesignArea.WIDTH - 1, y));
+			if (problemDesignArea.getGameArea()[0][y].getType() != GameElementType.WALL) {
+				positions.add(new Position(0, y));
+			}
+			if (problemDesignArea.getGameArea()[ProblemDesignArea.WIDTH - 1][y]
+					.getType() != GameElementType.WALL) {
+				positions.add(new Position(ProblemDesignArea.WIDTH - 1, y));
+			}
 		}
 		return positions;
 	}
 
 	private boolean validWalls(GraphTuple[][] gameElements) {
-		SokobanQueue<Position> queue = new SokobanQueue<Position>();
+		SokobanQueue<Position> queue;
 		List<Position> positions = getEndPositions();
 		for (Position position : positions) {
+			queue = new SokobanQueue<Position>();
 			if (findPath(position, queue, problemDesignArea.getPawnPosition(),
 					gameElements)) {
 				return false;

@@ -30,6 +30,11 @@ public class GameElementUtile {
 	}
 
 	public static Position getNextPosition(Direction direction,
+			Position position, int width, int height) {
+		return getNextPosition(direction, position, false, width, height);
+	}
+
+	public static Position getNextPosition(Direction direction,
 			Position position, boolean opposite, int width, int height) {
 		Position newPosition = new Position(position.getPosX(),
 				position.getPosY());
@@ -67,9 +72,10 @@ public class GameElementUtile {
 		return null;
 	}
 
-	public static Position getNextPosition(Direction direction,
-			Position position, int width, int height) {
-		return getNextPosition(direction, position, false, width, height);
+	public static GameElementType getTypeByPosition(GraphTuple[][] gameArea,
+			Position position) {
+		return gameArea[position.getPosX()][position.getPosY()]
+				.getGameElementType();
 	}
 
 	public static GraphTuple[][] changeGameElementTypes(
@@ -135,7 +141,7 @@ public class GameElementUtile {
 	}
 
 	public static ArrayList<Position> getValidNeighbours(Position position,
-			GraphTuple[][] gameArea, boolean validWall, int width, int height) {
+			GraphTuple[][] gameArea, boolean boxIsValid, int width, int height) {
 		ArrayList<Position> positions = new ArrayList<Position>();
 		Position up = getNextPosition(Direction.UP, position, width, height);
 		Position down = getNextPosition(Direction.DOWN, position, width, height);
@@ -143,16 +149,17 @@ public class GameElementUtile {
 		Position right = getNextPosition(Direction.RIGHT, position, width,
 				height);
 
-		if (up != null && canMoveOnField(up, gameArea, validWall)) {
+		// TODO schöner machen :)
+		if (up != null && canMoveOnField(up, gameArea, boxIsValid)) {
 			positions.add(up);
 		}
-		if (down != null && canMoveOnField(down, gameArea, validWall)) {
+		if (down != null && canMoveOnField(down, gameArea, boxIsValid)) {
 			positions.add(down);
 		}
-		if (left != null && canMoveOnField(left, gameArea, validWall)) {
+		if (left != null && canMoveOnField(left, gameArea, boxIsValid)) {
 			positions.add(left);
 		}
-		if (right != null && canMoveOnField(right, gameArea, validWall)) {
+		if (right != null && canMoveOnField(right, gameArea, boxIsValid)) {
 			positions.add(right);
 		}
 
@@ -160,12 +167,12 @@ public class GameElementUtile {
 	}
 
 	private static boolean canMoveOnField(Position position,
-			GraphTuple[][] gameArea, boolean validWall) {
+			GraphTuple[][] gameArea, boolean boxIsValid) {
 		int x = position.getPosX();
 		int y = position.getPosY();
 		if (position != null) {
 			GameElementType type = gameArea[x][y].getGameElementType();
-			if (validWall) {
+			if (boxIsValid) {
 				if (type == GameElementType.FLOOR
 						|| type == GameElementType.STORAGE
 						|| type == GameElementType.BOX

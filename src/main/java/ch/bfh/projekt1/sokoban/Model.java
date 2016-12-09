@@ -10,8 +10,8 @@ public class Model implements Serializable {
 	public static final String PROBLEM_PATH = "sokobanProblems/./";
 	public static final int DEFAULT_PROBLEM = 1;
 	public static final int MAX_PROBLEM = 4;
-	public static final String PROBLEM_NAME = "problemTest";
-	// public static final String PROBLEM_NAME = "problem";
+	// public static final String PROBLEM_NAME = "problemTest";
+	public static final String PROBLEM_NAME = "problem";
 	public static final String PROBLEM_NAME_EXTENSION = ".txt";
 
 	private SokobanStack stackUndo;

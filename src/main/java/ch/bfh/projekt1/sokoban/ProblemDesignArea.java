@@ -111,6 +111,9 @@ public class ProblemDesignArea extends JPanel implements MouseListener {
 					storages++;
 					pawnPosition = new Position(x, y);
 					break;
+				case STORAGE:
+					storages++;
+					break;
 				case BOX:
 					boxes++;
 					break;

@@ -3,6 +3,8 @@ package ch.bfh.projekt1.sokoban;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 public class Controller {
 	private Model model;
 	public static char PAWN = '@';
@@ -26,9 +28,10 @@ public class Controller {
 	}
 
 	public void move(Direction direction) {
-		Activity activity = Rules.checkRules(model.getGameArea(), direction,
-				model.getPawnPosition(), model.isReverse(), model.getWidth(),
-				model.getHeight());
+		// TODO checkbox with hint erstellen und mitgeben
+		Activity activity = Rules.checkCollision(model.getGameArea(),
+				direction, model.getPawnPosition(), model.isReverse(),
+				model.getWidth(), model.getHeight());
 		if (activity != Activity.COLLISION) {
 			model.getStackUndo().push(
 					new SokobanStackTuple(activity, direction));
@@ -57,9 +60,16 @@ public class Controller {
 			GameElementUtile.changeGameElementTypes(model.getGameArea(),
 					model.getPawnPosition(), newPawnposition, positionAfterBox,
 					activity);
+			if (Rules.isLocked(model.getGameArea(), positionAfterBox,
+					model.getWidth(), model.getHeight())) {
+				JOptionPane
+						.showMessageDialog(null,
+								"Diese Kiste wird blockiert sein. Machen Sie den Zug rueckgaengig.");
+			}
 			break;
 		case PULL:
-			// true, da das next auf der gegen�berliegenden Siete ben�tigt wird
+			// true, da das next auf der gegen�berliegenden Siete ben�tigt
+			// wird
 			// wird nur f�r Undo ben�tigt
 			Position boxposition = GameElementUtile.getNextPosition(direction,
 					model.getPawnPosition(), true, model.getWidth(),
