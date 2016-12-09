@@ -42,8 +42,10 @@ public class ProblemDesignArea extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		GameElementView gameElementView = (GameElementView) e.getSource();
-		gameElementView.changeType(getActiveType());
+		if (activeType != null) {
+			GameElementView gameElementView = (GameElementView) e.getSource();
+			gameElementView.changeType(getActiveType());
+		}
 	}
 
 	@Override
