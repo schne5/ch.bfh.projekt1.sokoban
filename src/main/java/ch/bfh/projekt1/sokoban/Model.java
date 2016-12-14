@@ -85,8 +85,8 @@ public class Model implements Serializable {
 	public void initGameElements(SokobanStack undo, SokobanStack redo,
 			int moves, int pushes, int level) {
 		setPawnPosition(new Position(-1, -1));
-		stackRedo = undo;
-		stackUndo = redo;
+		stackRedo = redo;
+		stackUndo = undo;
 		gameArea = new GraphTuple[width][height];
 		this.moves = moves;
 		this.pushes = pushes;
