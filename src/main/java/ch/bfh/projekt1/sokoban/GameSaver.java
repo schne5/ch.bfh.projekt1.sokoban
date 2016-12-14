@@ -20,6 +20,7 @@ public class GameSaver {
 	public static String PATH_PROBLEMS = "sokobanProblems/./";
 	public static String PATH_CUSTOM_PROBLEMS = PATH_PROBLEMS
 			+ "/customDesigned/./";
+	private static String seperator = ":";
 
 	public static String getSystemUserName() {
 		return System.getProperty("user.name");
@@ -89,7 +90,8 @@ public class GameSaver {
 		}
 	}
 
-	public static void saveGame(GraphTuple[][] gameElements, String userInput) {
+	public static void saveGame(GraphTuple[][] gameElements, String userInput,
+			SokobanStack undo, SokobanStack redo, int moves, int pushes) {
 		String systemusername = getSystemUserName();
 		Path file = Paths.get(PATH_GAME_SAVE + systemusername + "_"
 				+ getLocalDateTime() + "_" + userInput);
@@ -99,6 +101,50 @@ public class GameSaver {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		saveStatistic(undo, redo, moves, pushes, userInput, systemusername);
+	}
+
+	private static void saveStatistic(SokobanStack undo, SokobanStack redo,
+			int moves, int pushes, String userInput, String systemusername) {
+		Path file = Paths.get(PATH_GAME_SAVE + systemusername + "_"
+				+ getLocalDateTime() + "_" + userInput + "_statistic");
+		List<String> list = new ArrayList<String>();
+		list.add("UNDO" + seperator + prepareSaveStack(undo));
+		list.add("REDO" + seperator + prepareSaveStack(redo));
+		list.add("MOVES" + seperator + moves);
+		list.add("PUSHES" + seperator + pushes);
+		try {
+			Files.write(file, list, Charset.forName("UTF-8"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static String prepareSaveStack(SokobanStack stack) {
+		String stackString = "";
+		String direction = "";
+		for (SokobanStackTuple tuple : stack.getStack()) {
+
+			switch (tuple.getDirection()) {
+			case UP:
+				direction = "u";
+				break;
+			case DOWN:
+				direction = "d";
+				break;
+			case LEFT:
+				direction = "l";
+				break;
+			case RIGHT:
+				direction = "r";
+				break;
+			}
+			if (tuple.getActivity() != Activity.MOVE) {
+				direction = direction.toUpperCase();
+			}
+			stackString += direction;
+		}
+		return stackString;
 	}
 
 	public static List<String> loadCustomProblems(String fileName) {
@@ -123,4 +169,5 @@ public class GameSaver {
 		return lines;
 
 	}
+
 }
