@@ -150,7 +150,8 @@ public class Controller {
 
 	public void saveGame(String name) {
 		GraphTuple[][] gameElements = model.getGameArea();
-		GameSaver.saveGame(gameElements, name);
+		GameSaver.saveGame(gameElements, name, model.getStackUndo(),
+				model.getStackRedo(), model.getMoves(), model.getPushes());
 	}
 
 	public void saveCustomGame(String name) {

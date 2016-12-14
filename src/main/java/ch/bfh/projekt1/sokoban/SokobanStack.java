@@ -27,4 +27,12 @@ public class SokobanStack {
 	public boolean isValidPointer() {
 		return stack != null && !stack.isEmpty();
 	}
+
+	public List<SokobanStackTuple> getStack() {
+		return stack;
+	}
+
+	public void setStack(List<SokobanStackTuple> stack) {
+		this.stack = stack;
+	}
 }
