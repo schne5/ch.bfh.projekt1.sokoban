@@ -5,7 +5,7 @@ package ch.bfh.projekt1.sokoban;
  */
 public class Rules {
 
-	private static Activity checkCollision(GraphTuple[][] gameArea,
+	public static Activity checkCollision(GraphTuple[][] gameArea,
 			Direction direction, Position pawnPosition, boolean reverse,
 			int width, int height) {
 
@@ -75,7 +75,86 @@ public class Rules {
 	}
 
 	// When a box is locked in a corner or when it can't be moved anymore
-	private static boolean isLocked(int posX, int posY) {
+	public static boolean isLocked(GraphTuple[][] gameArea, Position position,
+			int width, int height) {
+		return isInCorner(gameArea, position, width, height)
+				|| isInSink(gameArea, position, width, height);
+	}
+
+	private static boolean isInCorner(GraphTuple[][] gameArea,
+			Position position, int width, int height) {
+		boolean isLocked = false;
+		Position upPosition = GameElementUtile.getNextPosition(Direction.UP,
+				position, width, height);
+		Position downPosition = GameElementUtile.getNextPosition(
+				Direction.DOWN, position, width, height);
+		Position leftPosition = GameElementUtile.getNextPosition(
+				Direction.LEFT, position, width, height);
+		Position rightPosition = GameElementUtile.getNextPosition(
+				Direction.RIGHT, position, width, height);
+		GameElementType upType = GameElementUtile.getTypeByPosition(gameArea,
+				upPosition);
+		GameElementType downType = GameElementUtile.getTypeByPosition(gameArea,
+				downPosition);
+		GameElementType leftType = GameElementUtile.getTypeByPosition(gameArea,
+				leftPosition);
+		GameElementType rightType = GameElementUtile.getTypeByPosition(
+				gameArea, rightPosition);
+
+		isLocked |= ((upType == GameElementType.WALL || downType == GameElementType.WALL) && (rightType == GameElementType.WALL || leftType == GameElementType.WALL));
+		isLocked |= isInCornerWithBox(gameArea, upType, Direction.UP, leftType,
+				rightType, upPosition, width, height);
+		isLocked |= isInCornerWithBox(gameArea, downType, Direction.DOWN,
+				leftType, rightType, downPosition, width, height);
+		isLocked |= isInCornerWithBox(gameArea, leftType, Direction.LEFT,
+				upType, downType, leftPosition, width, height);
+		isLocked |= isInCornerWithBox(gameArea, rightType, Direction.RIGHT,
+				upType, downType, rightPosition, width, height);
+
+		return isLocked;
+	}
+
+	private static boolean isInCornerWithBox(GraphTuple[][] gameArea,
+			GameElementType typeOrig, Direction direction,
+			GameElementType typeFirst, GameElementType typeSecond,
+			Position position, int width, int height) {
+		if ((typeOrig == GameElementType.BOX || typeOrig == GameElementType.BOX_ON_STORAGE)
+				&& (typeFirst == GameElementType.WALL || typeSecond == GameElementType.WALL)) {
+			if (direction == Direction.DOWN || direction == Direction.UP) {
+				return areBothBoxesLocked(gameArea, position, Direction.LEFT,
+						width, height);
+			} else if (direction == Direction.LEFT
+					|| direction == Direction.RIGHT) {
+				return areBothBoxesLocked(gameArea, position, Direction.UP,
+						width, height);
+			}
+
+		}
+		return false;
+	}
+
+	private static boolean areBothBoxesLocked(GraphTuple[][] gameArea,
+			Position position, Direction direction, int width, int height) {
+		Direction oppositeDirection = GameElementUtile
+				.getOppositeDiredction(direction);
+		Position firstPositionOther = GameElementUtile.getNextPosition(
+				direction, position, width, height);
+		Position secondPositionOther = GameElementUtile.getNextPosition(
+				oppositeDirection, position, width, height);
+		GameElementType firstTypeOther = GameElementUtile.getTypeByPosition(
+				gameArea, firstPositionOther);
+		GameElementType secondTypeOther = GameElementUtile.getTypeByPosition(
+				gameArea, secondPositionOther);
+		// TODO or locked box
+		if (firstTypeOther == GameElementType.WALL
+				|| secondTypeOther == GameElementType.WALL) {
+			return true;
+		}
+		return false;
+	}
+
+	private static boolean isInSink(GraphTuple[][] gameArea, Position position,
+			int width, int height) {
 		return false;
 	}
 
@@ -83,12 +162,19 @@ public class Rules {
 		return false;
 	}
 
-	public static Activity checkRules(GraphTuple[][] gameArea,
-			Direction direction, Position pawnPosition, boolean reverse,
-			int width, int height) {
-		return checkCollision(gameArea, direction, pawnPosition, reverse,
-				width, height);
-
-	}
-
+	// public static Activity checkRules(GraphTuple[][] gameArea,
+	// Direction direction, Position pawnPosition, boolean reverse,
+	// int width, int height, boolean hint) {
+	// Activity activity = checkCollision(gameArea, direction, pawnPosition,
+	// reverse, width, height);
+	// if (hint && activity == Activity.PUSH) {
+	// Position positionToCheck = GameElementUtile.getNextPosition(
+	// direction, GameElementUtile.getNextPosition(direction,
+	// pawnPosition, width, height), width, height);
+	// if (isLocked(gameArea, positionToCheck, width, height))
+	// System.out.println("locked");
+	// }
+	// return activity;
+	//
+	// }
 }
