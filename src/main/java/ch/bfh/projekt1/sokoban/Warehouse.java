@@ -113,7 +113,7 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 		model.setMoves(0);
 		model.setPushes(0);
 		model.setGameArea(controller.loadProblem());
-		init();
+		initLayout();
 	}
 
 	public void initGame(boolean own, String selected) {
@@ -124,12 +124,12 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 			} else {
 				model.setGameArea(controller.loadGame(selected));
 			}
-			init();
+			initLayout();
 		}
 
 	}
 
-	public void init() {
+	public void initLayout() {
 		setPreferredSize(new Dimension(controller.getModel().getWidth() * 30,
 				controller.getModel().getHeight() * 30));
 		layout = new GridLayout(model.getHeight(), model.getWidth());

@@ -86,7 +86,7 @@ public class Controller {
 	public GraphTuple[][] initWarehouse(List<String> lines) {
 		model.setWidth(lines.get(0).length());
 		model.setHeight(lines.size());
-		model.initGameElements();
+		model.setGameArea(new GraphTuple[model.getWidth()][model.getHeight()]);
 		GraphTuple[][] area = model.getGameArea();
 		int x = 0;
 		int y = 0;
@@ -161,24 +161,33 @@ public class Controller {
 	public GraphTuple[][] loadGame(String fileName) {
 		List<String> lines = GameSaver.loadStatistic(fileName);
 		if (lines.size() >= 5) {
-			model.setStackUndo(prepareLoadStack(lines.get(0)));
-			model.setStackRedo(prepareLoadStack(lines.get(1)));
-			model.setMoves((Integer.parseInt(lines.get(2))));
-			model.setPushes((Integer.parseInt(lines.get(3))));
-			model.setLevel((Integer.parseInt(lines.get(4))));
+			SokobanStack undo = prepareLoadStack(lines.get(0).substring(
+					lines.get(0).indexOf(':') + 1));
+			SokobanStack redo = prepareLoadStack(lines.get(1).substring(
+					lines.get(1).indexOf(':') + 1));
+			int moves = (Integer.parseInt(lines.get(2).substring(
+					lines.get(2).indexOf(':') + 1)));
+			int pushes = (Integer.parseInt(lines.get(3).substring(
+					lines.get(3).indexOf(':') + 1)));
+			int level = ((Integer.parseInt(lines.get(4).substring(
+					lines.get(4).indexOf(':') + 1))));
+			model.initGameElements(undo, redo, moves, pushes, level);
 		}
 		return initWarehouse(GameSaver.loadGame(fileName));
 	}
 
 	public GraphTuple[][] loadGame() {
+		model.initGameElements();
 		return initWarehouse(GameSaver.loadGame(model.getFileName()));
 	}
 
 	public GraphTuple[][] loadProblem() {
+		model.initGameElements();
 		return initWarehouse(GameSaver.loadProblem(model.getFileName()));
 	}
 
 	public GraphTuple[][] loadCustomProblem(String fileName) {
+		model.initGameElements();
 		return initWarehouse(GameSaver.loadCustomProblems(fileName));
 	}
 
@@ -245,7 +254,6 @@ public class Controller {
 			} else {
 				tuple.setActivity(Activity.MOVE);
 			}
-			c = Character.toLowerCase(c);
 			if (Character.toLowerCase(c) == 'l') {
 				tuple.setDirection(Direction.LEFT);
 			} else if (Character.toLowerCase(c) == 'r') {
