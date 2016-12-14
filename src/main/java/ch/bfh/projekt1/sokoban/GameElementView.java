@@ -89,7 +89,7 @@ public class GameElementView extends JLabel {
 	}
 
 	private static void loadImages() {
-		imageFloor = new ImageIcon(Floor.loadImage().getScaledInstance(
+		imageFloor = new ImageIcon(Floor.loadImage(false).getScaledInstance(
 				GameElementUtile.WIDTH, GameElementUtile.WIDTH,
 				java.awt.Image.SCALE_SMOOTH));
 		imagePawn = new ImageIcon(Pawn.loadImage().getScaledInstance(
@@ -108,8 +108,15 @@ public class GameElementView extends JLabel {
 
 	private static void loadImagesDesign() {
 		loadImages();
-		imagePawnOnStorage = new ImageIcon(Pawn.getImagePathOnStorage());
-		imageBoxOnStorage = new ImageIcon(Box.getImagePathOnStorage());
+		imageFloor = new ImageIcon(Floor.loadImage(true).getScaledInstance(
+				GameElementUtile.WIDTH, GameElementUtile.WIDTH,
+				java.awt.Image.SCALE_SMOOTH));
+		imagePawnOnStorage = new ImageIcon(Pawn.loadImageOnStorage()
+				.getScaledInstance(GameElementUtile.WIDTH,
+						GameElementUtile.WIDTH, java.awt.Image.SCALE_SMOOTH));
+		imageBoxOnStorage = new ImageIcon(Box.loadImageOnStorage()
+				.getScaledInstance(GameElementUtile.WIDTH,
+						GameElementUtile.WIDTH, java.awt.Image.SCALE_SMOOTH));
 	}
 
 	public GameElementType getType() {
