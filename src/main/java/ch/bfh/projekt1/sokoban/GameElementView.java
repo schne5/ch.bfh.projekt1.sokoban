@@ -84,18 +84,26 @@ public class GameElementView extends JLabel {
 			break;
 		}
 
-		image = new ImageIcon(image.getImage().getScaledInstance(
-				GameElementUtile.WIDTH, GameElementUtile.WIDTH,
-				java.awt.Image.SCALE_SMOOTH));
+		image = new ImageIcon(image.getImage());
 		setIcon(image);
 	}
 
 	private static void loadImages() {
-		imageFloor = new ImageIcon(Floor.loadImage());
-		imagePawn = new ImageIcon(Pawn.loadImage());
-		imageBox = new ImageIcon(Box.loadImage());
-		imageWall = new ImageIcon(Wall.loadImage());
-		imageStorage = new ImageIcon(Storage.loadImage());
+		imageFloor = new ImageIcon(Floor.loadImage().getScaledInstance(
+				GameElementUtile.WIDTH, GameElementUtile.WIDTH,
+				java.awt.Image.SCALE_SMOOTH));
+		imagePawn = new ImageIcon(Pawn.loadImage().getScaledInstance(
+				GameElementUtile.WIDTH, GameElementUtile.WIDTH,
+				java.awt.Image.SCALE_SMOOTH));
+		imageBox = new ImageIcon(Box.loadImage().getScaledInstance(
+				GameElementUtile.WIDTH, GameElementUtile.WIDTH,
+				java.awt.Image.SCALE_SMOOTH));
+		imageWall = new ImageIcon(Wall.loadImage().getScaledInstance(
+				GameElementUtile.WIDTH, GameElementUtile.WIDTH,
+				java.awt.Image.SCALE_SMOOTH));
+		imageStorage = new ImageIcon(Storage.loadImage().getScaledInstance(
+				GameElementUtile.WIDTH, GameElementUtile.WIDTH,
+				java.awt.Image.SCALE_SMOOTH));
 	}
 
 	private static void loadImagesDesign() {
