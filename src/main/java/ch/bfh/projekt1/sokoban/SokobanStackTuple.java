@@ -12,6 +12,9 @@ public class SokobanStackTuple {
 		this.direction = direction;
 	}
 
+	public SokobanStackTuple() {
+	}
+
 	public Activity getActivity() {
 		return activity;
 	}

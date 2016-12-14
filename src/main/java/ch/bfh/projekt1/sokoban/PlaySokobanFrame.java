@@ -18,7 +18,7 @@ public class PlaySokobanFrame extends JFrame {
 	public static String SAVE = "Save";
 	public static String LOAD = "Load";
 	public static String LOAD_OWN_PROBLEM = "Load Own";
-	public static String CANCEL = "Cancel";
+	public static String CANCEL = "Exit";
 	public static String MOVES = "Moves:";
 	public static String PUSHES = "Pushes:";
 

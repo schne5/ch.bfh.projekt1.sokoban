@@ -18,7 +18,7 @@ public class ProblemTestFrame extends JFrame {
 	public static String LOAD = "Load";
 	public static String SAVE = "Save";
 	public static String REVERSE = "Pull";
-	public static String CANCEL = "Cancel";
+	public static String CANCEL = "Exit";
 	public static String MOVES = "Moves:";
 	public static String PUSHES = "Pushes:";
 

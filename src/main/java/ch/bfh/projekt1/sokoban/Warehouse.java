@@ -110,6 +110,8 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 
 	public void initGame() {
 		model.initGameElements();
+		model.setMoves(0);
+		model.setPushes(0);
 		model.setGameArea(controller.loadProblem());
 		init();
 	}

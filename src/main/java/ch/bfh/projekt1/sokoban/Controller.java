@@ -84,8 +84,6 @@ public class Controller {
 	}
 
 	public GraphTuple[][] initWarehouse(List<String> lines) {
-		model.setMoves(0);
-		model.setPushes(0);
 		model.setWidth(lines.get(0).length());
 		model.setHeight(lines.size());
 		model.initGameElements();
@@ -151,7 +149,8 @@ public class Controller {
 	public void saveGame(String name) {
 		GraphTuple[][] gameElements = model.getGameArea();
 		GameSaver.saveGame(gameElements, name, model.getStackUndo(),
-				model.getStackRedo(), model.getMoves(), model.getPushes());
+				model.getStackRedo(), model.getMoves(), model.getPushes(),
+				model.getLevel());
 	}
 
 	public void saveCustomGame(String name) {
@@ -160,6 +159,14 @@ public class Controller {
 	}
 
 	public GraphTuple[][] loadGame(String fileName) {
+		List<String> lines = GameSaver.loadStatistic(fileName);
+		if (lines.size() >= 5) {
+			model.setStackUndo(prepareLoadStack(lines.get(0)));
+			model.setStackRedo(prepareLoadStack(lines.get(1)));
+			model.setMoves((Integer.parseInt(lines.get(2))));
+			model.setPushes((Integer.parseInt(lines.get(3))));
+			model.setLevel((Integer.parseInt(lines.get(4))));
+		}
 		return initWarehouse(GameSaver.loadGame(fileName));
 	}
 
@@ -227,5 +234,29 @@ public class Controller {
 			model.incrementPushes();
 		}
 		model.incrementMoves();
+	}
+
+	private SokobanStack prepareLoadStack(String stackString) {
+		SokobanStack stack = new SokobanStack();
+		for (char c : stackString.toCharArray()) {
+			SokobanStackTuple tuple = new SokobanStackTuple();
+			if (Character.isUpperCase(c)) {
+				tuple.setActivity(Activity.PUSH);
+			} else {
+				tuple.setActivity(Activity.MOVE);
+			}
+			c = Character.toLowerCase(c);
+			if (Character.toLowerCase(c) == 'l') {
+				tuple.setDirection(Direction.LEFT);
+			} else if (Character.toLowerCase(c) == 'r') {
+				tuple.setDirection(Direction.RIGHT);
+			} else if (Character.toLowerCase(c) == 'u') {
+				tuple.setDirection(Direction.UP);
+			} else if (Character.toLowerCase(c) == 'd') {
+				tuple.setDirection(Direction.DOWN);
+			}
+			stack.push(tuple);
+		}
+		return stack;
 	}
 }

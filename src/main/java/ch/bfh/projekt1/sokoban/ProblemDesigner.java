@@ -76,7 +76,7 @@ public class ProblemDesigner extends JFrame {
 			}
 
 		});
-		cancel = new JButton("Cancel");
+		cancel = new JButton("Exit");
 		cancel.addActionListener(a -> {
 			// Abbrechen und zur startseite
 			this.dispose();

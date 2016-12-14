@@ -17,7 +17,9 @@ import java.util.List;
  */
 public class GameSaver {
 	public static String PATH_GAME_SAVE = "gameBackups/./";
+	public static String PATH_GAME_SAVE_STATISTIKEN = "gameBackupsStatistiken/./";
 	public static String PATH_PROBLEMS = "sokobanProblems/./";
+
 	public static String PATH_CUSTOM_PROBLEMS = PATH_PROBLEMS
 			+ "/customDesigned/./";
 	private static String seperator = ":";
@@ -91,7 +93,8 @@ public class GameSaver {
 	}
 
 	public static void saveGame(GraphTuple[][] gameElements, String userInput,
-			SokobanStack undo, SokobanStack redo, int moves, int pushes) {
+			SokobanStack undo, SokobanStack redo, int moves, int pushes,
+			int level) {
 		String systemusername = getSystemUserName();
 		Path file = Paths.get(PATH_GAME_SAVE + systemusername + "_"
 				+ getLocalDateTime() + "_" + userInput);
@@ -101,18 +104,21 @@ public class GameSaver {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		saveStatistic(undo, redo, moves, pushes, userInput, systemusername);
+		saveStatistic(undo, redo, moves, pushes, userInput, systemusername,
+				level);
 	}
 
 	private static void saveStatistic(SokobanStack undo, SokobanStack redo,
-			int moves, int pushes, String userInput, String systemusername) {
-		Path file = Paths.get(PATH_GAME_SAVE + systemusername + "_"
-				+ getLocalDateTime() + "_" + userInput + "_statistic");
+			int moves, int pushes, String userInput, String systemusername,
+			int level) {
+		Path file = Paths.get(PATH_GAME_SAVE_STATISTIKEN + systemusername + "_"
+				+ getLocalDateTime() + "_" + userInput);
 		List<String> list = new ArrayList<String>();
 		list.add("UNDO" + seperator + prepareSaveStack(undo));
 		list.add("REDO" + seperator + prepareSaveStack(redo));
 		list.add("MOVES" + seperator + moves);
 		list.add("PUSHES" + seperator + pushes);
+		list.add("LEVEL" + seperator + level);
 		try {
 			Files.write(file, list, Charset.forName("UTF-8"));
 		} catch (IOException e) {
@@ -157,6 +163,10 @@ public class GameSaver {
 
 	public static List<String> loadProblem(String fileName) {
 		return loadTextFile(PATH_PROBLEMS, fileName);
+	}
+
+	public static List<String> loadStatistic(String fileName) {
+		return loadTextFile(PATH_GAME_SAVE_STATISTIKEN, fileName);
 	}
 
 	private static List<String> loadTextFile(String path, String fileName) {
