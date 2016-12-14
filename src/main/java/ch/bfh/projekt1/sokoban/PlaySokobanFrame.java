@@ -19,20 +19,28 @@ public class PlaySokobanFrame extends JFrame {
 	public static String LOAD = "Load";
 	public static String LOAD_OWN_PROBLEM = "Load Own";
 	public static String CANCEL = "Cancel";
+	public static String MOVES = "Moves:";
+	public static String PUSHES = "Pushes:";
 
 	JPanel buttonPanel;
+	JPanel statisticPanel;
 	JButton undo;
 	JButton redo;
 	JButton save;
 	JButton load;
 	JButton loadOwnProblem;
 	JButton cancel;
+	JLabel moves;
+	JLabel pushes;
+	public JLabel movesCount;
+	public JLabel pushesCount;
 	private Warehouse warehouse;
 
 	public PlaySokobanFrame(Warehouse warehouse) {
 		this.warehouse = warehouse;
 		setFocusOnWarehouse();
 		buttonPanel = new JPanel();
+		statisticPanel = new JPanel();
 		redo = new JButton();
 		redo.setText(REDO);
 		redo.addActionListener(t -> {
@@ -81,6 +89,10 @@ public class PlaySokobanFrame extends JFrame {
 			this.dispose();
 			MainSokoban.showInitDialog();
 		});
+		moves = new JLabel(MOVES);
+		pushes = new JLabel(PUSHES);
+		movesCount = new JLabel("0");
+		pushesCount = new JLabel("0");
 
 		buttonPanel.add(undo);
 		buttonPanel.add(redo);
@@ -88,8 +100,13 @@ public class PlaySokobanFrame extends JFrame {
 		buttonPanel.add(load);
 		buttonPanel.add(loadOwnProblem);
 		buttonPanel.add(cancel);
+		statisticPanel.add(moves);
+		statisticPanel.add(movesCount);
+		statisticPanel.add(pushes);
+		statisticPanel.add(pushesCount);
 
 		getContentPane().add(warehouse, BorderLayout.CENTER);
+		getContentPane().add(statisticPanel, BorderLayout.NORTH);
 		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 	}
 

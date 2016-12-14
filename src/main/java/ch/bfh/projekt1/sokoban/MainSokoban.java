@@ -30,7 +30,8 @@ public class MainSokoban {
 			warehouse.initGame();
 			warehouse.paintInitGameArea();
 			PlaySokobanFrame sokobanGame = new PlaySokobanFrame(warehouse);
-			warehouse.setParent(sokobanGame);
+			warehouse.setParent(sokobanGame, sokobanGame.movesCount,
+					sokobanGame.pushesCount);
 			sokobanGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			sokobanGame.setVisible(true);
 			sokobanGame.pack();
@@ -54,7 +55,7 @@ public class MainSokoban {
 			Controller controller = new Controller(new Model());
 			Warehouse warehouse = new Warehouse(controller);
 			ProblemTestFrame frame = new ProblemTestFrame(warehouse);
-			warehouse.setParent(frame);
+			warehouse.setParent(frame, frame.movesCount, frame.pushesCount);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setVisible(true);
 			frame.setSize(600, 400);

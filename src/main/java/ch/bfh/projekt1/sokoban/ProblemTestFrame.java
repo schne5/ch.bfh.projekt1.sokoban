@@ -19,14 +19,21 @@ public class ProblemTestFrame extends JFrame {
 	public static String SAVE = "Save";
 	public static String REVERSE = "Pull";
 	public static String CANCEL = "Cancel";
+	public static String MOVES = "Moves:";
+	public static String PUSHES = "Pushes:";
 
 	JPanel buttonPanel;
+	JPanel statisticPanel;
 	JButton undo;
 	JButton redo;
 	JButton save;
 	JButton loadOwnProblem;
 	JButton cancel;
 	JCheckBox reverse;
+	JLabel moves;
+	JLabel pushes;
+	public JLabel movesCount;
+	public JLabel pushesCount;
 	private Warehouse warehouse;
 	String name;
 
@@ -34,6 +41,7 @@ public class ProblemTestFrame extends JFrame {
 		this.warehouse = warehouse;
 		setFocusOnWarehouse();
 		buttonPanel = new JPanel();
+		statisticPanel = new JPanel();
 		redo = new JButton();
 		redo.setText(REDO);
 		redo.addActionListener(t -> {
@@ -81,6 +89,11 @@ public class ProblemTestFrame extends JFrame {
 			MainSokoban.showInitDialog();
 		});
 
+		moves = new JLabel(MOVES);
+		pushes = new JLabel(PUSHES);
+		movesCount = new JLabel("0");
+		pushesCount = new JLabel("0");
+
 		buttonPanel.add(undo);
 		buttonPanel.add(redo);
 		buttonPanel.add(save);
@@ -88,7 +101,13 @@ public class ProblemTestFrame extends JFrame {
 		buttonPanel.add(cancel);
 		buttonPanel.add(reverse);
 
+		statisticPanel.add(moves);
+		statisticPanel.add(movesCount);
+		statisticPanel.add(pushes);
+		statisticPanel.add(pushesCount);
+
 		getContentPane().add(this.warehouse, BorderLayout.CENTER);
+		getContentPane().add(statisticPanel, BorderLayout.NORTH);
 		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
 		openFileSelectionFrame(GameSaver.PATH_CUSTOM_PROBLEMS, true);

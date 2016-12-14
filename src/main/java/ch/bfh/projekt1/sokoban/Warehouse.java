@@ -10,6 +10,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -28,6 +29,8 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 	GridLayout layout;
 
 	private JFrame parent;
+	private JLabel moves;
+	private JLabel pushes;
 
 	public Warehouse(Controller controller) {
 		addKeyListener(this);
@@ -78,7 +81,11 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 				}
 
 			}
+
 		}
+		moves.setText(model.getMoves() + "");
+		pushes.setText(model.getPushes() + "");
+		parent.repaint();
 	}
 
 	@Override
@@ -96,6 +103,9 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 						gameArea, x, y));
 			}
 		}
+		moves.setText(model.getMoves() + "");
+		pushes.setText(model.getPushes() + "");
+		parent.repaint();
 	}
 
 	public void initGame() {
@@ -196,6 +206,9 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 	public void reset() {
 		this.removeAll();
 		this.gameAreaView = null;
+		moves.setText(model.getMoves() + "");
+		pushes.setText(model.getPushes() + "");
+		parent.repaint();
 	}
 
 	public void refresh() {
@@ -225,7 +238,9 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 		return parent;
 	}
 
-	public void setParent(JFrame parent) {
+	public void setParent(JFrame parent, JLabel moves, JLabel pushes) {
 		this.parent = parent;
+		this.moves = moves;
+		this.pushes = pushes;
 	}
 }

@@ -26,6 +26,8 @@ public class Model implements Serializable {
 	public static int height;
 	private GraphTuple[][] gameArea;
 	private SokobanQueue<Position> queue;
+	private int moves;
+	private int pushes;
 
 	public String getPath() {
 		return path;
@@ -78,6 +80,14 @@ public class Model implements Serializable {
 		stackRedo = new SokobanStack();
 		stackUndo = new SokobanStack();
 		gameArea = new GraphTuple[width][height];
+	}
+
+	public void incrementMoves() {
+		this.moves++;
+	}
+
+	public void incrementPushes() {
+		this.pushes++;
 	}
 
 	public GraphTuple[][] getGameArea() {
@@ -150,5 +160,21 @@ public class Model implements Serializable {
 
 	public void setOwnProblem(boolean ownProblem) {
 		this.ownProblem = ownProblem;
+	}
+
+	public int getMoves() {
+		return moves;
+	}
+
+	public void setMoves(int moves) {
+		this.moves = moves;
+	}
+
+	public int getPushes() {
+		return pushes;
+	}
+
+	public void setPushes(int pushes) {
+		this.pushes = pushes;
 	}
 }

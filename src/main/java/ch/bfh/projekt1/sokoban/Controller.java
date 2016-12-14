@@ -80,9 +80,12 @@ public class Controller {
 			break;
 		}
 		model.setPawnPosition(newPawnposition);
+		updateStatistics(activity);
 	}
 
 	public GraphTuple[][] initWarehouse(List<String> lines) {
+		model.setMoves(0);
+		model.setPushes(0);
 		model.setWidth(lines.get(0).length());
 		model.setHeight(lines.size());
 		model.initGameElements();
@@ -216,5 +219,12 @@ public class Controller {
 			}
 		}
 
+	}
+
+	private void updateStatistics(Activity activity) {
+		if (activity == Activity.PUSH || activity == Activity.PULL) {
+			model.incrementPushes();
+		}
+		model.incrementMoves();
 	}
 }
