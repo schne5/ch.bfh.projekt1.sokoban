@@ -65,8 +65,8 @@ public class PlaySokobanFrame extends JFrame {
 		save.setText(SAVE);
 		save.addActionListener(t -> {
 			String name = getUserInput();
-			if (!"".equals(name) && null != name) {
-				this.warehouse.getController().saveGame(name);
+			if (null != name && !"".equals(name.trim())) {
+				this.warehouse.getController().saveGame(name.trim());
 				setFocusOnWarehouse();
 			}
 		});
@@ -120,8 +120,8 @@ public class PlaySokobanFrame extends JFrame {
 	}
 
 	public String getUserInput() {
-		return JOptionPane.showInputDialog(this, INPUT, JOptionPane.OK_OPTION)
-				.trim();
+		return JOptionPane.showInputDialog(this, INPUT, JOptionPane.OK_OPTION);
+
 	}
 
 	private void openFileSelectionFrame(String path, boolean ownGame) {
