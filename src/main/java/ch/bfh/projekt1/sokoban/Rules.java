@@ -77,8 +77,12 @@ public class Rules {
 	// When a box is locked in a corner or when it can't be moved anymore
 	public static boolean isLocked(GraphTuple[][] gameArea, Position position,
 			int width, int height) {
-		return isInCorner(gameArea, position, width, height)
-				|| isInSink(gameArea, position, width, height);
+		if (gameArea[position.getPosX()][position.getPosY()]
+				.getGameElementType() != GameElementType.BOX_ON_STORAGE) {
+			return isInCorner(gameArea, position, width, height)
+					|| isInSink(gameArea, position, width, height);
+		}
+		return false;
 	}
 
 	private static boolean isInCorner(GraphTuple[][] gameArea,
