@@ -18,7 +18,7 @@ import javax.swing.JPanel;
  *@author:Elisa, Anna
  */
 public class Warehouse extends JPanel implements KeyListener, MouseListener {
-	public static final int IMAGE_WIDTH = 30;
+
 	public static final int YES = 0;
 	public static final String MESSAGE = "Sie haben das Spiel gewonnen. "
 			+ "Wollen Sie das naechste Problem spielen?";
@@ -66,8 +66,6 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 			if (model.isOwnProblem()) {
 				JOptionPane.showConfirmDialog(this, MESSAGE_OWN, "Gewonnen",
 						JOptionPane.OK_OPTION);
-				reset();
-				refresh();
 
 			} else {
 				int option = JOptionPane.showConfirmDialog(this, MESSAGE,
@@ -125,8 +123,9 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 	}
 
 	public void initLayout() {
-		setPreferredSize(new Dimension(controller.getModel().getWidth() * 30,
-				controller.getModel().getHeight() * 30));
+		setPreferredSize(new Dimension(controller.getModel().getWidth()
+				* GameElementUtile.WIDTH, controller.getModel().getHeight()
+				* GameElementUtile.WIDTH));
 		layout = new GridLayout(model.getHeight(), model.getWidth());
 		layout.setHgap(0);
 		layout.setVgap(0);
