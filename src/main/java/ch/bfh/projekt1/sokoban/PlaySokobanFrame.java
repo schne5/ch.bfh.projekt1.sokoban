@@ -5,6 +5,7 @@ import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,7 +18,7 @@ public class PlaySokobanFrame extends JFrame {
 	public static final String REDO = "Redo";
 	public static final String SAVE = "Save";
 	public static final String LOAD = "Load";
-	public static final String LOAD_OWN_PROBLEM = "Load Own";
+	public static final String LOAD_OWN_PROBLEM = "Own";
 	public static final String CANCEL = "Exit";
 	public static final String MOVES = "Moves:";
 	public static final String PUSHES = "Pushes:";
@@ -25,6 +26,7 @@ public class PlaySokobanFrame extends JFrame {
 	public static final String CHOOSE_GAME = "Spiel waehlen:";
 	public static final String OK = "OK";
 	public static final String ERROR_LOAD = "Spiel konnte ncht geladen werden:";
+	public static final String HINTS = "Hints";
 
 	JPanel buttonPanel;
 	JPanel statisticPanel;
@@ -34,6 +36,7 @@ public class PlaySokobanFrame extends JFrame {
 	JButton load;
 	JButton loadOwnProblem;
 	JButton cancel;
+	JCheckBox hints;
 	JLabel moves;
 	JLabel pushes;
 	public JLabel movesCount;
@@ -93,6 +96,14 @@ public class PlaySokobanFrame extends JFrame {
 			this.dispose();
 			MainSokoban.showInitDialog();
 		});
+
+		hints = new JCheckBox();
+		hints.setText(HINTS);
+		hints.addActionListener(t -> {
+			this.warehouse.getModel().setHints(hints.isSelected());
+			setFocusOnWarehouse();
+		});
+
 		moves = new JLabel(MOVES);
 		pushes = new JLabel(PUSHES);
 		movesCount = new JLabel("0");
@@ -104,6 +115,7 @@ public class PlaySokobanFrame extends JFrame {
 		buttonPanel.add(load);
 		buttonPanel.add(loadOwnProblem);
 		buttonPanel.add(cancel);
+		buttonPanel.add(hints);
 		statisticPanel.add(moves);
 		statisticPanel.add(movesCount);
 		statisticPanel.add(pushes);

@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class GameElementUtile {
 
-	public static final int WIDTH = 30;
+	public static final int WIDTH = 35;
 
 	public static GameElement getGameElementByType(GameElementType type) {
 		switch (type) {
@@ -149,7 +149,7 @@ public class GameElementUtile {
 		Position right = getNextPosition(Direction.RIGHT, position, width,
 				height);
 
-		// TODO schöner machen :)
+		// TODO schï¿½ner machen :)
 		if (up != null && canMoveOnField(up, gameArea, boxIsValid)) {
 			positions.add(up);
 		}

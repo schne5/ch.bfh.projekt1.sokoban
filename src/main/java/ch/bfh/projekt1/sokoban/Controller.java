@@ -60,8 +60,10 @@ public class Controller {
 			GameElementUtile.changeGameElementTypes(model.getGameArea(),
 					model.getPawnPosition(), newPawnposition, positionAfterBox,
 					activity);
-			if (Rules.isLocked(model.getGameArea(), positionAfterBox,
-					model.getWidth(), model.getHeight())) {
+
+			if (model.isHints()
+					&& Rules.isLocked(model.getGameArea(), positionAfterBox,
+							model.getWidth(), model.getHeight())) {
 				JOptionPane
 						.showMessageDialog(null,
 								"Diese Kiste wird blockiert sein. Machen Sie den Zug rueckgaengig.");

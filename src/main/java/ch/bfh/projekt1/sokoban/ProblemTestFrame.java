@@ -18,6 +18,7 @@ public class ProblemTestFrame extends JFrame {
 	public static final String LOAD = "Load";
 	public static final String SAVE = "Save";
 	public static final String REVERSE = "Pull";
+	public static final String HINTS = "Hints";
 	public static final String CANCEL = "Exit";
 	public static final String MOVES = "Moves:";
 	public static final String PUSHES = "Pushes:";
@@ -34,6 +35,7 @@ public class ProblemTestFrame extends JFrame {
 	JButton loadOwnProblem;
 	JButton cancel;
 	JCheckBox reverse;
+	JCheckBox hints;
 	JLabel moves;
 	JLabel pushes;
 	public JLabel movesCount;
@@ -86,6 +88,13 @@ public class ProblemTestFrame extends JFrame {
 			setFocusOnWarehouse();
 		});
 
+		hints = new JCheckBox();
+		hints.setText(HINTS);
+		hints.addActionListener(t -> {
+			this.warehouse.getModel().setHints(hints.isSelected());
+			setFocusOnWarehouse();
+		});
+
 		cancel = new JButton(CANCEL);
 		cancel.addActionListener(a -> {
 			this.dispose();
@@ -103,6 +112,7 @@ public class ProblemTestFrame extends JFrame {
 		buttonPanel.add(loadOwnProblem);
 		buttonPanel.add(cancel);
 		buttonPanel.add(reverse);
+		buttonPanel.add(hints);
 
 		statisticPanel.add(moves);
 		statisticPanel.add(movesCount);

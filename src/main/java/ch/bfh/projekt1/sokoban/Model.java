@@ -20,6 +20,7 @@ public class Model implements Serializable {
 	private String path;
 	private int level;
 	private boolean reverse;
+	private boolean hints;
 	private boolean ownProblem;
 	private Position pawnPosition;
 	public static int width;
@@ -188,5 +189,13 @@ public class Model implements Serializable {
 
 	public void setPushes(int pushes) {
 		this.pushes = pushes;
+	}
+
+	public boolean isHints() {
+		return hints;
+	}
+
+	public void setHints(boolean hints) {
+		this.hints = hints;
 	}
 }
