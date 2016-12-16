@@ -27,6 +27,10 @@ public class ProblemDesigner extends JFrame {
 	JButton clear;
 	JPanel buttonPanel;
 
+	public static String OK = "Ok";
+	public static String CANCEL = "Exit";
+	public static String CLEAR = "Clear";
+
 	public ProblemDesigner() {
 		initMouseListener();
 		gameElementPanel = new JPanel();
@@ -57,7 +61,7 @@ public class ProblemDesigner extends JFrame {
 
 	private void initButtons() {
 		buttonPanel = new JPanel();
-		ok = new JButton("OK");
+		ok = new JButton(OK);
 		ok.addActionListener(a -> {
 			// Problem abspeichern
 			if (problemDesignArea.valid()) {
@@ -76,13 +80,13 @@ public class ProblemDesigner extends JFrame {
 			}
 
 		});
-		cancel = new JButton("Exit");
+		cancel = new JButton(CANCEL);
 		cancel.addActionListener(a -> {
 			// Abbrechen und zur startseite
 			this.dispose();
 			MainSokoban.showInitDialog();
 		});
-		clear = new JButton("Clear");
+		clear = new JButton(CLEAR);
 		clear.addActionListener(a -> {
 			// TODO Clear
 		});

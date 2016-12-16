@@ -11,6 +11,10 @@ import javax.swing.JPanel;
  *@author:Elisa, Anna
  */
 public class MainSokoban {
+	public static String WELCOME = "Welcome to SOKOBAN!!!";
+	public static String PLAY = "Play";
+	public static String DESIGN = "Problem design";
+	public static String TEST = "Problem test";
 
 	public static void main(String[] args) {
 		showInitDialog();
@@ -20,10 +24,10 @@ public class MainSokoban {
 
 		JFrame enter = new JFrame();
 		JPanel buttonPanel = new JPanel();
-		JLabel welcome = new JLabel("Welcome to SOKOBAN!!!");
+		JLabel welcome = new JLabel(WELCOME);
 		welcome.setHorizontalAlignment(JLabel.CENTER);
 
-		JButton play = new JButton("Play");
+		JButton play = new JButton(PLAY);
 		play.addActionListener(a -> {
 			Controller controller = new Controller(new Model());
 			Warehouse warehouse = new Warehouse(controller);
@@ -41,7 +45,7 @@ public class MainSokoban {
 			enter.setVisible(false);
 		});
 
-		JButton design = new JButton("Problem design");
+		JButton design = new JButton(DESIGN);
 		design.addActionListener(a -> {
 			ProblemDesigner problemDesigner = new ProblemDesigner();
 			problemDesigner.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,7 +55,7 @@ public class MainSokoban {
 			enter.setVisible(false);
 		});
 
-		JButton testOwnProblem = new JButton("Problem test");
+		JButton testOwnProblem = new JButton(TEST);
 		testOwnProblem.addActionListener(a -> {
 			Controller controller = new Controller(new Model());
 			Warehouse warehouse = new Warehouse(controller);
