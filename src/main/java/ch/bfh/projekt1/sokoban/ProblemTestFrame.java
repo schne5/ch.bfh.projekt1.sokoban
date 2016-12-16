@@ -13,14 +13,18 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class ProblemTestFrame extends JFrame {
-	public static String UNDO = "Undo";
-	public static String REDO = "Redo";
-	public static String LOAD = "Load";
-	public static String SAVE = "Save";
-	public static String REVERSE = "Pull";
-	public static String CANCEL = "Exit";
-	public static String MOVES = "Moves:";
-	public static String PUSHES = "Pushes:";
+	public static final String UNDO = "Undo";
+	public static final String REDO = "Redo";
+	public static final String LOAD = "Load";
+	public static final String SAVE = "Save";
+	public static final String REVERSE = "Pull";
+	public static final String CANCEL = "Exit";
+	public static final String MOVES = "Moves:";
+	public static final String PUSHES = "Pushes:";
+	public static final String INPUT = "Spielnamenzusatz eingeben:";
+	public static final String CHOOSE_GAME = "Spiel waehlen:";
+	public static final String OK = "OK";
+	public static final String ERROR_LOAD = "Spiel konnte ncht geladen werden:";
 
 	JPanel buttonPanel;
 	JPanel statisticPanel;
@@ -84,7 +88,6 @@ public class ProblemTestFrame extends JFrame {
 
 		cancel = new JButton(CANCEL);
 		cancel.addActionListener(a -> {
-			// Abbrechen und zur startseite
 			this.dispose();
 			MainSokoban.showInitDialog();
 		});
@@ -118,8 +121,8 @@ public class ProblemTestFrame extends JFrame {
 		JComboBox<String> files = new JComboBox<String>(
 				GameSaver.loadAllFiles(path));
 		files.setSize(300, 100);
-		JLabel label = new JLabel("Wählen Sie ein Spiel:");
-		JButton ok = new JButton("OK");
+		JLabel label = new JLabel(CHOOSE_GAME);
+		JButton ok = new JButton(OK);
 		ok.setMaximumSize(new Dimension(40, 40));
 		dialog.add(files, BorderLayout.CENTER);
 		dialog.add(label, BorderLayout.NORTH);
@@ -138,9 +141,7 @@ public class ProblemTestFrame extends JFrame {
 					warehouse.paintInitGameArea();
 					warehouse.refresh();
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(this,
-							"Kein Spiel zu File: \"" + selected
-									+ "\" gefunden.");
+					JOptionPane.showMessageDialog(this, ERROR_LOAD + selected);
 				}
 			}
 			dialog.dispose();
@@ -154,8 +155,8 @@ public class ProblemTestFrame extends JFrame {
 	}
 
 	public String getUserInput() {
-		return JOptionPane.showInputDialog(this, "Username eingeben",
-				JOptionPane.OK_OPTION).trim();
+		return JOptionPane.showInputDialog(this, INPUT, JOptionPane.OK_OPTION)
+				.trim();
 	}
 
 	public Warehouse getWarehouse() {

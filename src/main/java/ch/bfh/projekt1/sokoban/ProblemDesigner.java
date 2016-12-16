@@ -17,6 +17,7 @@ import javax.swing.JPanel;
  *@author:Elisa, Anna
  */
 public class ProblemDesigner extends JFrame {
+
 	public static int SPACE = 30;
 	ArrayList<JLabel> elements = new ArrayList<JLabel>();
 	MouseListener mouseListener;
@@ -27,9 +28,11 @@ public class ProblemDesigner extends JFrame {
 	JButton clear;
 	JPanel buttonPanel;
 
-	public static String OK = "Ok";
-	public static String CANCEL = "Exit";
-	public static String CLEAR = "Clear";
+	public static final String OK = "Ok";
+	public static final String CANCEL = "Exit";
+	public static final String CLEAR = "Clear";
+	public static final String VALIDATION_AREA = "Kein geschlossenes Spielfeld!!";
+	public static final String VALIDATION_GAMEELEMENTS = "Anzahl Spielfiguren nicht gueltig";
 
 	public ProblemDesigner() {
 		initMouseListener();
@@ -63,7 +66,6 @@ public class ProblemDesigner extends JFrame {
 		buttonPanel = new JPanel();
 		ok = new JButton(OK);
 		ok.addActionListener(a -> {
-			// Problem abspeichern
 			if (problemDesignArea.valid()) {
 				GraphTuple[][] gameElements = problemDesignArea.prepareSave();
 				if (validWalls(gameElements)) {
@@ -71,27 +73,19 @@ public class ProblemDesigner extends JFrame {
 					this.dispose();
 					MainSokoban.showInitDialog();
 				} else {
-					JOptionPane.showMessageDialog(this,
-							"Kein geschlossenes Spielfeld!!");
+					JOptionPane.showMessageDialog(this, VALIDATION_AREA);
 				}
 			} else {
-				JOptionPane.showMessageDialog(this,
-						"Anzahl Spielfiguren nicht gueltig");
+				JOptionPane.showMessageDialog(this, VALIDATION_GAMEELEMENTS);
 			}
 
 		});
 		cancel = new JButton(CANCEL);
 		cancel.addActionListener(a -> {
-			// Abbrechen und zur startseite
 			this.dispose();
 			MainSokoban.showInitDialog();
 		});
-		clear = new JButton(CLEAR);
-		clear.addActionListener(a -> {
-			// TODO Clear
-		});
 		buttonPanel.add(ok);
-		// buttonPanel.add(clear);
 		buttonPanel.add(cancel);
 	}
 

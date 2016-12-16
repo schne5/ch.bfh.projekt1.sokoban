@@ -79,7 +79,8 @@ public class Model implements Serializable {
 		setPawnPosition(new Position(-1, -1));
 		stackRedo = new SokobanStack();
 		stackUndo = new SokobanStack();
-
+		this.moves = 0;
+		this.pushes = 0;
 	}
 
 	public void initGameElements(SokobanStack undo, SokobanStack redo,

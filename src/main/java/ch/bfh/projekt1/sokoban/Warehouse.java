@@ -81,11 +81,8 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 				}
 
 			}
-
+			updateParent();
 		}
-		moves.setText(model.getMoves() + "");
-		pushes.setText(model.getPushes() + "");
-		parent.repaint();
 	}
 
 	@Override
@@ -103,9 +100,7 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 						gameArea, x, y));
 			}
 		}
-		moves.setText(model.getMoves() + "");
-		pushes.setText(model.getPushes() + "");
-		parent.repaint();
+		updateParent();
 	}
 
 	public void initGame() {
@@ -208,9 +203,7 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 	public void reset() {
 		this.removeAll();
 		this.gameAreaView = null;
-		moves.setText(model.getMoves() + "");
-		pushes.setText(model.getPushes() + "");
-		parent.repaint();
+		updateParent();
 	}
 
 	public void refresh() {

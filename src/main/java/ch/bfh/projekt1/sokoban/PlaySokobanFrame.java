@@ -13,14 +13,18 @@ import javax.swing.JPanel;
 
 public class PlaySokobanFrame extends JFrame {
 
-	public static String UNDO = "Undo";
-	public static String REDO = "Redo";
-	public static String SAVE = "Save";
-	public static String LOAD = "Load";
-	public static String LOAD_OWN_PROBLEM = "Load Own";
-	public static String CANCEL = "Exit";
-	public static String MOVES = "Moves:";
-	public static String PUSHES = "Pushes:";
+	public static final String UNDO = "Undo";
+	public static final String REDO = "Redo";
+	public static final String SAVE = "Save";
+	public static final String LOAD = "Load";
+	public static final String LOAD_OWN_PROBLEM = "Load Own";
+	public static final String CANCEL = "Exit";
+	public static final String MOVES = "Moves:";
+	public static final String PUSHES = "Pushes:";
+	public static final String INPUT = "Spielnamenzusatz eingeben:";
+	public static final String CHOOSE_GAME = "Spiel waehlen:";
+	public static final String OK = "OK";
+	public static final String ERROR_LOAD = "Spiel konnte ncht geladen werden:";
 
 	JPanel buttonPanel;
 	JPanel statisticPanel;
@@ -116,49 +120,8 @@ public class PlaySokobanFrame extends JFrame {
 	}
 
 	public String getUserInput() {
-		return JOptionPane.showInputDialog(this, "Username eingeben",
-				JOptionPane.OK_OPTION).trim();
-	}
-
-	private static void openFileSelectionFrame(String path, boolean ownGame,
-			boolean test) {
-		JFrame dialog = new JFrame();
-		JComboBox<String> files = new JComboBox<String>(
-				GameSaver.loadAllFiles(path));
-		files.setSize(300, 100);
-		JLabel label = new JLabel("Wählen Sie ein Spiel:");
-		JButton ok = new JButton("OK");
-		ok.setMaximumSize(new Dimension(40, 40));
-		dialog.add(files, BorderLayout.CENTER);
-		dialog.add(label, BorderLayout.NORTH);
-		dialog.add(ok, BorderLayout.SOUTH);
-		files.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		label.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
-
-		dialog.pack();
-		dialog.setVisible(true);
-
-		ok.addActionListener(a -> {
-			String selected = files.getSelectedItem().toString();
-			if (!"".equals(selected) && null != selected) {
-				try {
-					Controller controller = new Controller(new Model());
-					Warehouse warehouse = new Warehouse(controller);
-					JFrame frame = new JFrame();
-
-					warehouse.initGame(ownGame, selected);
-					warehouse.paintInitGameArea();
-
-				} catch (Exception e) {
-					// JOptionPane.showMessageDialog(this,
-					// "Kein Spiel zu File: \"" + selected
-					// + "\" gefunden.");
-				}
-
-			}
-			dialog.dispose();
-			// this.setVisible(true);
-		});
+		return JOptionPane.showInputDialog(this, INPUT, JOptionPane.OK_OPTION)
+				.trim();
 	}
 
 	private void openFileSelectionFrame(String path, boolean ownGame) {
@@ -166,8 +129,8 @@ public class PlaySokobanFrame extends JFrame {
 		JComboBox<String> files = new JComboBox<String>(
 				GameSaver.loadAllFiles(path));
 		files.setSize(300, 100);
-		JLabel label = new JLabel("Wählen Sie ein Spiel:");
-		JButton ok = new JButton("OK");
+		JLabel label = new JLabel(CHOOSE_GAME);
+		JButton ok = new JButton(OK);
 		ok.setMaximumSize(new Dimension(40, 40));
 		dialog.add(files, BorderLayout.CENTER);
 		dialog.add(label, BorderLayout.NORTH);
@@ -187,9 +150,7 @@ public class PlaySokobanFrame extends JFrame {
 					warehouse.updateParent();
 					warehouse.refresh();
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(this,
-							"Kein Spiel zu File: \"" + selected
-									+ "\" gefunden.");
+					JOptionPane.showMessageDialog(this, ERROR_LOAD + selected);
 				}
 			}
 			dialog.dispose();
