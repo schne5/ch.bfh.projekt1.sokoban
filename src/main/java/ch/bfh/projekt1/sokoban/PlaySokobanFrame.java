@@ -184,6 +184,7 @@ public class PlaySokobanFrame extends JFrame {
 					warehouse.reset();
 					warehouse.initGame(ownGame, selected);
 					warehouse.paintInitGameArea();
+					warehouse.updateParent();
 					warehouse.refresh();
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(this,

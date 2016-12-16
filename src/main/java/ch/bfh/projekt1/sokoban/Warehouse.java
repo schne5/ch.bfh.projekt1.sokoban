@@ -245,4 +245,10 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 		this.moves = moves;
 		this.pushes = pushes;
 	}
+
+	public void updateParent() {
+		moves.setText(model.getMoves() + "");
+		pushes.setText(model.getPushes() + "");
+		parent.repaint();
+	}
 }

@@ -32,6 +32,7 @@ public class MainSokoban {
 			PlaySokobanFrame sokobanGame = new PlaySokobanFrame(warehouse);
 			warehouse.setParent(sokobanGame, sokobanGame.movesCount,
 					sokobanGame.pushesCount);
+			warehouse.updateParent();
 			sokobanGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			sokobanGame.setVisible(true);
 			sokobanGame.pack();
