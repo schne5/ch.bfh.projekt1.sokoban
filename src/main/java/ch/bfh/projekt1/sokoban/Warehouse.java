@@ -18,7 +18,7 @@ import javax.swing.JPanel;
  *@author:Elisa, Anna
  */
 public class Warehouse extends JPanel implements KeyListener, MouseListener {
-
+	private static final long serialVersionUID = 1L;
 	public static final int YES = 0;
 	public static final String MESSAGE = "Sie haben das Spiel gewonnen. "
 			+ "Wollen Sie das naechste Problem spielen?";
@@ -155,6 +155,7 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 		GameElementView gameElementView = (GameElementView) e.getSource();
 
 		new Thread() {
+			@Override
 			public void run() {
 				ArrayList<Position> path = controller.getPath(gameElementView
 						.getPosition());
@@ -228,6 +229,7 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 		this.controller = controller;
 	}
 
+	@Override
 	public JFrame getParent() {
 		return parent;
 	}

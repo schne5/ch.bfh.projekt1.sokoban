@@ -10,6 +10,10 @@ import javax.imageio.ImageIO;
  *@author:Elisa, Anna
  */
 public class Pawn extends GameElement {
+	private static final long serialVersionUID = 1L;
+	private static final String NOT_FOUND_PAWN = NOT_FOUND + " Pawn";
+	private static final String NOT_FOUND_PAWN_ON_STORAGE = NOT_FOUND
+			+ " Pawn on Storage";
 	private static final String IMAGE = "pawn.png";
 	private static final String IMAGE_ON_STORAGE = "pawn_on_storage.png";
 
@@ -22,7 +26,7 @@ public class Pawn extends GameElement {
 		try {
 			image = ImageIO.read(pathToFile);
 		} catch (IOException e) {
-			System.out.println("Image Pawn not found");
+			System.out.println(NOT_FOUND_PAWN);
 		}
 		return image;
 	}
@@ -33,7 +37,7 @@ public class Pawn extends GameElement {
 		try {
 			image = ImageIO.read(pathToFile);
 		} catch (IOException e) {
-			System.out.println("Image Pawn on Storage not found");
+			System.out.println(NOT_FOUND_PAWN_ON_STORAGE);
 		}
 		return image;
 	}

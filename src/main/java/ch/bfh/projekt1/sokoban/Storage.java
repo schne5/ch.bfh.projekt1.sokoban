@@ -10,6 +10,8 @@ import javax.imageio.ImageIO;
  *@author:Elisa, Anna
  */
 public class Storage extends GameElement {
+	private static final long serialVersionUID = 1L;
+	private static final String NOT_FOUND_STORAGE = NOT_FOUND + " Storage";
 	private boolean occupied;
 	public static final String IMAGE = "storage.png";
 
@@ -30,7 +32,7 @@ public class Storage extends GameElement {
 		try {
 			image = ImageIO.read(pathToFile);
 		} catch (IOException e) {
-			System.out.println("Image Storage not found");
+			System.out.println(NOT_FOUND_STORAGE);
 		}
 		return image;
 	}

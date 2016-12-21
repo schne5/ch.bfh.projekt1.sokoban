@@ -50,14 +50,11 @@ public class Rules {
 							|| typeBeforePawn == GameElementType.BOX_ON_STORAGE) {
 						return Activity.PULL;
 					}
-
 				}
 				return Activity.MOVE;
-
 			default:
 				return Activity.COLLISION;
 			}
-
 		}
 		return Activity.COLLISION;
 	}
@@ -74,7 +71,7 @@ public class Rules {
 		return true;
 	}
 
-	// When a box is locked in a corner or when it can't be moved anymore
+	// When a box is locked and can't be moved anymore
 	public static boolean isLocked(GraphTuple[][] gameArea, Position position,
 			int width, int height) {
 		if (gameArea[position.getPosX()][position.getPosY()]
@@ -149,7 +146,6 @@ public class Rules {
 				gameArea, firstPositionOther);
 		GameElementType secondTypeOther = GameElementUtile.getTypeByPosition(
 				gameArea, secondPositionOther);
-		// TODO or locked box
 		if (firstTypeOther == GameElementType.WALL
 				|| secondTypeOther == GameElementType.WALL) {
 			return true;
@@ -161,24 +157,4 @@ public class Rules {
 			int width, int height) {
 		return false;
 	}
-
-	private static boolean isTimeOver() {
-		return false;
-	}
-
-	// public static Activity checkRules(GraphTuple[][] gameArea,
-	// Direction direction, Position pawnPosition, boolean reverse,
-	// int width, int height, boolean hint) {
-	// Activity activity = checkCollision(gameArea, direction, pawnPosition,
-	// reverse, width, height);
-	// if (hint && activity == Activity.PUSH) {
-	// Position positionToCheck = GameElementUtile.getNextPosition(
-	// direction, GameElementUtile.getNextPosition(direction,
-	// pawnPosition, width, height), width, height);
-	// if (isLocked(gameArea, positionToCheck, width, height))
-	// System.out.println("locked");
-	// }
-	// return activity;
-	//
-	// }
 }

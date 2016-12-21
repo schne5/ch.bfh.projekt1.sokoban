@@ -5,11 +5,14 @@ package ch.bfh.projekt1.sokoban;
  *
  */
 public class SokobanQueue<E> implements Queue<E> {
+	private static final String EMPTY_QUEUE = "empty Queue!";
 
+	@SuppressWarnings("unchecked")
 	private E[] stor = (E[]) new Object[1];
 	private int len, head, tail;
 
 	private void expand() {
+		@SuppressWarnings("unchecked")
 		E[] newStor = (E[]) new Object[stor.length * 2];
 		for (int i = 0; i < len; i++) {
 			newStor[i] = stor[head++];
@@ -34,7 +37,7 @@ public class SokobanQueue<E> implements Queue<E> {
 	@Override
 	public E dequeue() {
 		if (len == 0)
-			throw new RuntimeException("empty Queue!");
+			throw new RuntimeException(EMPTY_QUEUE);
 		E ret = stor[head++];
 		if (head == stor.length)
 			head = 0; // wrap around !

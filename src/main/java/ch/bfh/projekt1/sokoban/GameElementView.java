@@ -9,6 +9,7 @@ import javax.swing.JLabel;
  *@author:Elisa
  */
 public class GameElementView extends JLabel {
+	private static final long serialVersionUID = 1L;
 	static ImageIcon imagePawn;
 	static ImageIcon imagePawnOnStorage;
 	static ImageIcon imageFloor;

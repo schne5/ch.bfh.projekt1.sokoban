@@ -8,6 +8,7 @@ import java.io.Serializable;
  */
 public abstract class GameElement implements Serializable {
 	private static final long serialVersionUID = 1L;
+	public static final String NOT_FOUND = "Image not found";
 	public static final String IMAGE_PATH = "images/./";
 	transient private Image image;
 

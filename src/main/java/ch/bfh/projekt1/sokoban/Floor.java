@@ -8,9 +8,10 @@ import javax.imageio.ImageIO;
 
 /*
  *@author:Elisa, Anna
- *Im moment noch nicht verwendet
  */
 public class Floor extends GameElement {
+	private static final long serialVersionUID = 1L;
+	private static final String NOT_FOUND_FLOOR = NOT_FOUND + " Floor";
 	private static final String IMAGE = "floor_empty.png";
 	private static final String IMAGE_DESIGN = "floor.png";
 
@@ -28,7 +29,7 @@ public class Floor extends GameElement {
 		try {
 			image = ImageIO.read(pathToFile);
 		} catch (IOException e) {
-			System.out.println("Image Floor not found");
+			System.out.println(NOT_FOUND_FLOOR);
 		}
 		return image;
 	}

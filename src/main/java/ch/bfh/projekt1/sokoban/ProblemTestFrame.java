@@ -12,7 +12,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+/*
+ *@author:Elisa, Anna
+ */
 public class ProblemTestFrame extends JFrame {
+	private static final long serialVersionUID = 1L;
 	public static final String UNDO = "Undo";
 	public static final String REDO = "Redo";
 	public static final String LOAD = "Load";

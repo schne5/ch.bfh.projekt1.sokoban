@@ -12,6 +12,9 @@ import javax.imageio.ImageIO;
  */
 public class Box extends GameElement implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private static final String NOT_FOUND_BOX = NOT_FOUND + " Box";
+	private static final String NOT_FOUND_BOX_ON_STORAGE = NOT_FOUND
+			+ " Box on Storage";
 	private static final String IMAGE = "box.png";
 	private static final String IMAGE_ON_STORAGE = "box_on_storage.png";
 
@@ -25,7 +28,7 @@ public class Box extends GameElement implements Serializable {
 		try {
 			image = ImageIO.read(pathToFile);
 		} catch (IOException e) {
-			System.out.println("Image Box not found");
+			System.out.println(NOT_FOUND_BOX);
 		}
 		return image;
 	}
@@ -36,7 +39,7 @@ public class Box extends GameElement implements Serializable {
 		try {
 			image = ImageIO.read(pathToFile);
 		} catch (IOException e) {
-			System.out.println("Image Box on Storage not found");
+			System.out.println(NOT_FOUND_BOX_ON_STORAGE);
 		}
 		return image;
 	}

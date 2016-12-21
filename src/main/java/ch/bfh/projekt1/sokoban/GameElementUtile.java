@@ -34,6 +34,7 @@ public class GameElementUtile {
 		return getNextPosition(direction, position, false, width, height);
 	}
 
+	// opposite = true bei Activity = PULL
 	public static Position getNextPosition(Direction direction,
 			Position position, boolean opposite, int width, int height) {
 		Position newPosition = new Position(position.getPosX(),
@@ -78,12 +79,14 @@ public class GameElementUtile {
 				.getGameElementType();
 	}
 
+	// wechselt GameElementTyp von zwei Feldern (beim move)
 	public static GraphTuple[][] changeGameElementTypes(
 			GraphTuple[][] gameArea, Position first, Position second,
 			Activity activity) {
 		return changeGameElementTypes(gameArea, first, second, null, activity);
 	}
 
+	// wechselt GameElementTyp von drei Feldern (beim push/pull)
 	public static GraphTuple[][] changeGameElementTypes(
 			GraphTuple[][] gameArea, Position first, Position second,
 			Position third, Activity activity) {
@@ -140,6 +143,8 @@ public class GameElementUtile {
 		return null;
 	}
 
+	// Gibt alle Nachbarfelder zurück, auf denen sich der Pawn bewegen könnte.
+	// Mit boxIsValid auch Boxen (Spielfeldvalidierung)
 	public static ArrayList<Position> getValidNeighbours(Position position,
 			GraphTuple[][] gameArea, boolean boxIsValid, int width, int height) {
 		ArrayList<Position> positions = new ArrayList<Position>();
@@ -149,7 +154,7 @@ public class GameElementUtile {
 		Position right = getNextPosition(Direction.RIGHT, position, width,
 				height);
 
-		// TODO schï¿½ner machen :)
+		// TODO schoener machen :)
 		if (up != null && canMoveOnField(up, gameArea, boxIsValid)) {
 			positions.add(up);
 		}
@@ -166,6 +171,7 @@ public class GameElementUtile {
 		return positions;
 	}
 
+	// ist das Feld leer? Bzw. mit boxIsValid gilt auch box als leeres Feld
 	private static boolean canMoveOnField(Position position,
 			GraphTuple[][] gameArea, boolean boxIsValid) {
 		int x = position.getPosX();
@@ -213,7 +219,6 @@ public class GameElementUtile {
 			return GameElementType.STORAGE;
 		case PAWN:
 			return GameElementType.PAWN;
-
 		case PAWN_ON_STORAGE:
 			return GameElementType.PAWN_ON_STORAGE;
 		case BOX_ON_STORAGE:

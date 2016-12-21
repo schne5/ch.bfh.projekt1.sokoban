@@ -17,8 +17,14 @@ import javax.swing.JPanel;
  *@author:Elisa, Anna
  */
 public class ProblemDesigner extends JFrame {
-
+	private static final long serialVersionUID = 1L;
 	public static int SPACE = 30;
+	public static final String OK = "Ok";
+	public static final String CANCEL = "Exit";
+	public static final String CLEAR = "Clear";
+	public static final String VALIDATION_AREA = "Kein geschlossenes Spielfeld!!";
+	public static final String VALIDATION_GAMEELEMENTS = "Anzahl Spielfiguren nicht gueltig";
+
 	ArrayList<JLabel> elements = new ArrayList<JLabel>();
 	MouseListener mouseListener;
 	ProblemDesignArea problemDesignArea;
@@ -27,12 +33,6 @@ public class ProblemDesigner extends JFrame {
 	JButton cancel;
 	JButton clear;
 	JPanel buttonPanel;
-
-	public static final String OK = "Ok";
-	public static final String CANCEL = "Exit";
-	public static final String CLEAR = "Clear";
-	public static final String VALIDATION_AREA = "Kein geschlossenes Spielfeld!!";
-	public static final String VALIDATION_GAMEELEMENTS = "Anzahl Spielfiguren nicht gueltig";
 
 	public ProblemDesigner() {
 		initMouseListener();
@@ -113,13 +113,11 @@ public class ProblemDesigner extends JFrame {
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 		};
@@ -184,7 +182,7 @@ public class ProblemDesigner extends JFrame {
 			Position first = queue.dequeue();
 			ArrayList<Position> neighbours = GameElementUtile
 					.getValidNeighbours(first, gameElements, true,
-							ProblemDesignArea.WIDTH, problemDesignArea.HEIGHT);
+							ProblemDesignArea.WIDTH, ProblemDesignArea.HEIGHT);
 			int x;
 			int y;
 			for (Position neighbour : neighbours) {

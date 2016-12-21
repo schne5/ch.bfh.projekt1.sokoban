@@ -10,7 +10,8 @@ import javax.imageio.ImageIO;
  *@author:Elisa, Anna
  */
 public class Wall extends GameElement {
-
+	private static final long serialVersionUID = 1L;
+	private static final String NOT_FOUND_WALL = NOT_FOUND + " WALL";
 	private static final String IMAGE = "wall.png";
 
 	public Wall(int posX, int posY) {
@@ -30,7 +31,7 @@ public class Wall extends GameElement {
 		try {
 			image = ImageIO.read(pathToFile);
 		} catch (IOException e) {
-			System.out.println("Image wall not found");
+			System.out.println(NOT_FOUND_WALL);
 		}
 		return image;
 	}

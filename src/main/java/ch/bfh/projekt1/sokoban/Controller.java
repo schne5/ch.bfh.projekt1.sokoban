@@ -5,8 +5,12 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+/*
+ *@author:Elisa, Anna
+ */
 public class Controller {
 	private Model model;
+	private static final String BOLCKED = "Diese Kiste wird blockiert sein. Machen Sie den Zug rueckgaengig.";
 	public static char PAWN = '@';
 	public static char WALL = '#';
 	public static char BOX = '$';
@@ -28,7 +32,6 @@ public class Controller {
 	}
 
 	public void move(Direction direction) {
-		// TODO checkbox with hint erstellen und mitgeben
 		Activity activity = Rules.checkCollision(model.getGameArea(),
 				direction, model.getPawnPosition(), model.isReverse(),
 				model.getWidth(), model.getHeight());
@@ -64,15 +67,11 @@ public class Controller {
 			if (model.isHints()
 					&& Rules.isLocked(model.getGameArea(), positionAfterBox,
 							model.getWidth(), model.getHeight())) {
-				JOptionPane
-						.showMessageDialog(null,
-								"Diese Kiste wird blockiert sein. Machen Sie den Zug rueckgaengig.");
+				JOptionPane.showMessageDialog(null, BOLCKED);
 			}
 			break;
 		case PULL:
-			// true, da das next auf der gegen�berliegenden Siete ben�tigt
-			// wird
-			// wird nur f�r Undo ben�tigt
+			// true, Position in die andere Richtung wird benoetigt
 			Position boxposition = GameElementUtile.getNextPosition(direction,
 					model.getPawnPosition(), true, model.getWidth(),
 					model.getHeight());

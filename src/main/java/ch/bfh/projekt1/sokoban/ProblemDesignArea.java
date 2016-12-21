@@ -10,6 +10,7 @@ import javax.swing.JPanel;
  *@author:Elisa
  */
 public class ProblemDesignArea extends JPanel implements MouseListener {
+	private static final long serialVersionUID = 1L;
 	public static final int WIDTH = 20;
 	public static final int HEIGHT = 16;
 	private GameElementView[][] gameArea;
@@ -50,26 +51,18 @@ public class ProblemDesignArea extends JPanel implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public GameElementType getActiveType() {
@@ -85,7 +78,6 @@ public class ProblemDesignArea extends JPanel implements MouseListener {
 
 		for (int y = 0; y < HEIGHT; y++) {
 			for (int x = 0; x < WIDTH; x++) {
-				GameElementType type = gameArea[x][y].getType();
 				gameElements[x][y] = new GraphTuple(gameArea[x][y].getType());
 			}
 		}

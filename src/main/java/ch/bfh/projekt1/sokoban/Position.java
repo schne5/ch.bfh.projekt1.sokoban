@@ -6,6 +6,7 @@ import java.io.Serializable;
  *@author:Elisa, Anna
  */
 public class Position implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private int posX;
 	private int posY;
 

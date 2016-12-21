@@ -11,6 +11,7 @@ import javax.swing.JPanel;
  *@author:Elisa, Anna
  */
 public class Sokoban extends JFrame {
+	private static final long serialVersionUID = 1L;
 	public static String UNDO = "Undo";
 	public static String REDO = "Redo";
 	public static String SAVE = "Save";
@@ -20,7 +21,6 @@ public class Sokoban extends JFrame {
 	JButton undo;
 	JButton redo;
 	JButton save;
-
 	private Warehouse warehouse;
 
 	public Sokoban(Warehouse warehouse) {
@@ -69,45 +69,6 @@ public class Sokoban extends JFrame {
 		return JOptionPane.showInputDialog(this, "Username eingeben",
 				JOptionPane.OK_OPTION).trim();
 	}
-
-	// private void openFileSelectionFrame(String path, boolean game) {
-	// JFrame dialog = new JFrame();
-	// JComboBox<String> files = new JComboBox<String>(
-	// GameSaver.loadAllFiles(path));
-	// files.setSize(300, 100);
-	// JLabel label = new JLabel("Wählen Sie ein Spiel:");
-	// JButton ok = new JButton("OK");
-	// ok.setMaximumSize(new Dimension(40, 40));
-	// dialog.add(files, BorderLayout.CENTER);
-	// dialog.add(label, BorderLayout.NORTH);
-	// dialog.add(ok, BorderLayout.SOUTH);
-	// files.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-	// label.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
-	//
-	// dialog.pack();
-	// dialog.setVisible(true);
-	// ok.addActionListener(a -> {
-	// String selected = files.getSelectedItem().toString();
-	// if (!"".equals(selected) && null != selected) {
-	// try {
-	// if (game) {
-	// warehouse.getController().loadGame(selected);
-	// } else {
-	// warehouse.getController().loadCustomProblem(selected);
-	// }
-	// warehouse.removeAll();
-	// warehouse.paintInitGameArea();
-	//
-	// } catch (Exception e) {
-	// JOptionPane.showMessageDialog(this,
-	// "Kein Spiel zu File: \"" + selected
-	// + "\" gefunden.");
-	// }
-	// }
-	// dialog.dispose();
-	// this.setVisible(true);
-	// });
-	// }
 
 	public Warehouse getWarehouse() {
 		return warehouse;
