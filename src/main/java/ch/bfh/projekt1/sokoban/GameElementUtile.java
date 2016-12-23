@@ -228,4 +228,8 @@ public class GameElementUtile {
 			return GameElementType.FLOOR;
 		}
 	}
+
+	public static boolean isBox(GameElementType type) {
+		return (type == GameElementType.BOX || type == GameElementType.BOX_ON_STORAGE);
+	}
 }

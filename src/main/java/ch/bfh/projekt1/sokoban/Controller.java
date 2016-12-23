@@ -66,7 +66,7 @@ public class Controller {
 
 			if (model.isHints()
 					&& Rules.isLocked(model.getGameArea(), positionAfterBox,
-							model.getWidth(), model.getHeight())) {
+							direction, model.getWidth(), model.getHeight())) {
 				JOptionPane.showMessageDialog(null, BOLCKED);
 			}
 			break;

@@ -46,8 +46,7 @@ public class Rules {
 							pawnPosition, width, height);
 					GameElementType typeBeforePawn = gameArea[pos.getPosX()][pos
 							.getPosY()].getGameElementType();
-					if (typeBeforePawn == GameElementType.BOX
-							|| typeBeforePawn == GameElementType.BOX_ON_STORAGE) {
+					if (GameElementUtile.isBox(typeBeforePawn)) {
 						return Activity.PULL;
 					}
 				}
@@ -73,11 +72,13 @@ public class Rules {
 
 	// When a box is locked and can't be moved anymore
 	public static boolean isLocked(GraphTuple[][] gameArea, Position position,
-			int width, int height) {
+			Direction direction, int width, int height) {
 		if (gameArea[position.getPosX()][position.getPosY()]
 				.getGameElementType() != GameElementType.BOX_ON_STORAGE) {
 			return isInCorner(gameArea, position, width, height)
-					|| isInSink(gameArea, position, width, height);
+					|| isInSink(gameArea, position, width, height)
+					|| isInCornerWithBoxes(gameArea, position, direction,
+							width, height);
 		}
 		return false;
 	}
@@ -115,11 +116,59 @@ public class Rules {
 		return isLocked;
 	}
 
+	private static boolean isInCornerWithBoxes(GraphTuple[][] gameArea,
+			Position position, Direction direction, int width, int height) {
+		Position frontPosition;
+		Position sideOnePosition;
+		Position sideTwoPosition;
+		frontPosition = GameElementUtile.getNextPosition(direction, position,
+				width, height);
+		if (Direction.DOWN == direction || Direction.UP == direction) {
+			sideOnePosition = GameElementUtile.getNextPosition(Direction.LEFT,
+					position, width, height);
+			sideTwoPosition = GameElementUtile.getNextPosition(Direction.RIGHT,
+					position, width, height);
+		} else {
+			sideOnePosition = GameElementUtile.getNextPosition(Direction.UP,
+					position, width, height);
+			sideTwoPosition = GameElementUtile.getNextPosition(Direction.DOWN,
+					position, width, height);
+		}
+		GameElementType frontType = gameArea[frontPosition.getPosX()][frontPosition
+				.getPosY()].getGameElementType();
+		GameElementType sideOneType = gameArea[sideOnePosition.getPosX()][sideOnePosition
+				.getPosY()].getGameElementType();
+		GameElementType sideTwoType = gameArea[sideTwoPosition.getPosX()][sideTwoPosition
+				.getPosY()].getGameElementType();
+		return isInCornerWithBoxes(gameArea, frontType, sideOneType,
+				sideTwoType, frontPosition, sideOnePosition, sideTwoPosition);
+
+	}
+
+	private static boolean isInCornerWithBoxes(GraphTuple[][] gameArea,
+			GameElementType frontType, GameElementType sideOneType,
+			GameElementType sideTwoType, Position frontPosition,
+			Position sideOnePosition, Position sideTwoPosition) {
+		boolean isLocked = false;
+		if (GameElementUtile.isBox(frontType)) {
+			if (GameElementUtile.isBox(sideOneType)) {
+				isLocked |= GameElementUtile.isBox(gameArea[sideOnePosition
+						.getPosX()][frontPosition.getPosY()]
+						.getGameElementType());
+			} else if (GameElementUtile.isBox(sideTwoType)) {
+				isLocked |= GameElementUtile.isBox(gameArea[sideTwoPosition
+						.getPosX()][frontPosition.getPosY()]
+						.getGameElementType());
+			}
+		}
+		return isLocked;
+	}
+
 	private static boolean isInCornerWithBox(GraphTuple[][] gameArea,
 			GameElementType typeOrig, Direction direction,
 			GameElementType typeFirst, GameElementType typeSecond,
 			Position position, int width, int height) {
-		if ((typeOrig == GameElementType.BOX || typeOrig == GameElementType.BOX_ON_STORAGE)
+		if ((GameElementUtile.isBox(typeOrig))
 				&& (typeFirst == GameElementType.WALL || typeSecond == GameElementType.WALL)) {
 			if (direction == Direction.DOWN || direction == Direction.UP) {
 				return areBothBoxesLocked(gameArea, position, Direction.LEFT,
