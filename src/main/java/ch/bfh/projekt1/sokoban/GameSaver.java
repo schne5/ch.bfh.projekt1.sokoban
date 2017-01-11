@@ -57,20 +57,20 @@ public class GameSaver {
 			line = "";
 			for (int j = 0; j < gameElements.length; j++) {
 				if (gameElements[j][i].getGameElementType() == GameElementType.PAWN) {
-					line += Controller.PAWN;
+					line += GameAreaGraph.PAWN;
 				} else if (gameElements[j][i].getGameElementType() == GameElementType.BOX) {
-					line += Controller.BOX;
+					line += GameAreaGraph.BOX;
 				} else if (gameElements[j][i].getGameElementType() == GameElementType.STORAGE) {
-					line += Controller.STORAGE;
+					line += GameAreaGraph.STORAGE;
 				} else if (gameElements[j][i].getGameElementType() == GameElementType.WALL) {
-					line += Controller.WALL;
+					line += GameAreaGraph.WALL;
 				} else if (gameElements[j][i].getGameElementType() == GameElementType.BOX_ON_STORAGE) {
-					line += Controller.BOX_ON_STORAGE;
+					line += GameAreaGraph.BOX_ON_STORAGE;
 				} else if (gameElements[j][i].getGameElementType() == GameElementType.PAWN_ON_STORAGE) {
-					line += Controller.PAWN_ON_STORAGE;
+					line += GameAreaGraph.PAWN_ON_STORAGE;
 				} else if (gameElements[j][i].getGameElementType() == GameElementType.FLOOR
 						|| gameElements[j][i] == null) {
-					line += Controller.FLOOR;
+					line += GameAreaGraph.FLOOR;
 				}
 			}
 			lines.add(line);
@@ -80,10 +80,13 @@ public class GameSaver {
 	}
 
 	public static void saveCustomProblems(GraphTuple[][] gameElements,
-			String userinput) {
-		userinput = userinput == null ? "" : userinput;
-		Path file = Paths.get(PATH_CUSTOM_PROBLEMS + getSystemUserName()
-				+ getLocalDateTime() + userinput + "_custom.txt");
+			String userinput, String filename) {
+		if (filename == null || filename.equals("")) {
+			userinput = userinput == null ? "" : userinput;
+			filename = getSystemUserName() + getLocalDateTime() + userinput
+					+ "_custom.txt";
+		}
+		Path file = Paths.get(PATH_CUSTOM_PROBLEMS + filename);
 		try {
 			Files.write(file, saveAsTextFile(gameElements),
 					Charset.forName("UTF-8"));

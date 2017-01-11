@@ -71,9 +71,9 @@ public class ProblemTestFrame extends JFrame {
 		save = new JButton();
 		save.setText(SAVE);
 		save.addActionListener(t -> {
-			String name = getUserInput();
-			if (null != name && !"".equals(name.trim())) {
-				this.warehouse.getController().saveCustomGame(name.trim());
+			String userinput = getUserInput();
+			if (null != userinput && !"".equals(userinput.trim())) {
+				this.warehouse.getController().saveCustomGame(userinput.trim());
 				setFocusOnWarehouse();
 			}
 		});

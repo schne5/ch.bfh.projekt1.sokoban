@@ -3,6 +3,7 @@ package ch.bfh.projekt1.sokoban;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -25,17 +26,44 @@ public class ProblemDesignArea extends JPanel implements MouseListener {
 		layout.setHgap(0);
 		layout.setVgap(0);
 		setLayout(layout);
-		drawArea();
+		drawEmptyArea();
 	}
 
-	public void drawArea() {
-		for (int i = 0; i < gameArea[0].length; i++) {
-			for (int j = 0; j < gameArea.length; j++) {
-				GameElementView v = GameElementView.create(
+	public void drawEmptyArea() {
+		for (int y = 0; y < HEIGHT; y++) {
+			for (int x = 0; x < WIDTH; x++) {
+				GameElementView view = GameElementView.create(
 						GameElementType.FLOOR, null, true);
-				add(v);
-				gameArea[j][i] = v;
-				v.addMouseListener(this);
+				add(view);
+				gameArea[x][y] = view;
+				view.addMouseListener(this);
+
+			}
+		}
+	}
+
+	public void reset() {
+		this.removeAll();
+		this.gameArea = new GameElementView[WIDTH][HEIGHT];
+	}
+
+	public void refresh() {
+		revalidate();
+		repaint();
+	}
+
+	public void drawArea(String selected) {
+		List<String> lines = GameSaver.loadCustomProblems(selected);
+		GameAreaGraph gameAreaGraph = new GameAreaGraph();
+		gameAreaGraph.createGraph(new GraphTuple[WIDTH][HEIGHT], lines, WIDTH);
+		GraphTuple[][] area = gameAreaGraph.getArea();
+		for (int y = 0; y < HEIGHT; y++) {
+			for (int x = 0; x < WIDTH; x++) {
+				GameElementView view = GameElementView.create(
+						area[x][y].getGameElementType(), null, true);
+				add(view);
+				gameArea[x][y] = view;
+				view.addMouseListener(this);
 
 			}
 		}

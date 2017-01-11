@@ -11,13 +11,6 @@ import javax.swing.JOptionPane;
 public class Controller {
 	private Model model;
 	private static final String BOLCKED = "Diese Kiste wird blockiert sein. Machen Sie den Zug rueckgaengig.";
-	public static char PAWN = '@';
-	public static char WALL = '#';
-	public static char BOX = '$';
-	public static char STORAGE = '.';
-	public static char FLOOR = ' ';
-	public static char BOX_ON_STORAGE = '*';
-	public static char PAWN_ON_STORAGE = '+';
 
 	public Model getModel() {
 		return model;
@@ -89,38 +82,10 @@ public class Controller {
 		model.setHeight(lines.size());
 		model.setGameArea(new GraphTuple[model.getWidth()][model.getHeight()]);
 		GraphTuple[][] area = model.getGameArea();
-		int x = 0;
-		int y = 0;
-
-		for (String line : lines) {
-			char[] charsLine = line.toCharArray();
-
-			for (char c : charsLine) {
-				if (c == WALL) {
-					area[x][y] = new GraphTuple(GameElementType.WALL);
-				} else if (c == FLOOR) {
-					area[x][y] = new GraphTuple(GameElementType.FLOOR);
-				} else if (c == STORAGE) {
-					area[x][y] = new GraphTuple(GameElementType.STORAGE);
-				} else if (c == BOX) {
-					area[x][y] = new GraphTuple(GameElementType.BOX);
-				} else if (c == PAWN) {
-					area[x][y] = new GraphTuple(GameElementType.PAWN);
-					model.setPawnPosition(new Position(x, y));
-				} else if (c == PAWN_ON_STORAGE) {
-					area[x][y] = new GraphTuple(GameElementType.PAWN_ON_STORAGE);
-					model.setPawnPosition(new Position(x, y));
-				} else if (c == BOX_ON_STORAGE) {
-					area[x][y] = new GraphTuple(GameElementType.BOX_ON_STORAGE);
-				}
-				x++;
-				if (x >= model.getWidth()) {
-					y++;
-					x = 0;
-				}
-			}
-		}
-		return area;
+		GameAreaGraph gameAreaGraph = new GameAreaGraph();
+		gameAreaGraph.createGraph(area, lines, model.getWidth());
+		model.setPawnPosition(gameAreaGraph.getPawnPosition());
+		return gameAreaGraph.getArea();
 	}
 
 	public void undo() {
@@ -143,8 +108,9 @@ public class Controller {
 		}
 	}
 
-	public static void saveCustomProblem(GraphTuple[][] gameElements) {
-		GameSaver.saveCustomProblems(gameElements, null);
+	public static void saveCustomProblem(GraphTuple[][] gameElements,
+			String userinput, String filename) {
+		GameSaver.saveCustomProblems(gameElements, userinput, filename);
 	}
 
 	public void saveGame(String name) {
@@ -154,9 +120,9 @@ public class Controller {
 				model.getLevel());
 	}
 
-	public void saveCustomGame(String name) {
+	public void saveCustomGame(String userinput) {
 		GraphTuple[][] gameElements = model.getGameArea();
-		GameSaver.saveCustomProblems(gameElements, name);
+		GameSaver.saveCustomProblems(gameElements, userinput, null);
 	}
 
 	public GraphTuple[][] loadGame(String fileName) {

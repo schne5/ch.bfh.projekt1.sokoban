@@ -2,12 +2,15 @@ package ch.bfh.projekt1.sokoban;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -20,19 +23,25 @@ public class ProblemDesigner extends JFrame {
 	private static final long serialVersionUID = 1L;
 	public static int SPACE = 30;
 	public static final String OK = "Ok";
+	public static final String LOAD = "Load";
 	public static final String CANCEL = "Exit";
 	public static final String CLEAR = "Clear";
 	public static final String VALIDATION_AREA = "Kein geschlossenes Spielfeld!!";
 	public static final String VALIDATION_GAMEELEMENTS = "Anzahl Spielfiguren nicht gueltig";
+	public static final String ERROR_LOAD = "Spiel konnte ncht geladen werden:";
+	public static final String CHOOSE_GAME = "Spiel waehlen:";
+	public static final String INPUT = "Spielnamenzusatz eingeben:";
 
 	ArrayList<JLabel> elements = new ArrayList<JLabel>();
 	MouseListener mouseListener;
 	ProblemDesignArea problemDesignArea;
 	JPanel gameElementPanel;
 	JButton ok;
+	JButton loadOwnProblem;
 	JButton cancel;
 	JButton clear;
 	JPanel buttonPanel;
+	String activeGame;
 
 	public ProblemDesigner() {
 		initMouseListener();
@@ -43,6 +52,7 @@ public class ProblemDesigner extends JFrame {
 		add(gameElementPanel, BorderLayout.NORTH);
 		add(problemDesignArea, BorderLayout.CENTER);
 		add(buttonPanel, BorderLayout.SOUTH);
+		activeGame = "";
 	}
 
 	private void addGameElementViews() {
@@ -69,7 +79,8 @@ public class ProblemDesigner extends JFrame {
 			if (problemDesignArea.valid()) {
 				GraphTuple[][] gameElements = problemDesignArea.prepareSave();
 				if (validWalls(gameElements)) {
-					Controller.saveCustomProblem(gameElements);
+					Controller
+							.saveCustomProblem(gameElements, null, activeGame);
 					this.dispose();
 					MainSokoban.showInitDialog();
 				} else {
@@ -80,12 +91,20 @@ public class ProblemDesigner extends JFrame {
 			}
 
 		});
+
+		loadOwnProblem = new JButton();
+		loadOwnProblem.setText(LOAD);
+		loadOwnProblem.addActionListener(t -> {
+			openFileSelectionFrame(GameSaver.PATH_CUSTOM_PROBLEMS, true);
+		});
+
 		cancel = new JButton(CANCEL);
 		cancel.addActionListener(a -> {
 			this.dispose();
 			MainSokoban.showInitDialog();
 		});
 		buttonPanel.add(ok);
+		buttonPanel.add(loadOwnProblem);
 		buttonPanel.add(cancel);
 	}
 
@@ -199,5 +218,43 @@ public class ProblemDesigner extends JFrame {
 			}
 		}
 		return false;
+	}
+
+	private void openFileSelectionFrame(String path, boolean ownGame) {
+		JFrame dialog = new JFrame();
+		JComboBox<String> files = new JComboBox<String>(
+				GameSaver.loadAllFiles(path));
+		files.setSize(300, 100);
+		JLabel label = new JLabel(CHOOSE_GAME);
+		JButton ok = new JButton(OK);
+		ok.setMaximumSize(new Dimension(40, 40));
+		dialog.add(files, BorderLayout.CENTER);
+		dialog.add(label, BorderLayout.NORTH);
+		dialog.add(ok, BorderLayout.SOUTH);
+		files.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		label.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
+
+		dialog.pack();
+		dialog.setVisible(true);
+		ok.addActionListener(a -> {
+			String selected = files.getSelectedItem().toString();
+			if (!"".equals(selected) && null != selected) {
+				try {
+					problemDesignArea.reset();
+					problemDesignArea.drawArea(selected);
+					activeGame = selected;
+					problemDesignArea.refresh();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(this, ERROR_LOAD + selected);
+				}
+			}
+			dialog.dispose();
+			this.setVisible(true);
+		});
+	}
+
+	public String getUserInput() {
+		return JOptionPane.showInputDialog(this, INPUT, JOptionPane.OK_OPTION)
+				.trim();
 	}
 }
