@@ -1,12 +1,10 @@
 package ch.bfh.projekt1.sokoban;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.io.File;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -71,9 +69,11 @@ public class ProblemTestFrame extends JFrame {
 		save = new JButton();
 		save.setText(SAVE);
 		save.addActionListener(t -> {
-			String userinput = getUserInput();
-			if (null != userinput && !"".equals(userinput.trim())) {
-				this.warehouse.getController().saveCustomGame(userinput.trim());
+			File file = FileHelper.openFileSaver(this,
+					GameSaver.PATH_CUSTOM_PROBLEMS);
+			if (file != null) {
+				this.warehouse.getController().saveCustomGame(
+						file.getAbsolutePath());
 				setFocusOnWarehouse();
 			}
 		});
@@ -81,7 +81,15 @@ public class ProblemTestFrame extends JFrame {
 		loadOwnProblem = new JButton();
 		loadOwnProblem.setText(LOAD);
 		loadOwnProblem.addActionListener(t -> {
-			openFileSelectionFrame(GameSaver.PATH_CUSTOM_PROBLEMS, true);
+			File file = FileHelper.openFileChooser(this,
+					GameSaver.PATH_CUSTOM_PROBLEMS);
+			if (file != null) {
+				String selected = file.getAbsolutePath();
+				warehouse.reset();
+				warehouse.initGame(true, selected);
+				warehouse.paintInitGameArea();
+				warehouse.refresh();
+			}
 			setFocusOnWarehouse();
 		});
 
@@ -127,40 +135,6 @@ public class ProblemTestFrame extends JFrame {
 		getContentPane().add(statisticPanel, BorderLayout.NORTH);
 		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
-		openFileSelectionFrame(GameSaver.PATH_CUSTOM_PROBLEMS, true);
-	}
-
-	private void openFileSelectionFrame(String path, boolean ownGame) {
-		JFrame dialog = new JFrame();
-		JComboBox<String> files = new JComboBox<String>(
-				GameSaver.loadAllFiles(path));
-		files.setSize(300, 100);
-		JLabel label = new JLabel(CHOOSE_GAME);
-		JButton ok = new JButton(OK);
-		ok.setMaximumSize(new Dimension(40, 40));
-		dialog.add(files, BorderLayout.CENTER);
-		dialog.add(label, BorderLayout.NORTH);
-		dialog.add(ok, BorderLayout.SOUTH);
-		files.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		label.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
-
-		dialog.pack();
-		dialog.setVisible(true);
-		ok.addActionListener(a -> {
-			String selected = files.getSelectedItem().toString();
-			if (!"".equals(selected) && null != selected) {
-				try {
-					warehouse.reset();
-					warehouse.initGame(ownGame, selected);
-					warehouse.paintInitGameArea();
-					warehouse.refresh();
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(this, ERROR_LOAD + selected);
-				}
-			}
-			dialog.dispose();
-			this.setVisible(true);
-		});
 	}
 
 	private void setFocusOnWarehouse() {

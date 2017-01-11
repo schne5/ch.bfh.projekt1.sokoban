@@ -109,20 +109,20 @@ public class Controller {
 	}
 
 	public static void saveCustomProblem(GraphTuple[][] gameElements,
-			String userinput, String filename) {
-		GameSaver.saveCustomProblems(gameElements, userinput, filename);
+			String path) {
+		GameSaver.saveCustomProblems(gameElements, path);
 	}
 
-	public void saveGame(String name) {
+	public void saveGame(String filename) {
 		GraphTuple[][] gameElements = model.getGameArea();
-		GameSaver.saveGame(gameElements, name, model.getStackUndo(),
+		GameSaver.saveGame(gameElements, filename, model.getStackUndo(),
 				model.getStackRedo(), model.getMoves(), model.getPushes(),
 				model.getLevel());
 	}
 
-	public void saveCustomGame(String userinput) {
+	public void saveCustomGame(String path) {
 		GraphTuple[][] gameElements = model.getGameArea();
-		GameSaver.saveCustomProblems(gameElements, userinput, null);
+		GameSaver.saveCustomProblems(gameElements, path);
 	}
 
 	public GraphTuple[][] loadGame(String fileName) {

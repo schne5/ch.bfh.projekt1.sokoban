@@ -80,13 +80,8 @@ public class GameSaver {
 	}
 
 	public static void saveCustomProblems(GraphTuple[][] gameElements,
-			String userinput, String filename) {
-		if (filename == null || filename.equals("")) {
-			userinput = userinput == null ? "" : userinput;
-			filename = getSystemUserName() + getLocalDateTime() + userinput
-					+ "_custom.txt";
-		}
-		Path file = Paths.get(PATH_CUSTOM_PROBLEMS + filename);
+			String path) {
+		Path file = Paths.get(path);
 		try {
 			Files.write(file, saveAsTextFile(gameElements),
 					Charset.forName("UTF-8"));
@@ -95,27 +90,23 @@ public class GameSaver {
 		}
 	}
 
-	public static void saveGame(GraphTuple[][] gameElements, String userInput,
+	public static void saveGame(GraphTuple[][] gameElements, String path,
 			SokobanStack undo, SokobanStack redo, int moves, int pushes,
 			int level) {
-		String systemusername = getSystemUserName();
-		Path file = Paths.get(PATH_GAME_SAVE + systemusername + "_"
-				+ getLocalDateTime() + "_" + userInput);
+		Path file = Paths.get(path);
 		try {
 			Files.write(file, saveAsTextFile(gameElements),
 					Charset.forName("UTF-8"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		saveStatistic(undo, redo, moves, pushes, userInput, systemusername,
-				level);
+		saveStatistic(undo, redo, moves, pushes, path, level);
 	}
 
 	private static void saveStatistic(SokobanStack undo, SokobanStack redo,
-			int moves, int pushes, String userInput, String systemusername,
-			int level) {
-		Path file = Paths.get(PATH_GAME_SAVE_STATISTIKEN + systemusername + "_"
-				+ getLocalDateTime() + "_" + userInput);
+			int moves, int pushes, String path, int level) {
+		String filename = path.substring(path.lastIndexOf('\\'));
+		Path file = Paths.get(PATH_GAME_SAVE_STATISTIKEN + filename);
 		List<String> list = new ArrayList<String>();
 		list.add("UNDO" + seperator + prepareSaveStack(undo));
 		list.add("REDO" + seperator + prepareSaveStack(redo));
@@ -156,26 +147,27 @@ public class GameSaver {
 		return stackString;
 	}
 
-	public static List<String> loadCustomProblems(String fileName) {
-		return loadTextFile(PATH_CUSTOM_PROBLEMS, fileName);
+	public static List<String> loadCustomProblems(String path) {
+		return loadTextFile(path);
 	}
 
 	public static List<String> loadGame(String fileName) {
-		return loadTextFile(PATH_GAME_SAVE, fileName);
+		return loadTextFile(fileName);
 	}
 
 	public static List<String> loadProblem(String fileName) {
-		return loadTextFile(PATH_PROBLEMS, fileName);
+		return loadTextFile(PATH_PROBLEMS + fileName);
 	}
 
-	public static List<String> loadStatistic(String fileName) {
-		return loadTextFile(PATH_GAME_SAVE_STATISTIKEN, fileName);
+	public static List<String> loadStatistic(String path) {
+		String filename = path.substring(path.lastIndexOf('\\'));
+		return loadTextFile(PATH_GAME_SAVE_STATISTIKEN + filename);
 	}
 
-	private static List<String> loadTextFile(String path, String fileName) {
+	private static List<String> loadTextFile(String path) {
 		List<String> lines = new ArrayList<String>();
 		try {
-			lines = Files.readAllLines(Paths.get(path + fileName));
+			lines = Files.readAllLines(Paths.get(path));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
