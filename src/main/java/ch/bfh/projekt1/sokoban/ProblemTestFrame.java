@@ -84,13 +84,17 @@ public class ProblemTestFrame extends JFrame {
 			File file = FileHelper.openFileChooser(this,
 					GameSaver.PATH_CUSTOM_PROBLEMS);
 			if (file != null) {
-				String selected = file.getAbsolutePath();
-				warehouse.reset();
-				warehouse.initGame(true, selected);
-				warehouse.paintInitGameArea();
-				warehouse.refresh();
+				try {
+					String selected = file.getAbsolutePath();
+					warehouse.reset();
+					warehouse.initGame(true, selected);
+					warehouse.paintInitGameArea();
+					warehouse.refresh();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(this, "Ungültiger Inhalt");
+				}
+				setFocusOnWarehouse();
 			}
-			setFocusOnWarehouse();
 		});
 
 		reverse = new JCheckBox();

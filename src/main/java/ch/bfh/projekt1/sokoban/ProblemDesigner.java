@@ -102,12 +102,16 @@ public class ProblemDesigner extends JFrame {
 			File file = FileHelper.openFileChooser(this,
 					GameSaver.PATH_CUSTOM_PROBLEMS);
 			if (file != null) {
-				String selected = file.getAbsolutePath();
-				problemDesignArea.reset();
-				problemDesignArea.drawArea(selected);
-				activeGame = selected;
-				this.setTitle(activeGame);
-				problemDesignArea.refresh();
+				try {
+					String selected = file.getAbsolutePath();
+					problemDesignArea.reset();
+					problemDesignArea.drawArea(selected);
+					activeGame = selected;
+					this.setTitle(activeGame);
+					problemDesignArea.refresh();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(this, "Ungültiger Inhalt");
+				}
 			}
 		});
 
