@@ -76,7 +76,7 @@ public class Rules {
 		if (gameArea[position.getPosX()][position.getPosY()]
 				.getGameElementType() != GameElementType.BOX_ON_STORAGE) {
 			return isInCorner(gameArea, position, width, height)
-					|| isInSink(gameArea, position, width, height)
+					|| isInSink(gameArea, position, width, height, direction)
 					|| isInCornerWithBoxes(gameArea, position, direction,
 							width, height);
 		}
@@ -203,7 +203,52 @@ public class Rules {
 	}
 
 	private static boolean isInSink(GraphTuple[][] gameArea, Position position,
-			int width, int height) {
+			int width, int height, Direction direction) {
+		Position nextPosition = GameElementUtile.getNextPosition(direction,
+				position, width, height);
+		GameElementType nextType = GameElementUtile.getType(gameArea,
+				nextPosition);
+		boolean isInSink = true;
+		if (nextType == GameElementType.WALL) {
+			switch (direction) {
+			case DOWN:
+			case UP:
+				isInSink &= isInSinkLoop(gameArea, nextPosition, width, height,
+						Direction.LEFT, direction);
+				isInSink &= isInSinkLoop(gameArea, nextPosition, width, height,
+						Direction.RIGHT, direction);
+				break;
+			case LEFT:
+			case RIGHT:
+				isInSink &= isInSinkLoop(gameArea, nextPosition, width, height,
+						Direction.UP, direction);
+				isInSink &= isInSinkLoop(gameArea, nextPosition, width, height,
+						Direction.DOWN, direction);
+				break;
+			}
+			return isInSink;
+		}
 		return false;
+	}
+
+	private static boolean isInSinkLoop(GraphTuple[][] gameArea,
+			Position position, int width, int height, Direction direction,
+			Direction pushDirection) {
+		Position positionToCheck = GameElementUtile.getNextPosition(direction,
+				position, width, height);
+		GameElementType typeToCheck = GameElementUtile.getType(gameArea,
+				positionToCheck);
+		while (typeToCheck != GameElementType.WALL) {
+			positionToCheck = GameElementUtile.getNextPosition(direction,
+					positionToCheck, width, height);
+			typeToCheck = GameElementUtile.getType(gameArea, positionToCheck);
+			GameElementType downTypeToCheck = GameElementUtile.getType(
+					gameArea, GameElementUtile.getNextPosition(pushDirection,
+							positionToCheck, width, height));
+			if (downTypeToCheck != GameElementType.WALL) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
