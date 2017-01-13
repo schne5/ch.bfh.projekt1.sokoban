@@ -83,10 +83,11 @@ public class Model implements Serializable {
 		stackUndo = new SokobanStack();
 		this.moves = 0;
 		this.pushes = 0;
+		this.ownProblem = false;
 	}
 
 	public void initGameElements(SokobanStack undo, SokobanStack redo,
-			int moves, int pushes, int level) {
+			int moves, int pushes, int level, boolean ownProblem) {
 		setPawnPosition(new Position(-1, -1));
 		stackRedo = redo;
 		stackUndo = undo;
@@ -94,6 +95,7 @@ public class Model implements Serializable {
 		this.moves = moves;
 		this.pushes = pushes;
 		this.level = level;
+		this.ownProblem = ownProblem;
 	}
 
 	public void incrementMoves() {

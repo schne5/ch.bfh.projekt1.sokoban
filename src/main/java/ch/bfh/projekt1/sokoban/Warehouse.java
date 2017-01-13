@@ -103,8 +103,6 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 
 	public void initGame() {
 		model.initGameElements();
-		model.setMoves(0);
-		model.setPushes(0);
 		model.setGameArea(controller.loadProblem());
 		initLayout();
 	}
@@ -114,6 +112,8 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 		if (selected != null && !selected.equals("")) {
 			if (own) {
 				model.setGameArea(controller.loadCustomProblem(selected));
+				model.setOwnProblem(true);
+				model.setLevel(0);
 			} else {
 				model.setGameArea(controller.loadGame(selected));
 			}
@@ -168,7 +168,6 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 						try {
 							Thread.sleep(200);
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
@@ -184,19 +183,16 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 

@@ -92,7 +92,7 @@ public class GameSaver {
 
 	public static void saveGame(GraphTuple[][] gameElements, String path,
 			SokobanStack undo, SokobanStack redo, int moves, int pushes,
-			int level) {
+			int level, boolean ownProblem) {
 		Path file = Paths.get(path);
 		try {
 			Files.write(file, saveAsTextFile(gameElements),
@@ -100,11 +100,11 @@ public class GameSaver {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		saveStatistic(undo, redo, moves, pushes, path, level);
+		saveStatistic(undo, redo, moves, pushes, path, level, ownProblem);
 	}
 
 	private static void saveStatistic(SokobanStack undo, SokobanStack redo,
-			int moves, int pushes, String path, int level) {
+			int moves, int pushes, String path, int level, boolean ownProblem) {
 		String filename = path.substring(path.lastIndexOf('\\'));
 		Path file = Paths.get(PATH_GAME_SAVE_STATISTIKEN + filename);
 		List<String> list = new ArrayList<String>();
@@ -113,6 +113,7 @@ public class GameSaver {
 		list.add("MOVES" + seperator + moves);
 		list.add("PUSHES" + seperator + pushes);
 		list.add("LEVEL" + seperator + level);
+		list.add("OWN" + seperator + ownProblem);
 		try {
 			Files.write(file, list, Charset.forName("UTF-8"));
 		} catch (IOException e) {

@@ -117,7 +117,7 @@ public class Controller {
 		GraphTuple[][] gameElements = model.getGameArea();
 		GameSaver.saveGame(gameElements, filename, model.getStackUndo(),
 				model.getStackRedo(), model.getMoves(), model.getPushes(),
-				model.getLevel());
+				model.getLevel(), model.isOwnProblem());
 	}
 
 	public void saveCustomGame(String path) {
@@ -136,9 +136,11 @@ public class Controller {
 					lines.get(2).indexOf(':') + 1)));
 			int pushes = (Integer.parseInt(lines.get(3).substring(
 					lines.get(3).indexOf(':') + 1)));
-			int level = ((Integer.parseInt(lines.get(4).substring(
-					lines.get(4).indexOf(':') + 1))));
-			model.initGameElements(undo, redo, moves, pushes, level);
+			int level = (Integer.parseInt(lines.get(4).substring(
+					lines.get(4).indexOf(':') + 1)));
+			boolean ownProblem = (Boolean.parseBoolean((lines.get(4)
+					.substring(lines.get(5).indexOf(':') + 1))));
+			model.initGameElements(undo, redo, moves, pushes, level, ownProblem);
 		}
 		return initWarehouse(GameSaver.loadGame(fileName));
 	}
@@ -149,12 +151,10 @@ public class Controller {
 	}
 
 	public GraphTuple[][] loadProblem() {
-		model.initGameElements();
 		return initWarehouse(GameSaver.loadProblem(model.getFileName()));
 	}
 
 	public GraphTuple[][] loadCustomProblem(String fileName) {
-		model.initGameElements();
 		return initWarehouse(GameSaver.loadCustomProblems(fileName));
 	}
 
