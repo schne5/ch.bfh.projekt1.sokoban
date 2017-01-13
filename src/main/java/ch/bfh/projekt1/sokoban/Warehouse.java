@@ -64,8 +64,7 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 
 		if (model.checkFinish()) {
 			if (model.isOwnProblem()) {
-				JOptionPane.showConfirmDialog(this, MESSAGE_OWN, "Gewonnen",
-						JOptionPane.OK_OPTION);
+				JOptionPane.showMessageDialog(this, MESSAGE_OWN);
 
 			} else {
 				int option = JOptionPane.showConfirmDialog(this, MESSAGE,
