@@ -19,7 +19,7 @@ public class FileHelper {
 			if (selected.substring(selected.lastIndexOf('.')).equals(".txt")) {
 				return chooser.getSelectedFile();
 			} else {
-				JOptionPane.showMessageDialog(parent,
+				JOptionPane.showMessageDialog(chooser,
 						"Datei muss auf .txt enden!");
 			}
 		}

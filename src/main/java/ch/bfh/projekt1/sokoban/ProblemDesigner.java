@@ -79,7 +79,7 @@ public class ProblemDesigner extends JFrame {
 			if (problemDesignArea.valid()) {
 				GraphTuple[][] gameElements = problemDesignArea.prepareSave();
 				if (validWalls(gameElements)) {
-					File file = FileHelper.openFileChooser(this,
+					File file = FileHelper.openFileSaver(this,
 							GameSaver.PATH_CUSTOM_PROBLEMS);
 					if (file != null) {
 						Controller.saveCustomProblem(gameElements,

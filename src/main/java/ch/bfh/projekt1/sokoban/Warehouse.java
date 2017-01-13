@@ -65,7 +65,6 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 		if (model.checkFinish()) {
 			if (model.isOwnProblem()) {
 				JOptionPane.showMessageDialog(this, MESSAGE_OWN);
-
 			} else {
 				int option = JOptionPane.showConfirmDialog(this, MESSAGE,
 						"Gewonnen", JOptionPane.YES_NO_OPTION);
@@ -76,7 +75,6 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 					paintInitGameArea();
 					refresh();
 				}
-
 			}
 			updateParent();
 		}
