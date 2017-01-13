@@ -4,6 +4,7 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class FileHelper {
@@ -14,7 +15,13 @@ public class FileHelper {
 		chooser.setFileFilter(filter);
 		int returnVal = chooser.showOpenDialog(parent);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			return chooser.getSelectedFile();
+			String selected = chooser.getSelectedFile().getAbsolutePath();
+			if (selected.substring(selected.lastIndexOf('.')).equals(".txt")) {
+				return chooser.getSelectedFile();
+			} else {
+				JOptionPane.showMessageDialog(parent,
+						"Datei muss auf .txt enden!");
+			}
 		}
 		return null;
 	}
