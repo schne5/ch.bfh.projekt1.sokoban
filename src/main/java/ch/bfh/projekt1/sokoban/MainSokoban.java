@@ -15,6 +15,7 @@ public class MainSokoban {
 	public static String PLAY = "Play";
 	public static String DESIGN = "Problem design";
 	public static String TEST = "Problem test";
+	public static int WINDOW_SPACE_Y = 100;
 
 	public static void main(String[] args) {
 		showInitDialog();
@@ -49,7 +50,9 @@ public class MainSokoban {
 		design.addActionListener(a -> {
 			ProblemDesigner problemDesigner = new ProblemDesigner();
 			problemDesigner.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			problemDesigner.setSize(620, 600);
+			problemDesigner.setSize(ProblemDesignArea.WIDTH
+					* GameElementUtile.WIDTH, ProblemDesignArea.HEIGHT
+					* GameElementUtile.WIDTH + WINDOW_SPACE_Y);
 			problemDesigner.setVisible(true);
 			problemDesigner.setLocationRelativeTo(null);
 			enter.setVisible(false);
@@ -63,7 +66,9 @@ public class MainSokoban {
 			warehouse.setParent(frame, frame.movesCount, frame.pushesCount);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setVisible(true);
-			frame.setSize(600, 400);
+			frame.setSize(ProblemDesignArea.WIDTH * GameElementUtile.WIDTH,
+					ProblemDesignArea.HEIGHT * GameElementUtile.WIDTH
+							+ WINDOW_SPACE_Y);
 			frame.setResizable(false);
 			frame.setLocationRelativeTo(null);
 			enter.setVisible(false);
