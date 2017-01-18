@@ -213,16 +213,16 @@ public class Rules {
 			switch (direction) {
 			case DOWN:
 			case UP:
-				isInSink &= isInSinkLoop(gameArea, nextPosition, width, height,
+				isInSink &= isInSinkLoop(gameArea, position, width, height,
 						Direction.LEFT, direction);
-				isInSink &= isInSinkLoop(gameArea, nextPosition, width, height,
+				isInSink &= isInSinkLoop(gameArea, position, width, height,
 						Direction.RIGHT, direction);
 				break;
 			case LEFT:
 			case RIGHT:
-				isInSink &= isInSinkLoop(gameArea, nextPosition, width, height,
+				isInSink &= isInSinkLoop(gameArea, position, width, height,
 						Direction.UP, direction);
-				isInSink &= isInSinkLoop(gameArea, nextPosition, width, height,
+				isInSink &= isInSinkLoop(gameArea, position, width, height,
 						Direction.DOWN, direction);
 				break;
 			}
@@ -239,13 +239,18 @@ public class Rules {
 		GameElementType typeToCheck = GameElementUtile.getType(gameArea,
 				positionToCheck);
 		while (typeToCheck != GameElementType.WALL) {
-			positionToCheck = GameElementUtile.getNextPosition(direction,
-					positionToCheck, width, height);
-			typeToCheck = GameElementUtile.getType(gameArea, positionToCheck);
-			GameElementType downTypeToCheck = GameElementUtile.getType(
-					gameArea, GameElementUtile.getNextPosition(pushDirection,
-							positionToCheck, width, height));
-			if (downTypeToCheck != GameElementType.WALL) {
+			if (typeToCheck != GameElementType.STORAGE) {
+				positionToCheck = GameElementUtile.getNextPosition(direction,
+						positionToCheck, width, height);
+				typeToCheck = GameElementUtile.getType(gameArea,
+						positionToCheck);
+				GameElementType downTypeToCheck = GameElementUtile.getType(
+						gameArea, GameElementUtile.getNextPosition(
+								pushDirection, positionToCheck, width, height));
+				if (downTypeToCheck != GameElementType.WALL) {
+					return false;
+				}
+			} else {
 				return false;
 			}
 		}

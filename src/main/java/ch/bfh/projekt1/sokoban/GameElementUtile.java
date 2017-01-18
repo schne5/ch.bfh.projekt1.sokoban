@@ -143,7 +143,7 @@ public class GameElementUtile {
 		return null;
 	}
 
-	// Gibt alle Nachbarfelder zurück, auf denen sich der Pawn bewegen könnte.
+	// Gibt alle Nachbarfelder zurï¿½ck, auf denen sich der Pawn bewegen kï¿½nnte.
 	// Mit boxIsValid auch Boxen (Spielfeldvalidierung)
 	public static ArrayList<Position> getValidNeighbours(Position position,
 			GraphTuple[][] gameArea, boolean boxIsValid, int width, int height) {
@@ -227,6 +227,11 @@ public class GameElementUtile {
 		default:
 			return GameElementType.FLOOR;
 		}
+	}
+
+	public static GameElementType getType(GraphTuple[][] gameArea,
+			Position position) {
+		return getType(gameArea, position.getPosX(), position.getPosY());
 	}
 
 	public static boolean isBox(GameElementType type) {
