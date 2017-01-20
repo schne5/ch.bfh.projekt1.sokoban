@@ -29,9 +29,9 @@ public class Controller {
 				direction, model.getPawnPosition(), model.isReverse(),
 				model.getWidth(), model.getHeight());
 		if (activity != Activity.COLLISION) {
+			move(direction, activity);
 			model.getStackUndo().push(
 					new SokobanStackTuple(activity, direction));
-			move(direction, activity);
 		}
 	}
 

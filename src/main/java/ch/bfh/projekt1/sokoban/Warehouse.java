@@ -156,10 +156,18 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 			public void run() {
 				ArrayList<Position> path = controller.getPath(gameElementView
 						.getPosition());
+				Position oldPosition = model.getPawnPosition();
+				Position newPosition;
+				Direction direction;
 				if (!path.isEmpty()) {
-
 					for (int i = path.size() - 1; i >= 0; i--) {
-						controller.move(path.get(i), Activity.MOVE, null);
+						newPosition = path.get(i);
+						direction = GameElementUtile.getDirectionByPositions(
+								oldPosition, newPosition);
+						controller.move(newPosition, Activity.MOVE, direction);
+						model.getStackUndo()
+								.push(new SokobanStackTuple(Activity.MOVE,
+										direction));
 						redraw();
 
 						try {
@@ -167,6 +175,7 @@ public class Warehouse extends JPanel implements KeyListener, MouseListener {
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
+						oldPosition = newPosition;
 					}
 				}
 			}

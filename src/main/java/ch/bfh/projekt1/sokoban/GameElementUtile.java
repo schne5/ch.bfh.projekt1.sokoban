@@ -143,7 +143,8 @@ public class GameElementUtile {
 		return null;
 	}
 
-	// Gibt alle Nachbarfelder zur�ck, auf denen sich der Pawn bewegen k�nnte.
+	// Gibt alle Nachbarfelder zur�ck, auf denen sich der Pawn bewegen
+	// k�nnte.
 	// Mit boxIsValid auch Boxen (Spielfeldvalidierung)
 	public static ArrayList<Position> getValidNeighbours(Position position,
 			GraphTuple[][] gameArea, boolean boxIsValid, int width, int height) {
@@ -154,7 +155,6 @@ public class GameElementUtile {
 		Position right = getNextPosition(Direction.RIGHT, position, width,
 				height);
 
-		// TODO schoener machen :)
 		if (up != null && canMoveOnField(up, gameArea, boxIsValid)) {
 			positions.add(up);
 		}
@@ -236,5 +236,23 @@ public class GameElementUtile {
 
 	public static boolean isBox(GameElementType type) {
 		return (type == GameElementType.BOX || type == GameElementType.BOX_ON_STORAGE);
+	}
+
+	public static Direction getDirectionByPositions(Position first,
+			Position second) {
+		if (first.getPosX() < second.getPosX()
+				&& first.getPosY() == second.getPosY()) {
+			return Direction.RIGHT;
+		} else if (first.getPosX() > second.getPosX()
+				&& first.getPosY() == second.getPosY()) {
+			return Direction.LEFT;
+		} else if (first.getPosX() == second.getPosX()
+				&& first.getPosY() < second.getPosY()) {
+			return Direction.DOWN;
+		} else if (first.getPosX() == second.getPosX()
+				&& first.getPosY() > second.getPosY()) {
+			return Direction.UP;
+		}
+		return null;
 	}
 }
