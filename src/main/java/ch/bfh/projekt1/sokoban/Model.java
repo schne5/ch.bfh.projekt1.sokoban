@@ -9,8 +9,9 @@ import java.io.Serializable;
 public class Model implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static final String PROBLEM_PATH = "sokobanProblems/./";
-	public static final int DEFAULT_PROBLEM = 1;
+	// public static final int DEFAULT_PROBLEM = 1;
 	public static final int MAX_PROBLEM = 14;
+	public static final int DEFAULT_PROBLEM = MAX_PROBLEM;
 	// public static final String PROBLEM_NAME = "problemTest";
 	public static final String PROBLEM_NAME = "problem";
 	public static final String PROBLEM_NAME_EXTENSION = ".txt";
